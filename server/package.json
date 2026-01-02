@@ -1,0 +1,13 @@
+{
+  "dependencies": {
+    "@types/node": "^25.0.3",
+    "cors": "^2.8.5",
+    "express": "^5.2.1"
+  }, "scripts": {
+
+    
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6"
+  }
+}
