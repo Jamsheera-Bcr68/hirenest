@@ -1,21 +1,24 @@
-import mongoose, { HydratedDocument, Model  } from 'mongoose';
+import mongoose, { HydratedDocument, Model } from "mongoose";
 
+import { IUserDocument } from "../database/models/user/userModel";
 
-import { IUserDocument } from '../database/models/user/userModel';
+export class GenericRepository<
+  T extends { _id?: string },
+  D extends IUserDocument
+> {
+  protected _model: Model<D>;
 
-export class GenericRepository<T extends {_id?:string},D extends IUserDocument> {
-protected _model:Model<D>
+  constructor(model: Model<D>) {
+    this._model = model;
+  }
+  async findOne(filter: Partial<T>): Promise<T | null> {
+    const document = await this._model.findOne(filter);
+    if (!document) return null;
+    else return this.mapToEntity(document);
+  }
+  protected mapToEntity(doc: HydratedDocument<D>): T {
+    console.log("doc", doc.toObject() as T);
 
-constructor (model:Model<D>){
-    this._model=model
-}
- async findOne(filter:Partial<T>):Promise<T|null>{
-    const document=await this._model.findOne(filter)
-    if(!document)return null
-    else return this.mapToEntity(document)
-}
-protected mapToEntity(doc:HydratedDocument<D>):T{
-   
-   return doc.toObject() as T
-}
+    return doc.toObject() as T;
+  }
 }
