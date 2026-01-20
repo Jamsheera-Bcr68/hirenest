@@ -15,8 +15,11 @@ export class RegisterUseCase implements IRegisterUseCase {
   }
   async execute(request: IRegisterInput): Promise<IRegisterOutput> {
     const userExist = await this._userRepository.findByEmail(request.email);
-    if (userExist)
+    if (userExist && userExist.isVerified) {
       throw new AppError(authMessages.error.CONFLICT, statusCodes.CONFLICT);
+    } else if (userExist) {
+      return userExist;
+    }
 
     const password = await hashedPassword(request.password);
     const user = new User(request.email, password, request.phone, false);

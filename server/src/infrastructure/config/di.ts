@@ -1,8 +1,8 @@
 //usecases
 import { RegisterUseCase } from "../../applications/useCases/auth/registeUserUsecases";
-import {SendOtpUseCase} from '../../applications/services/sendOtpServices'
+import {SendOtpService} from '../../applications/services/sendOtpServices'
 import { LoginUseCase } from "../../applications/useCases/auth/loginUserUsecase";
-import { VerifyOtpUsecase } from "../../applications/services/verifyOtpUsecase";
+import { VerifyOtpService} from "../../applications/services/verifyOtpUsecase";
 
 //==Controllers
 
@@ -23,13 +23,13 @@ const userRepository = new UserRepository();
 const otpGenerator=new OtpGenerator()
 const otpRepository=new OtpRepository()
 const emailService=new EmailService()
-const verifyOtpUsecase=new VerifyOtpUsecase(otpRepository,userRepository)
+const verifyOtpService=new VerifyOtpService(otpRepository,userRepository)
 
 
 
 const registerUseCase = new RegisterUseCase(userRepository);
-const sendOtpUsecase =new SendOtpUseCase(otpGenerator,emailService,otpRepository)
+const sendOtpService =new SendOtpService(otpGenerator,emailService,otpRepository)
 const loginUseCase = new LoginUseCase(userRepository);
 
-export const authController = new AuthController(registerUseCase, loginUseCase,sendOtpUsecase,verifyOtpUsecase);
+export const authController = new AuthController(registerUseCase, loginUseCase,sendOtpService,verifyOtpService);
 

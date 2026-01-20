@@ -1,5 +1,4 @@
-export interface ISendOtpUsecase {
-  execute(userId: string, email: string): void;
+export interface ISendOtpService {
+  execute( email: string): Promise<Date>
 }
-//   resendOtp(userId: string, email: string): Promise<void>;
-//   verifyOtp(userId: string, otp: string): Promise<string>;
+

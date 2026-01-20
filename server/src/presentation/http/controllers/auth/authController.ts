@@ -4,28 +4,27 @@ import { statusCodes } from "../../../../shared/enums/statusCodes";
 import { authMessages } from "../../../../shared/constants/messages/authMesages";
 import { IUserLoginUseCase } from "../../../../applications/interfaces/auth/IUserLoginUseCase";
 import { comparePassword } from "../../../../infrastructure/services/passwordHasher";
-import { ISendOtpUsecase } from "../../../../applications/interfaces/services/ISendOtpservice";
-import { IVerifyOtpUsecase } from "../../../../applications/interfaces/services/IVerifyOtpUsecase";
+import { ISendOtpService } from "../../../../applications/interfaces/services/ISendOtpservice";
+import { IVerifyOtpService } from "../../../../applications/interfaces/services/IVerifyOtpUsecase";
 
 import { AppError } from "../../../../domain/errors/AppError";
-import { email, success } from "zod";
 
 export class AuthController {
   private _registerUseCase: IRegisterUseCase;
   private _loginUseCase: IUserLoginUseCase;
-  private _sendOtpUsecase: ISendOtpUsecase;
-  private _verifyOtpUsecase: IVerifyOtpUsecase;
+  private _sendOtpService: ISendOtpService;
+  private _verifyOtpService: IVerifyOtpService;
   constructor(
     registerUseCase: IRegisterUseCase,
     loginUseCase: IUserLoginUseCase,
-    sendOtpUsecase: ISendOtpUsecase,
-    verifyOtpUsecase: IVerifyOtpUsecase,
+    sendOtpServce: ISendOtpService,
+    verifyOtpService: IVerifyOtpService,
   ) {
     console.log("from auth  controller constructor");
     this._registerUseCase = registerUseCase;
-    this._sendOtpUsecase = sendOtpUsecase;
+    this._sendOtpService = sendOtpServce;
     this._loginUseCase = loginUseCase;
-    this._verifyOtpUsecase = verifyOtpUsecase;
+    this._verifyOtpService = verifyOtpService;
   }
   register = async (req: Request, res: Response, next: NextFunction) => {
     console.log("register controller");
@@ -34,12 +33,12 @@ export class AuthController {
       const payload = req.body;
       const pendingUser = await this._registerUseCase.execute(payload);
       console.log("user", pendingUser);
-      this._sendOtpUsecase.execute(String(pendingUser._id), pendingUser.email);
-
+      const otp_expiry =await this._sendOtpService.execute(pendingUser.email);
+   console.log("otp expiry from aut conroller", otp_expiry);
       res.status(statusCodes.CREATED).json({
         sucess: true,
         message: authMessages.success.PENDING_SIGNUP,
-      
+        otp_expiry: otp_expiry,
       });
     } catch (err) {
       next(err);
@@ -51,16 +50,31 @@ export class AuthController {
     console.log("from auth  controller verify otp");
 
     try {
-      await this._verifyOtpUsecase.execute(payload.email, payload.otp);
-      
+      await this._verifyOtpService.execute(payload.email, payload.otp);
+
       return res
         .status(statusCodes.OK)
         .json({ success: true, message: authMessages.success.OTP_VERIFIED });
-    } catch (error:any) {
+    } catch (error: any) {
       console.log("error is ", error.message);
 
-      next(new AppError(error.message,400));
+      next(new AppError(error.message, 400));
     }
+  };
+  resendOtp = async (req: Request, res: Response, next: NextFunction) => {
+    const { email } = req.body;
+    console.log("from auth controller email is ", email);
+
+    const otp_expiry = await this._sendOtpService.execute(email);
+ 
+
+    return res
+      .status(statusCodes.OK)
+      .json({
+        success: true,
+        message: authMessages.success.OTP_RESEND,
+        otp_expiry: otp_expiry,
+      });
   };
   login = async (req: Request, res: Response, next: NextFunction) => {
     console.log("from login controller");

@@ -1,6 +1,7 @@
 import { emit } from "process";
 import { z } from "zod";
 
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export const registerSchema = z
   .object({
     email: z
@@ -26,4 +27,7 @@ export const otpSchema = z.object({
     .trim()
     .length(6, "OTP must be exactly 6 digits")
     .regex(/^\d{6}$/, "OTP must contain only digits"),
+});
+export const resendOtpSchema = z.object({
+  email: z.string().trim().min(1, "email is required").regex( /^[^\s@]+@[^\s@]+\.[^\s@]+$/,'invalid email format')
 });

@@ -1,9 +1,9 @@
-import { IVerifyOtpUsecase } from "../interfaces/services/IVerifyOtpUsecase";
+import { IVerifyOtpService } from "../interfaces/services/IVerifyOtpUsecase";
 import { IOtpRepository } from "../../domain/repositoriesInterfaces/IotpRepository";
 import { IUserRepository } from "../../domain/repositoriesInterfaces/IUserRepositories";
 import { AppError } from "../../domain/errors/AppError";
 
-export class VerifyOtpUsecase implements IVerifyOtpUsecase {
+export class VerifyOtpService implements IVerifyOtpService {
   private _otpRepository: IOtpRepository;
   private _userRepository: IUserRepository;
 

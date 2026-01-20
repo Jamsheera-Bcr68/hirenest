@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../../libraries/axios";
 
@@ -6,8 +6,46 @@ export function useOtp() {
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const otprefs = useRef<(HTMLInputElement | null)[]>([]);
   const [error, setError] = useState<string>("");
- // const [msg,setMsg]=useState('')
+
   const navigate = useNavigate();
+
+  const [timeLeft, setTimeLeft] = useState(0);
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  console.log("time ref ", timerRef);
+
+  const setTimer = (expiredAt: number) => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    const updateTimer = () => {
+      let secondsLeft = Math.max(
+        Math.floor((expiredAt - Date.now()) / 1000),
+        0,
+      );
+      console.log("timeLeft ", timeLeft);
+
+      setTimeLeft(secondsLeft);
+    };
+    updateTimer();
+    timerRef.current = setInterval(updateTimer, 1000);
+  };
+  useEffect(() => {
+    const expired_str = sessionStorage.getItem("otp_expiredAt");
+    if (!expired_str) {
+      setError("expiry unavailable");
+      return;
+    }
+    const expiredAt = new Date(expired_str).getTime();
+    console.log(
+      "expiredAt - Date.now(),differnece is ",
+      expiredAt,
+      Date.now(),
+      Math.floor(expiredAt - Date.now()) / 1000,
+    );
+
+    setTimer(expiredAt);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
+  }, []);
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const { value } = e.currentTarget;
@@ -30,22 +68,45 @@ export function useOtp() {
       console.log("curesor is now in ", index + 1, "tthe positoin ");
     }
   }
-  function handleKeyDown(e:React.KeyboardEvent<HTMLInputElement>):void{
-    console.log('from handle key doun');
-    
-    const index=Number(e.currentTarget.dataset.index)
-if(e.key==='Backspace'){
-    console.log('key is back space');
- if( otp[index]){
-  const newOtp=[...otp]
-  newOtp[index]=''
-  setOtp(newOtp)
- }else if(index>0){
-  otprefs.current[index-1]?.focus()
- }
-}
+  function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>): void {
+    console.log("from handle key doun");
+
+    const index = Number(e.currentTarget.dataset.index);
+    if (e.key === "Backspace") {
+      console.log("key is back space");
+      if (otp[index]) {
+        const newOtp = [...otp];
+        newOtp[index] = "";
+        setOtp(newOtp);
+      } else if (index > 0) {
+        otprefs.current[index - 1]?.focus();
+      }
+    }
   }
- async function submitOtp(e: React.FormEvent<HTMLFormElement>) {
+  async function handleResend(): Promise<void> {
+    console.log("from resend otp");
+    setOtp(["", "", "", "", "", ""]);
+    const email = sessionStorage.getItem("otp_email");
+    console.log("email", email);
+
+    try {
+      const response = await axios.post("/auth/resend-otp", { email: email });
+      console.log("response after resend otp", response);
+      setError("");
+      sessionStorage.setItem("otp_expiredAt", response.data.otp_expiry);
+      console.log("expired at ", response.data.otp_expiry);
+
+      alert(response.data.message);
+
+      const expiredAt = new Date(response.data.otp_expiry).getTime();
+      setTimer(expiredAt);
+      setError("");
+    } catch (err: any) {
+      console.log(err);
+      alert(err.response?.data.message || err.message);
+    }
+  }
+  async function submitOtp(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const finalOtp = otp.join("");
     if (!finalOtp) {
@@ -65,22 +126,30 @@ if(e.key==='Backspace'){
       return null;
     }
     try {
-      let response =await axios.post("/auth/otp", { otp: finalOtp, email });
+      let response = await axios.post("/auth/otp", { otp: finalOtp, email });
       console.log("response from the server", response);
-      alert(response.data.message)
-      navigate('/')
-    } catch (error:any) {
+      alert(response.data.message);
+      navigate("/");
+    } catch (error: any) {
       console.log(error);
-      setError(error.response.data.message)
-      alert(error.response.data.message)
+      setError(error.response.data.message);
+      alert(error.response.data.message);
     }
   }
+  const formatTime = (seconds: number) => {
+    const mins = Math.floor(seconds / 60);
+    const sec = seconds % 60;
+    return `${mins}: ${sec.toString().padStart(2,'0')} `
+  };
   return {
     otp,
     handleChange,
     otprefs,
     error,
     submitOtp,
-    handleKeyDown
+    handleKeyDown,
+    handleResend,
+    timeLeft,
+    formatTime
   };
 }

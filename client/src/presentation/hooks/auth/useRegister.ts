@@ -59,13 +59,16 @@ export const useRegister = () => {
       setMsg(response.data.message);
       alert(response.data.message);
       sessionStorage.setItem("otp_email", formData.email);
+      console.log('expirey from useRegister before setting ',response.data.otp_expiry);
+      
+      sessionStorage.setItem("otp_expiredAt",response.data.otp_expiry);
       navigate("/otp");
     } catch (error: any) {
       console.log("error response", error.response);
       setErrors({
-        server: error.response.data.message || "Something went wrong",
+        server: error.response?.data.message || "Something went wrong",
       });
-      alert(error.response.data.message || "Something went wrong");
+      alert(error.response?.data.message || "Something went wrong");
       return;
     }
   };

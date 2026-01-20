@@ -8,7 +8,7 @@ export interface IOtpDocument {
   expiredAt: Date;
 }
 const otpSchema = new mongoose.Schema<IOtpDocument>({
-  email: { type: String, required: true ,unique:true},
+  email: { type: String, required: true,unique:true},
   otp: { type: String, required: true },
   isVerified: { type: Boolean, default: false },
   expiredAt: { type: Date, required: true },

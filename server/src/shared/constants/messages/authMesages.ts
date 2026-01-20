@@ -4,6 +4,7 @@ export const authMessages = {
     REGISTER_SUCCESS: "Registration successful",
     OTP_VERIFIED: 'OTP verified successfully',
     OTP_SEND:'OTP send successfully',
+    OTP_RESEND:'New OTP send successfully',
     LOGIN_SUCCESS: "Login successful",
   },
   error: {

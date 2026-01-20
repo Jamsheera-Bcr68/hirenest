@@ -1,5 +1,5 @@
 import express from "express";
-import {otpValidator, registerValidator} from  '../middleweres/registerValidator'
+import {otpValidator, registerValidator,resendOtpValidator} from  '../middleweres/registerValidator'
 import { loginValidator } from "../middleweres/loginValidator";
 import { authController } from "../../../infrastructure/config/di";
 
@@ -11,6 +11,7 @@ router.use((req, res, next) => {
 
 router.post('/register',registerValidator,authController.register)
 router.post('/otp',otpValidator,authController.verifyOtp)
+router.post('/resend-otp',resendOtpValidator,authController.resendOtp)
 router.post('/login',loginValidator,authController.login)
 
 export default router
