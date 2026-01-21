@@ -10,8 +10,10 @@ export class UserRepository
   constructor() {
     super(userModel);
   }
-  findByEmail(email: string): Promise<User | null> {
-    return this.findOne({ email });
+  async findByEmail(email: string): Promise<User | null> {
+    const user = await this.findOne({ email });
+    if(!user)return null
+   else  return user
   }
   async createUser(user: User): Promise<User> {
     const document = await this._model.create({
@@ -23,6 +25,16 @@ export class UserRepository
 
     return this.mapToEntity(document);
   }
+   mapToEntity = (doc: IUserDocument): User => {
+    return new User(
+      doc.email,
+      doc.password,
+      doc.phone,
+      doc.isVerified,
+
+      doc._id.toString(),
+    );
+  };
   async verifyUser(email: string): Promise<void> {
     const user = await this._model.findOne({ email });
     if (!user) throw new Error("user not found");

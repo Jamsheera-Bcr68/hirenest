@@ -14,4 +14,6 @@ router.post('/otp',otpValidator,authController.verifyOtp)
 router.post('/resend-otp',resendOtpValidator,authController.resendOtp)
 router.post('/login',loginValidator,authController.login)
 
+//router.post('/admin/login',loginValidator,authController.adminLogin)
+
 export default router

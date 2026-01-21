@@ -33,8 +33,8 @@ export class AuthController {
       const payload = req.body;
       const pendingUser = await this._registerUseCase.execute(payload);
       console.log("user", pendingUser);
-      const otp_expiry =await this._sendOtpService.execute(pendingUser.email);
-   console.log("otp expiry from aut conroller", otp_expiry);
+      const otp_expiry = await this._sendOtpService.execute(pendingUser.email);
+      console.log("otp expiry from aut conroller", otp_expiry);
       res.status(statusCodes.CREATED).json({
         sucess: true,
         message: authMessages.success.PENDING_SIGNUP,
@@ -66,43 +66,25 @@ export class AuthController {
     console.log("from auth controller email is ", email);
 
     const otp_expiry = await this._sendOtpService.execute(email);
- 
 
-    return res
-      .status(statusCodes.OK)
-      .json({
-        success: true,
-        message: authMessages.success.OTP_RESEND,
-        otp_expiry: otp_expiry,
-      });
+    return res.status(statusCodes.OK).json({
+      success: true,
+      message: authMessages.success.OTP_RESEND,
+      otp_expiry: otp_expiry,
+    });
   };
   login = async (req: Request, res: Response, next: NextFunction) => {
     console.log("from login controller");
     try {
       const payload = req.body;
-      const user = await this._loginUseCase.execute(payload);
-      if (user) {
-        console.log("user found ", user);
-        let isMatch: Boolean = await comparePassword(
-          payload.password,
-          user.password,
-        );
-        if (!isMatch)
-          throw new AppError(
-            authMessages.error.BAD_REQUEST,
-            statusCodes.BADREQUEST,
-          );
-        return res.status(statusCodes.OK).json({
-          success: true,
-          message: authMessages.success.LOGIN_SUCCESS,
-          data: user,
-        });
-      } else {
-        throw new AppError(
-          authMessages.error.BAD_REQUEST,
-          statusCodes.BADREQUEST,
-        );
-      }
+      const response = await this._loginUseCase.execute(payload);
+      console.log(" response from authcontroller");
+
+      return res.status(statusCodes.OK).json({
+        success: true,
+        message: authMessages.success.LOGIN_SUCCESS,
+        data: response,
+      });
     } catch (err) {
       next(err);
     }

@@ -1,5 +1,5 @@
-import {IloginInput} from '../../Dtos/loginDto'
-import {User} from '../../../domain/entities/User'
+import {IloginInput,loginOutPutDto} from '../../Dtos/loginDto'
+
 export interface IUserLoginUseCase{
-    execute(input:IloginInput):Promise<User|null>
+    execute(input:IloginInput):Promise<loginOutPutDto|null>
 }

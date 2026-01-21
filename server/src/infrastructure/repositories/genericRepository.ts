@@ -1,24 +1,22 @@
-import mongoose, { HydratedDocument, Model } from "mongoose";
+import  {  Model, Types,HydratedDocument } from "mongoose";
 
-import { IUserDocument } from "../database/models/user/userModel";
 
-export class GenericRepository<
-  T extends { _id?: string },
-  D extends IUserDocument
+
+export abstract class GenericRepository<
+  T extends { id?: string },
+  D extends {_id:Types.ObjectId}
 > {
   protected _model: Model<D>;
 
   constructor(model: Model<D>) {
     this._model = model;
   }
-  async findOne(filter: Partial<T>): Promise<T | null> {
+  async findOne(filter: Partial<D>): Promise<T | null> {
     const document = await this._model.findOne(filter);
+    console.log('from generic repositor documnt',document);
+    
     if (!document) return null;
     else return this.mapToEntity(document);
   }
-  protected mapToEntity(doc: HydratedDocument<D>): T {
-    console.log("doc", doc.toObject() as T);
-
-    return doc.toObject() as T;
-  }
+   protected abstract mapToEntity(doc: D): T;
 }

@@ -2,16 +2,18 @@ import { useState } from "react";
 import { loginSchema } from "../../../libraries/validations/user/loginValidation";
 import axios from "../../../libraries/axios";
 import { useNavigate } from "react-router-dom";
-
+import type { LoginRole } from "../../../constants/types/user";
+import { loginSuccess } from "../../../redux/authSlice";
+import { useDispatch } from "react-redux";
 type Errors = {
   email?: string;
   password?: string;
   server?: string;
 };
-export const useLogin = () => {
+export const useLogin = (role: LoginRole) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState<Errors>({});
-
+  const dispatch = useDispatch();
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -37,15 +39,25 @@ export const useLogin = () => {
     console.log("frontend validation success");
     // fetching user
     try {
-      const res = await axios.post("/auth/login", formData);
+      const api = role === "admin" ? "/auth/admin/login" : "/auth/login";
+      const res = await axios.post(api, formData);
       console.log("axios response ", res);
-      navigate("/");
+      alert(res.data.message);
+
       setErrors({});
+      const { accessToken, user } = res.data.data;
+
+      localStorage.setItem("accessToken", accessToken);
+      localStorage.setItem("user", user);
+      dispatch(loginSuccess({ user, accessToken }));
+      navigate("/");
     } catch (err: any) {
       console.log("error from backend ", err);
 
       // console.log('message ',err.response.data.message);
+      setFormData({ email: "", password: "" });
       setErrors({ server: err.response?.data?.message || err.message });
+      alert(err.response?.data?.message || err.message);
       return;
     }
   };

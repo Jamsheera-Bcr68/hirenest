@@ -1,7 +1,9 @@
 import { useLogin } from "../../hooks/auth/useLogin";
+import type {ILoginFormProps} from '../../../constants/interfaces/auth'
+import type {LoginRole} from '../../../constants/types/user'
 
-const LoginForm = () => {
-    const {handleChange,errors, formData,submitHandle} =useLogin()
+const LoginForm = ({role}:ILoginFormProps) => {
+    const {handleChange,errors, formData,submitHandle} =useLogin(role)
   return (
   
     <>

@@ -7,8 +7,7 @@ export interface IUserDocument {
   role?: userRole;
   email: string;
   phone: string;
- // otp: string;
- // otpExpiredAt: Date;
+
   isVerified: boolean;
   fullName?: string;
   createdAt: Date;
@@ -23,11 +22,8 @@ const userSchema = new Schema<IUserDocument>({
   phone: { type: String, required: true },
   isVerified: { type: Boolean, required: true, default: false },
   isBlocked: { type: Boolean, default: false },
- //otp:{type:String},
-  //otpExpiredAt:{type:Date}
-
 });
 export const userModel: Model<IUserDocument> = model<IUserDocument>(
   "User",
-  userSchema
+  userSchema,
 );

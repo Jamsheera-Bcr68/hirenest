@@ -1,28 +1,36 @@
 export class User {
-  public readonly _id?: string;
+  public readonly id?: string;
   public email: string;
   public password: string;
   public phone: string;
   public createdAt: Date;
   public updatedAt: Date;
-  public isVerified:Boolean
+  public isVerified: Boolean;
 
   constructor(
     email: string,
     password: string,
     phone: string,
-    isVerified:boolean,
-    id?: string|undefined,
+    isVerified: boolean,
+    id?: string | undefined,
     createdAt = new Date(),
     updatedAt = new Date(),
-    
   ) {
-    this._id = id;
+    this.id = id;
     this.email = email;
     this.password = password;
     this.phone = phone;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
-    this.isVerified=isVerified
+    this.isVerified = isVerified;
   }
 }
+// export interface persistedUser {
+//   readonly _id: string;
+//   email: string;
+//   password: string;
+//   phone: string;
+//   createdAt: Date;
+//   updatedAt: Date;
+//   isVerified: Boolean;
+// }
