@@ -4,10 +4,12 @@ import { connectDB } from '../infrastructure/database'
 import {env} from '../infrastructure/config/env'
 import cors from "cors";
 import { errorHandler } from '../presentation/http/middleweres/errorHandler';
+import cookieParser from 'cookie-parser'
 
 const app=express()
 //middleweres
 app.use(express.json())
+app.use(cookieParser())
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({origin:'http://localhost:5173',credentials:true}))
 

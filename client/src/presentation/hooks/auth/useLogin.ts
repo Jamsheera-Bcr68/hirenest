@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { loginSchema } from "../../../libraries/validations/user/loginValidation";
+import { loginSchema } from "../../../libraries/validations/auth/loginValidation";
 import axios from "../../../libraries/axios";
 import { useNavigate } from "react-router-dom";
 import type { LoginRole } from "../../../constants/types/user";
@@ -14,11 +14,12 @@ export const useLogin = (role: LoginRole) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState<Errors>({});
   const dispatch = useDispatch();
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
   const navigate = useNavigate();
+
   const submitHandle = async (e: any) => {
     e.preventDefault();
 
@@ -50,7 +51,8 @@ export const useLogin = (role: LoginRole) => {
       localStorage.setItem("accessToken", accessToken);
       localStorage.setItem("user", user);
       dispatch(loginSuccess({ user, accessToken }));
-      navigate("/");
+      const url=role=='admin'?'/admin/dashboard':'/'
+      navigate(url);
     } catch (err: any) {
       console.log("error from backend ", err);
 
@@ -61,10 +63,21 @@ export const useLogin = (role: LoginRole) => {
       return;
     }
   };
+  const handleForgotPassword=()=>{
+    console.log('from forgot password');
+    navigate('/forgot-password')
+  }
+const handleGoogleSignIn=()=>{
+console.log('from google signin');
+
+}
   return {
     handleChange,
     formData,
     submitHandle,
     errors,
+    handleGoogleSignIn,
+   handleForgotPassword
+
   };
 };

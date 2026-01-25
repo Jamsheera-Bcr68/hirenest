@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { registerSchema } from "../../../libraries/validations/user/registerValidations";
+import { registerSchema } from "../../../libraries/validations/auth/registerValidations";
 import axios from "../../../libraries/axios";
 import { useNavigate } from "react-router-dom";
 
@@ -27,11 +27,11 @@ export const useRegister = () => {
   const navigate = useNavigate();
   const [errors, setErrors] = useState<FormErrors>({});
   const [succesMsg, setMsg] = useState<string>("");
-  const handleChange = (e: any) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
-  const submitHandle = async (e: any) => {
+  const submitHandle = async (e: React.SyntheticEvent<HTMLButtonElement>):Promise<void> => {
     e.preventDefault();
     console.log("formData", formData);
     const result = registerSchema.safeParse(formData);

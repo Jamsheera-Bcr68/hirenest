@@ -1,16 +1,26 @@
 export const authMessages = {
   success: {
-    PENDING_SIGNUP: 'Please verify your otp',
+    PENDING_SIGNUP: "Please verify your otp",
     REGISTER_SUCCESS: "Registration successful",
-    OTP_VERIFIED: 'OTP verified successfully',
-    OTP_SEND:'OTP send successfully',
-    OTP_RESEND:'New OTP send successfully',
+    OTP_VERIFIED: "OTP verified successfully",
+    OTP_SEND: "OTP send successfully",
+    OTP_RESEND: "New OTP send successfully",
     LOGIN_SUCCESS: "Login successful",
+    REFRESH_TOKEN_SUCCESS: "Token refreshed successfully",
+    PASSWORD_RESET_LINK_SEND: "Password reset link is send successfuly",
+    PASSWORD_RESET: "Password reset successfuly",
   },
   error: {
     CONFLICT: "Email already exist",
     BAD_REQUEST: "Invalid Email or Password",
     UNAUTHORIZED: "Unauthorized access",
-    SERVER_ERROR:'Internal Server Error'
+    SERVER_ERROR: "Internal Server Error",
+    REFRESH_TOKEN_REQUIRED: "You need to log in again to continue",
+    BLOCKED_USER: "Your account has been blocked by the administrator",
+    ADMIN_NOT_FOUND: "Admin not found",
+    USER_NOT_FOUND: "User not found",
+    EMAIL_NOTFOUND: "Email is not found",
+    PASSWORD_RESETTOKEN_EXPIRED: "Password reset Token expired",
+    PASSWORD_RESETTOKEN_INVALID: "Password reset Token expired",
   },
 };

@@ -12,8 +12,9 @@ export abstract class GenericRepository<
     this._model = model;
   }
   async findOne(filter: Partial<D>): Promise<T | null> {
+     console.log('from generic repository filter',filter);
     const document = await this._model.findOne(filter);
-    console.log('from generic repositor documnt',document);
+    console.log('from generic repository documnt',document);
     
     if (!document) return null;
     else return this.mapToEntity(document);

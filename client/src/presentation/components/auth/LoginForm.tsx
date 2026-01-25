@@ -1,17 +1,15 @@
 import { useLogin } from "../../hooks/auth/useLogin";
-import type {ILoginFormProps} from '../../../constants/interfaces/auth'
-import type {LoginRole} from '../../../constants/types/user'
+import type { ILoginFormProps } from "../../../constants/interfaces/auth";
 
-const LoginForm = ({role}:ILoginFormProps) => {
-    const {handleChange,errors, formData,submitHandle} =useLogin(role)
+
+const LoginForm = ({ role }: ILoginFormProps) => {
+  const { handleChange,handleForgotPassword, errors, formData, submitHandle ,handleGoogleSignIn} = useLogin(role);
   return (
-  
     <>
       <div className="text-center mb-5">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
-         Login to your account
+          Login to your account
         </h1>
-       
 
         {errors.server && (
           <p className="text-red-500 text-sm mt-1">{errors.server}</p>
@@ -22,7 +20,7 @@ const LoginForm = ({role}:ILoginFormProps) => {
       </div>
 
       <div className="space-y-4">
-        <button
+        <button onClick={handleGoogleSignIn}
           type="button"
           className="w-full bg-white border border-gray-300 text-gray-700 py-2.5 rounded-lg font-medium hover:bg-gray-50 transition duration-200 flex items-center justify-center gap-3 shadow-sm hover:shadow"
         >
@@ -37,7 +35,7 @@ const LoginForm = ({role}:ILoginFormProps) => {
         {/* Email */}
         <input
           value={formData.email}
-         onChange={handleChange}
+          onChange={handleChange}
           name="email"
           type="email"
           placeholder="Email address"
@@ -47,11 +45,9 @@ const LoginForm = ({role}:ILoginFormProps) => {
           <p className="text-red-500 text-xs mt-1">{errors.email}</p>
         )}
 
-       
-
         {/* Password */}
         <input
-            value={formData.password}
+          value={formData.password}
           onChange={handleChange}
           name="password"
           type="password"
@@ -62,30 +58,37 @@ const LoginForm = ({role}:ILoginFormProps) => {
           <p className="text-red-500 text-xs mt-1">{errors.password}</p>
         )}
 
-    
-       
-    
-
         {/* Submit */}
         <button
           onClick={submitHandle}
           className="w-full bg-indigo-600 text-white py-2.5 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition duration-200 shadow-md hover:shadow-lg"
         >
-         Login
+          Login
         </button>
       </div>
-
-      <p className="text-center text-sm text-gray-600 mt-6">
-        Don't have an account?{" "}
-        <a
-          href="/register"
-          className="text-indigo-600 font-semibold hover:text-indigo-700 transition"
+      <div className="w-full ">
+        <button
+          onClick={handleForgotPassword}
+          className="ml-60 text-sm text-indigo-600 hover:text-indigo-700 transition"
         >
-         Create
-        </a>
-      </p>
+          Forgot Password ?
+        </button>
+      </div>
+      {role !== "admin" ? (
+        <p className="text-center text-sm text-gray-600 mt-6">
+          Don't have an account?{" "}
+          <a
+            href="/register"
+            className="text-indigo-600 font-semibold hover:text-indigo-700 transition"
+          >
+            Create
+          </a>
+        </p>
+      ) : (
+        ""
+      )}
     </>
   );
-}
+};
 
-export default LoginForm
+export default LoginForm;

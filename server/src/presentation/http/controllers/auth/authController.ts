@@ -77,16 +77,26 @@ export class AuthController {
     console.log("from login controller");
     try {
       const payload = req.body;
-      const response = await this._loginUseCase.execute(payload);
+      const { user, refreshToken, accessToken } =
+        await this._loginUseCase.execute(payload);
+
       console.log(" response from authcontroller");
 
+      res.cookie("refreshToken", refreshToken, {
+        httpOnly: true,
+        sameSite: "strict",
+        secure: process.env.NODE_ENV === "production",
+        maxAge: 7 * 24 * 60 * 60,
+        path: "/auth/refresh-token",
+      });
       return res.status(statusCodes.OK).json({
         success: true,
         message: authMessages.success.LOGIN_SUCCESS,
-        data: response,
+        data: { user, accessToken },
       });
     } catch (err) {
       next(err);
     }
   };
+ 
 }

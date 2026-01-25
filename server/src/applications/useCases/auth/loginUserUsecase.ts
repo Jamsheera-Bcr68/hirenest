@@ -7,30 +7,36 @@ import { comparePassword } from "../../../infrastructure/services/passwordHasher
 import { statusCodes } from "../../../shared/enums/statusCodes";
 import { authMessages } from "../../../shared/constants/messages/authMesages";
 import { ITokenService } from "../../interfaces/services/ITokenService";
+import { IAdminRepository } from "../../../domain/repositoriesInterfaces/IAdminRepository";
 
 
 export class LoginUseCase implements IUserLoginUseCase {
   private _userRepository: IUserRepository;
+ 
   private _tokenService: ITokenService;
   constructor(userRepository: IUserRepository, tokenService: ITokenService) {
     this._userRepository = userRepository;
     this._tokenService = tokenService;
+    
   }
-  async execute(input: IloginInput): Promise<loginOutPutDto | null> {
+  async execute(input: IloginInput): Promise<loginOutPutDto> {
+    
     const user: User | null = await this._userRepository.findByEmail(
       input.email,
     );
     if (!user) throw new AppError("user not found ", 401);
-    if (!comparePassword(input.password, user.password))
+    console.log('comparePassword',comparePassword(input.password,user.password));
+    
+    if (!await comparePassword(input.password, user.password))
       throw new AppError(
         authMessages.error.BAD_REQUEST,
         statusCodes.UNAUTHERIZED,
       );
     if (!user.id) throw new AppError("user id is not found ", 401);
-    const token = this._tokenService.generateAccessToken(user.id?.toString());
-    
-    console.log("from login use case token is ", token);
+    const accessToken = this._tokenService.generateAccessToken(user.id?.toString(),user.email);
+    const refreshToken=this._tokenService.generateRefreshToken(user.id,user.email)
+   // console.log("from login use case refresh token is ", refreshToken);
 
-    return {user,accessToken:token};
+    return {user,accessToken,refreshToken};
   }
 }

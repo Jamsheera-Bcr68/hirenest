@@ -5,6 +5,8 @@ export class User {
   public phone: string;
   public createdAt: Date;
   public updatedAt: Date;
+  public resetToken?:string
+  public resetTokenExpiry?:Date;
   public isVerified: Boolean;
 
   constructor(
@@ -13,6 +15,8 @@ export class User {
     phone: string,
     isVerified: boolean,
     id?: string | undefined,
+    resetToken?:string,
+    resetTokenExpiry?:Date|undefined,
     createdAt = new Date(),
     updatedAt = new Date(),
   ) {
@@ -23,6 +27,8 @@ export class User {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.isVerified = isVerified;
+    this.resetToken=resetToken;
+    this.resetTokenExpiry=resetTokenExpiry
   }
 }
 // export interface persistedUser {

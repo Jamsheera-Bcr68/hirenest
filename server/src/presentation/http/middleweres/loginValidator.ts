@@ -1,11 +1,38 @@
-import { loginSchema } from "../validators/loginValidation";
-import { Request,Response,NextFunction } from "express";
-export const loginValidator=(req:Request,res:Response,next:NextFunction)=>{
-try{
-const result=loginSchema.parse(req.body)
-next()
-}catch(err){
-    console.log(err);
-    next(err)
-}
-}
+import {
+  loginSchema,
+  forgotPasswordSchema,
+  resetPasswordSchema,
+} from "../validators/loginValidation";
+import { Request, Response, NextFunction } from "express";
+export const loginValidator = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const result = loginSchema.safeParse(req.body);
+  if (!result.success) {
+    next(result.error);
+  } else next();
+};
+
+export const forgotPasswordValidator = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const result = forgotPasswordSchema.safeParse(req.body);
+  if (!result.success) {
+    next(result.error);
+  } else next();
+};
+export const resetPasswordValidator = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const result = resetPasswordSchema.safeParse(req.body);
+  console.log("result from  resetvalidator", result);
+  if (!result.success) {
+    next(result.error);
+  } else next();
+};
