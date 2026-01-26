@@ -3,12 +3,19 @@ import type { ILoginFormProps } from "../../../constants/interfaces/auth";
 
 
 const LoginForm = ({ role }: ILoginFormProps) => {
-  const { handleChange,handleForgotPassword, errors, formData, submitHandle ,handleGoogleSignIn} = useLogin(role);
+  const {
+    handleChange,
+    handleForgotPassword,
+    errors,
+    formData,
+    submitHandle,
+    handleGoogleSignIn,
+  } = useLogin(role);
   return (
     <>
       <div className="text-center mb-5">
         <h1 className="text-2xl font-bold text-gray-900 mb-2">
-          Login to your account
+          Login 
         </h1>
 
         {errors.server && (
@@ -20,7 +27,8 @@ const LoginForm = ({ role }: ILoginFormProps) => {
       </div>
 
       <div className="space-y-4">
-        <button onClick={handleGoogleSignIn}
+        <button 
+        onClick={()=> handleGoogleSignIn()}
           type="button"
           className="w-full bg-white border border-gray-300 text-gray-700 py-2.5 rounded-lg font-medium hover:bg-gray-50 transition duration-200 flex items-center justify-center gap-3 shadow-sm hover:shadow"
         >
@@ -31,7 +39,8 @@ const LoginForm = ({ role }: ILoginFormProps) => {
           />
           <span>Login with Google</span>
         </button>
-
+   
+<p className="text-center" >Or</p>
         {/* Email */}
         <input
           value={formData.email}

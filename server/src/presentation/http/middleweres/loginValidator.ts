@@ -2,6 +2,7 @@ import {
   loginSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
+  googeLoginSchema
 } from "../validators/loginValidation";
 import { Request, Response, NextFunction } from "express";
 export const loginValidator = (
@@ -33,6 +34,17 @@ export const resetPasswordValidator = (
   const result = resetPasswordSchema.safeParse(req.body);
   console.log("result from  resetvalidator", result);
   if (!result.success) {
+    next(result.error);
+  } else next();
+};
+
+export const googeLoginValidator = (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) => {
+  const result=googeLoginSchema.safeParse(req.body)
+   if (!result.success) {
     next(result.error);
   } else next();
 };

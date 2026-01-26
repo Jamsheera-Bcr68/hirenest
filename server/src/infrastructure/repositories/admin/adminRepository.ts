@@ -23,7 +23,13 @@ export class AdminRepository
       email: doc.email,
       role: doc.role,
       password: doc.password,
+      googleId:doc.googleId??undefined,
       id: doc._id.toString(),
     } as Admin;
+  }
+ async updateGoogleId(email: string, googleId: string): Promise<Admin|null> {
+ const document=   await this._model.findOneAndUpdate({email},{googleId})
+ if(!document)return null
+ return this.mapToEntity(document)
   }
 }

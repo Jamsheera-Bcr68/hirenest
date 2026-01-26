@@ -1,11 +1,12 @@
 //usecases
 import { RegisterUseCase } from "../../applications/useCases/auth/registeUserUsecases";
-import { SendOtpService } from "../../applications/services/sendOtpServices";
+import { AdminGoogleAuthUsecase } from "../../applications/useCases/auth/adminGoogleAuthUsecase";
 import { LoginUseCase } from "../../applications/useCases/auth/loginUserUsecase";
-import { VerifyOtpService } from "../../applications/services/verifyOtpService";
+
 import { AdminLoginUsecase } from "../../applications/useCases/auth/adminLoginUsecase";
 import { ForgotPassWordUsecase } from "../../applications/useCases/auth/forgotPasswordUsecase";
 import { ResetPasswordUsecase } from "../../applications/useCases/auth/resetPasswordUsecase";
+import { GoogleLoginUsecase } from "../../applications/useCases/auth/googleLoginUsecase";
 
 //==Controllers
 
@@ -14,6 +15,8 @@ import { RefreshTokenController } from "../../presentation/http/controllers/auth
 import { AdminAuthController } from "../../presentation/http/controllers/auth/adminAuthController";
 import { ForgotPassWordController } from "../../presentation/http/controllers/auth/forgotPasswordController";
 import { ResetPasswordController } from "../../presentation/http/controllers/auth/resetPasswordController";
+import { GoogleLoginController } from "../../presentation/http/controllers/auth/googleLoginController";
+import { AdminGoogleAuthController } from "../../presentation/http/controllers/auth/AdminGoogleLoginController";
 
 //==repsitories
 
@@ -26,6 +29,9 @@ import { AdminRepository } from "../repositories/admin/adminRepository";
 import { OtpGenerator } from "../services/otpgenerator";
 import { EmailService } from "../../applications/services/emailService";
 import { TokenService } from "../../applications/services/TokenService";
+import { SendOtpService } from "../../applications/services/sendOtpServices";
+import { VerifyOtpService } from "../../applications/services/verifyOtpService";
+import { GoogleAuthService } from "../../applications/services/googleAuthService";
 
 const userRepository = new UserRepository();
 const otpGenerator = new OtpGenerator();
@@ -35,6 +41,7 @@ const adminRepository = new AdminRepository();
 const emailService = new EmailService();
 const verifyOtpService = new VerifyOtpService(otpRepository, userRepository);
 const tokenService = new TokenService();
+const googleAuthService =new GoogleAuthService()
 
 const registerUseCase = new RegisterUseCase(userRepository);
 const sendOtpService = new SendOtpService(
@@ -49,6 +56,9 @@ const forgotPasswordUsecase = new ForgotPassWordUsecase(
   emailService,
 );
 const resetPasswordUsecase=new ResetPasswordUsecase(userRepository)
+const googleLoginUsecase=new GoogleLoginUsecase(userRepository,googleAuthService,tokenService)
+const adminGoogleAuthUsecase=new AdminGoogleAuthUsecase(googleAuthService,adminRepository,tokenService)
+
 
 export const authController = new AuthController(
   registerUseCase,
@@ -62,3 +72,5 @@ export const forgotPasswordController = new ForgotPassWordController(
   forgotPasswordUsecase,
 );
 export const resetPasswordController=new ResetPasswordController(resetPasswordUsecase)
+export const googleLoginController=new GoogleLoginController(googleLoginUsecase)
+export const adminGoogleAuthController=new AdminGoogleAuthController(adminGoogleAuthUsecase)

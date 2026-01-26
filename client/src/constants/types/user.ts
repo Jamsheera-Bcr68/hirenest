@@ -1,4 +1,4 @@
-export type LoginRole = "admin" | "user";
+export type UserRole = "admin" | "user";
 
 export type AuthState={
     user:any|null,

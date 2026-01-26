@@ -16,6 +16,7 @@ export const forgotPasswordSchema = z.object({
     .min(1, "Email is required")
     .email("Invalid email addres")
     .regex(/^[^\s@]+@[^\s@]+\.[^\s@]+$/),
+    role:z.string().min(1,"Role is not found")
 });
 export const resetPasswordSchema = z
   .object({
@@ -31,3 +32,7 @@ export const resetPasswordSchema = z
     message: "Password not matching",
     path: ["confirm_password"],
   });
+
+export const googeLoginSchema = z.object({
+  token: z.string().trim().min(1, "token is missing"),
+});

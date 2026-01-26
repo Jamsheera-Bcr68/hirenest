@@ -10,3 +10,9 @@ export interface IloginInput {
   email: string;
   password: string;
 }
+export interface IGoogleAuthDto {
+  isVerified:boolean,
+  googleId:string,
+  email: string;
+  name:string
+}

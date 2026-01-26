@@ -50,4 +50,36 @@ axiosInstance.interceptors.response.use(
   },
 );
 
+// type BackendError={
+//     statusCode:number,
+//     message:string,
+//     success:boolean
+// }
+// const normalizeError=(error:any)=>{
+//     const response=error.response
+//     return {
+//         statusCode:response?.status??500,
+//         message:response?.data?.message??'Some thing went wrong',
+//         success:response?.data?.success??false
+//     }
+// }
+// axiosInstance.interceptors.response.use((response)=>response,
+// (error)=>Promise.reject(normalizeError(error))
+// )
+
+// export const backendErrorHandler=(err:BackendError)=>{
+// if(err.statusCode===401){
+//     alert("Session expired")
+//     return
+// }
+// if(err.statusCode===403){
+//     alert("Session expired")
+//     return
+// }
+//  if (err.statusCode === 403) {
+//     alert("Access denied");
+//     return;
+//   }
+// }
+
 export default axiosInstance;

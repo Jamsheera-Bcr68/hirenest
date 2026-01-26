@@ -1,3 +1,5 @@
+import { UserRole } from "../enums/userEnums";
+
 export class User {
   public readonly id?: string;
   public email: string;
@@ -8,6 +10,8 @@ export class User {
   public resetToken?:string
   public resetTokenExpiry?:Date;
   public isVerified: Boolean;
+  public googleId?:string
+  public role?:UserRole
 
   constructor(
     email: string,
@@ -17,8 +21,11 @@ export class User {
     id?: string | undefined,
     resetToken?:string,
     resetTokenExpiry?:Date|undefined,
+    googleId?:string,
+     role?:UserRole|undefined,
     createdAt = new Date(),
     updatedAt = new Date(),
+   
   ) {
     this.id = id;
     this.email = email;
@@ -29,6 +36,8 @@ export class User {
     this.isVerified = isVerified;
     this.resetToken=resetToken;
     this.resetTokenExpiry=resetTokenExpiry
+    this.googleId=googleId
+    this.role=role
   }
 }
 // export interface persistedUser {

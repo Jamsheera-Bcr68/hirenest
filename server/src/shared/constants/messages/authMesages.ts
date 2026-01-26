@@ -22,5 +22,8 @@ export const authMessages = {
     EMAIL_NOTFOUND: "Email is not found",
     PASSWORD_RESETTOKEN_EXPIRED: "Password reset Token expired",
     PASSWORD_RESETTOKEN_INVALID: "Password reset Token expired",
+    GOOGLE_ACCESS_TOKEN_INVALID: "Password reset Token expired",
+    GOOGLE_INVALID_GOOGLEID: "Invalid Google id",
+    ROLE_NOT_FOUND: "invalid role",
   },
 };

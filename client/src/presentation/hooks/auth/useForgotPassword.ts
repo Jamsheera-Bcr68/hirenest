@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { forgotPasswordSchema } from "../../../libraries/validations/auth/forgotPasswordValidation";
 import axiosInstance from "../../../libraries/axios";
+import type { UserRole } from "../../../constants/types/user";
 
-export const useForgotPassword = () => {
+export const useForgotPassword = (role:UserRole) => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
 
@@ -33,6 +34,7 @@ export const useForgotPassword = () => {
     try {
       const response = await axiosInstance.post("/auth/forgot-password", {
         email: email,
+        role:role
       });
       console.log("response from the backend", response);
       alert(response.data.message)

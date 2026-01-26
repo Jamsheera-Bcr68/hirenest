@@ -9,7 +9,7 @@ export class ForgotPassWordController{
     }
     handle=async(req:Request,res:Response,next:NextFunction)=>{
         console.log('form forgot password controller');
-        const {email}=req.body
+        const {email,role}=req.body
         try {
             console.log('email is ',email);
             await this._forgotPasswordUsecase.execute(email)

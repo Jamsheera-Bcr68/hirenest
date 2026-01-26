@@ -36,7 +36,9 @@ export class UserRepository
       doc.isVerified,
       doc._id.toString(),
       doc.resetToken,
-      doc.resetTokenExpiry??undefined
+      doc.resetTokenExpiry??undefined,
+      doc.googleId??undefined,
+      doc.role??undefined
     );
   };
   async verifyUser(email: string): Promise<void> {
@@ -66,5 +68,10 @@ export class UserRepository
       { email },
       { $set: { password, resetToken: null, resetTokenExpiry: null } },
     );
+  }
+async  updateGoogleId(email: string,googleId:string): Promise<User | null> {
+    const document=await this._model.findOneAndUpdate({email},{googleId})
+    if(!document)return null
+    return this.mapToEntity(document)
   }
 }

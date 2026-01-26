@@ -1,7 +1,8 @@
 import { useForgotPassword } from "../../hooks/auth/useForgotPassword";
+import type { ILoginFormProps } from "../../../constants/interfaces/auth";
 
-const ForgotPasswordForm = () => {
-    const {email,handleChange,submitHandle,error}=useForgotPassword()
+const ForgotPasswordForm = ({role}:ILoginFormProps) => {
+    const {email,handleChange,submitHandle,error}=useForgotPassword(role)
   return (
     <div className="min-h-screen flex items-center justify-center bg-indigo-50 px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">

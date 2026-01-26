@@ -1,4 +1,4 @@
-import type {LoginRole} from '../types/user'
+import type {UserRole} from '../types/user'
 export interface ILoginFormProps{
-    role:LoginRole
+    role:UserRole
 }

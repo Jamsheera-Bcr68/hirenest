@@ -7,10 +7,10 @@ export interface IUserDocument extends Document {
   role?: UserRole;
   email: string;
   phone: string;
-  googleId: string;
+  googleId?: string;
   isVerified: boolean;
-  resetToken?:string,
-  resetTokenExpiry?:Date,
+  resetToken?: string;
+  resetTokenExpiry?: Date;
   fullName?: string;
   createdAt: Date;
   updatedAt: Date;
@@ -26,13 +26,14 @@ const userSchema = new Schema<IUserDocument>({
     type: String,
     enum: Object.values(UserRole),
     required: true,
-    default: UserRole.ADMIN,
+    default: UserRole.CANDIDATE,
   },
-  googleId: { type: String },
-  resetToken:{type:String},
-  resetTokenExpiry:{type:Date},
+
+  resetToken: { type: String },
+  resetTokenExpiry: { type: Date },
   isVerified: { type: Boolean, required: true, default: false },
   isBlocked: { type: Boolean, default: false },
+  googleId: { type: String },
 });
 export const userModel: Model<IUserDocument> = model<IUserDocument>(
   "User",
