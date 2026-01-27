@@ -3,10 +3,10 @@ import { Request, Response, NextFunction } from "express";
 import { statusCodes } from "../../../../shared/enums/statusCodes";
 import { authMessages } from "../../../../shared/constants/messages/authMesages";
 import { IUserLoginUseCase } from "../../../../applications/interfaces/auth/IUserLoginUseCase";
-import { comparePassword } from "../../../../infrastructure/services/passwordHasher";
+
 import { ISendOtpService } from "../../../../applications/interfaces/services/ISendOtpservice";
 import { IVerifyOtpService } from "../../../../applications/interfaces/services/IVerifyOtpUsecase";
-
+import { ILogoutUsecase } from "../../../../applications/interfaces/auth/ILogoutUsecase";
 import { AppError } from "../../../../domain/errors/AppError";
 
 export class AuthController {
@@ -14,17 +14,20 @@ export class AuthController {
   private _loginUseCase: IUserLoginUseCase;
   private _sendOtpService: ISendOtpService;
   private _verifyOtpService: IVerifyOtpService;
+  private _logoutUsecase:ILogoutUsecase
   constructor(
     registerUseCase: IRegisterUseCase,
     loginUseCase: IUserLoginUseCase,
     sendOtpServce: ISendOtpService,
     verifyOtpService: IVerifyOtpService,
+    logoutUsecase:ILogoutUsecase
   ) {
     console.log("from auth  controller constructor");
     this._registerUseCase = registerUseCase;
     this._sendOtpService = sendOtpServce;
     this._loginUseCase = loginUseCase;
     this._verifyOtpService = verifyOtpService;
+    this._logoutUsecase=logoutUsecase
   }
   register = async (req: Request, res: Response, next: NextFunction) => {
     console.log("register controller");
@@ -98,5 +101,14 @@ export class AuthController {
       next(err);
     }
   };
- 
+ logout=async(req:Request,res:Response,next:NextFunction)=>{
+  console.log('from logout controller');
+  try {
+   
+   this._logoutUsecase.execute(req,res)
+   return res.status(statusCodes.OK).json({success:true,message:authMessages.success.LOGOUT_SUCCESS})
+  } catch (error) {
+    next(error)
+  }
+ }
 }

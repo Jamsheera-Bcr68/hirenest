@@ -9,6 +9,8 @@ export const authMessages = {
     REFRESH_TOKEN_SUCCESS: "Token refreshed successfully",
     PASSWORD_RESET_LINK_SEND: "Password reset link is send successfuly",
     PASSWORD_RESET: "Password reset successfuly",
+    LOGOUT_SUCCESS: "Logout Successfull",
+
   },
   error: {
     CONFLICT: "Email already exist",

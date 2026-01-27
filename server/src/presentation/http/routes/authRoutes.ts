@@ -19,6 +19,7 @@ router.post('/otp',otpValidator,authController.verifyOtp)
 router.post('/resend-otp',resendOtpValidator,authController.resendOtp)
 router.post('/login',loginValidator,authController.login)
 router.post('/refresh-token',refreshController.handle)
+router.post('/logout',authController.logout)
 
 //admin auth routes
 router.post('/admin/login',loginValidator,adminAuthController.login)

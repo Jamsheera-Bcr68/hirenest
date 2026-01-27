@@ -2,7 +2,7 @@
 import { RegisterUseCase } from "../../applications/useCases/auth/registeUserUsecases";
 import { AdminGoogleAuthUsecase } from "../../applications/useCases/auth/adminGoogleAuthUsecase";
 import { LoginUseCase } from "../../applications/useCases/auth/loginUserUsecase";
-
+import { LogoutUsecase } from "../../applications/useCases/auth/logoutUsecase";
 import { AdminLoginUsecase } from "../../applications/useCases/auth/adminLoginUsecase";
 import { ForgotPassWordUsecase } from "../../applications/useCases/auth/forgotPasswordUsecase";
 import { ResetPasswordUsecase } from "../../applications/useCases/auth/resetPasswordUsecase";
@@ -58,6 +58,7 @@ const forgotPasswordUsecase = new ForgotPassWordUsecase(
 const resetPasswordUsecase=new ResetPasswordUsecase(userRepository)
 const googleLoginUsecase=new GoogleLoginUsecase(userRepository,googleAuthService,tokenService)
 const adminGoogleAuthUsecase=new AdminGoogleAuthUsecase(googleAuthService,adminRepository,tokenService)
+const logoutUseCase =new LogoutUsecase()
 
 
 export const authController = new AuthController(
@@ -65,6 +66,7 @@ export const authController = new AuthController(
   loginUseCase,
   sendOtpService,
   verifyOtpService,
+  logoutUseCase
 );
 export const refreshController = new RefreshTokenController(tokenService);
 export const adminAuthController = new AdminAuthController(adminLoginUsecase);
