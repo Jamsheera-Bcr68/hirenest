@@ -1,6 +1,6 @@
 import axios from "axios";
 import { store } from "../redux/store";
-import { logout,setAccessToken } from "../redux/authSlice";
+import { logout, setAccessToken } from "../redux/authSlice";
 
 const axiosInstance = axios.create({
   baseURL: "http://localhost:7000",
@@ -37,11 +37,12 @@ axiosInstance.interceptors.response.use(
           { withCredentials: true },
         );
         const newAccessToken = res.data.data.accessToken;
-          store.dispatch(setAccessToken(newAccessToken))
+        store.dispatch(setAccessToken(newAccessToken));
         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axiosInstance(originalRequest);
       } catch (err) {
         console.log(err);
+        axiosInstance.post("/auth/logout", {}, { withCredentials: true });
         store.dispatch(logout());
         return Promise.reject(err);
       }
