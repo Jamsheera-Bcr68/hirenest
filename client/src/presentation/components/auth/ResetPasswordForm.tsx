@@ -1,7 +1,9 @@
 import { useResetPassword } from "../../hooks/auth/useResetPassword";
+import { useToast } from "../../../shared/toast/useToast";
 
 const ResetPasswordForm = () => {
-  const { formData, handleChange,submitHandle,error } = useResetPassword();
+  const {showToast,ToastElement}=useToast()
+  const { formData, handleChange,submitHandle,error,setShowPassword,showPassword } = useResetPassword(showToast);
   return (
     <div className="min-h-screen flex items-center justify-center bg-indigo-50 px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
@@ -19,13 +21,13 @@ const ResetPasswordForm = () => {
               value={formData.password}
               onChange={handleChange}
               name="password"
-              type="password"
+              type={showPassword?"text":"password"}
               placeholder="Enter Your Password"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg
                        focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
              {error?.password?(<p  className="text-sm  text-red-600 mb-2">* {error.password}</p>):''}
-          </div>
+          </div><span onClick={()=>setShowPassword(state=>!state)}>A</span>
           <div>
             <input
               name="confirm_password"
@@ -35,7 +37,7 @@ const ResetPasswordForm = () => {
               placeholder="Confirm Your Password"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg
                        focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
+            /><span onClick={()=>setShowPassword(state=>!state)}>A</span>
              {error?.confirm_password?(<p  className="text-sm  text-red-600 mb-2">* {error.confirm_password}</p>):''}
           </div>
 
@@ -53,6 +55,7 @@ const ResetPasswordForm = () => {
           </a>
         </div>
       </div>
+      {ToastElement}
     </div>
   );
 };

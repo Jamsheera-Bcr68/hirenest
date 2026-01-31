@@ -1,6 +1,6 @@
 import { Types, Schema, Model, model, Document } from "mongoose";
 import { UserRole } from "../../../../domain/enums/userEnums";
-import { date, string } from "zod";
+
 
 export interface IAdminDocument extends Document {
   _id: Types.ObjectId;

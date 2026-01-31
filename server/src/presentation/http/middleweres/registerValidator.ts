@@ -30,7 +30,7 @@ export const otpValidator = (
 ) => {
   try {
     console.log(req.body);
-    const result = otpSchema.parse(req.body);
+     otpSchema.parse(req.body);
 
     next();
   } catch (error) {
@@ -51,7 +51,7 @@ export const resendOtpValidator = (
     console.log("from resend otp validator");
 
     console.log(req.body);
-    const result = resendOtpSchema.parse(req.body);
+   resendOtpSchema.parse(req.body);
 
     next();
   } catch (error) {

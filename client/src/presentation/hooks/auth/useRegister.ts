@@ -2,6 +2,8 @@ import { useState } from "react";
 import { registerSchema } from "../../../libraries/validations/auth/registerValidations";
 import axios from "../../../libraries/axios";
 import { useNavigate } from "react-router-dom";
+import {type typeOfToast} from "../../../shared/toast/useToast";
+
 
 type FormErrors = {
   email?: string;
@@ -17,7 +19,7 @@ type FormData = {
   phone: string;
 };
 
-export const useRegister = () => {
+export const useRegister = (showToast:(toast:typeOfToast)=>void) => {
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
@@ -26,6 +28,7 @@ export const useRegister = () => {
   });
   const navigate = useNavigate();
   const [errors, setErrors] = useState<FormErrors>({});
+  const [showPassword,setShowPassword]=useState<boolean>(false)
   const [succesMsg, setMsg] = useState<string>("");
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -65,10 +68,10 @@ export const useRegister = () => {
       navigate("/otp");
     } catch (error: any) {
       console.log("error response", error.response);
-      setErrors({
-        server: error.response?.data.message || "Something went wrong",
-      });
-      alert(error.response?.data.message || "Something went wrong");
+      // setErrors({
+      //   server: error.response?.data.message || "Something went wrong",
+      // });
+      showToast({msg:error.response?.data.message || "Something went wrong",type:"error"});
       return;
     }
   };
@@ -78,5 +81,6 @@ export const useRegister = () => {
     errors,
     handleChange,
     submitHandle,
+    showPassword,setShowPassword
   };
 };

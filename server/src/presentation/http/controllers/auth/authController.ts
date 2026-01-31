@@ -8,26 +8,27 @@ import { ISendOtpService } from "../../../../applications/interfaces/services/IS
 import { IVerifyOtpService } from "../../../../applications/interfaces/services/IVerifyOtpUsecase";
 import { ILogoutUsecase } from "../../../../applications/interfaces/auth/ILogoutUsecase";
 import { AppError } from "../../../../domain/errors/AppError";
+import { IloginInput } from "../../../../applications/Dtos/loginDto";
 
 export class AuthController {
   private _registerUseCase: IRegisterUseCase;
   private _loginUseCase: IUserLoginUseCase;
   private _sendOtpService: ISendOtpService;
   private _verifyOtpService: IVerifyOtpService;
-  private _logoutUsecase:ILogoutUsecase
+  private _logoutUsecase: ILogoutUsecase;
   constructor(
     registerUseCase: IRegisterUseCase,
     loginUseCase: IUserLoginUseCase,
     sendOtpServce: ISendOtpService,
     verifyOtpService: IVerifyOtpService,
-    logoutUsecase:ILogoutUsecase
+    logoutUsecase: ILogoutUsecase,
   ) {
     console.log("from auth  controller constructor");
     this._registerUseCase = registerUseCase;
     this._sendOtpService = sendOtpServce;
     this._loginUseCase = loginUseCase;
     this._verifyOtpService = verifyOtpService;
-    this._logoutUsecase=logoutUsecase
+    this._logoutUsecase = logoutUsecase;
   }
   register = async (req: Request, res: Response, next: NextFunction) => {
     console.log("register controller");
@@ -67,19 +68,22 @@ export class AuthController {
   resendOtp = async (req: Request, res: Response, next: NextFunction) => {
     const { email } = req.body;
     console.log("from auth controller email is ", email);
+    try {
+      const otp_expiry = await this._sendOtpService.execute(email);
 
-    const otp_expiry = await this._sendOtpService.execute(email);
-
-    return res.status(statusCodes.OK).json({
-      success: true,
-      message: authMessages.success.OTP_RESEND,
-      otp_expiry: otp_expiry,
-    });
+      return res.status(statusCodes.OK).json({
+        success: true,
+        message: authMessages.success.OTP_RESEND,
+        otp_expiry: otp_expiry,
+      });
+    } catch (error: any) {
+      next(error);
+    }
   };
   login = async (req: Request, res: Response, next: NextFunction) => {
     console.log("from login controller");
     try {
-      const payload = req.body;
+      const payload:IloginInput = req.body;
       const { user, refreshToken, accessToken } =
         await this._loginUseCase.execute(payload);
 
@@ -101,14 +105,15 @@ export class AuthController {
       next(err);
     }
   };
- logout=async(req:Request,res:Response,next:NextFunction)=>{
-  console.log('from logout controller');
-  try {
-   
-   this._logoutUsecase.execute(req,res)
-   return res.status(statusCodes.OK).json({success:true,message:authMessages.success.LOGOUT_SUCCESS})
-  } catch (error) {
-    next(error)
-  }
- }
+  logout = async (req: Request, res: Response, next: NextFunction) => {
+    console.log("from logout controller");
+    try {
+      this._logoutUsecase.execute(req, res);
+      return res
+        .status(statusCodes.OK)
+        .json({ success: true, message: authMessages.success.LOGOUT_SUCCESS });
+    } catch (error) {
+      next(error);
+    }
+  };
 }

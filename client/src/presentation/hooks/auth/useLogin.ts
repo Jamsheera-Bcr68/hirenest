@@ -7,15 +7,20 @@ import { loginSuccess } from "../../../redux/authSlice";
 import { useDispatch } from "react-redux";
 import { useGoogleLogin } from "@react-oauth/google";
 
+import { type typeOfToast } from "../../../shared/toast/useToast";
+
+
 type Errors = {
   email?: string;
   password?: string;
   server?: string;
 };
-export const useLogin = (role: UserRole) => {
+export const useLogin = (role: UserRole,showToast:(toast:typeOfToast)=>void) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState<Errors>({});
+  const [showPassword,setShowPassword]=useState(false)
   const dispatch = useDispatch();
+ 
 
   const handleGoogleSignIn = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -40,8 +45,8 @@ export const useLogin = (role: UserRole) => {
         navigate(route);
       } catch (error: any) {
         console.log(error);
-        alert(error?.response?.data?.message || error.message);
-        setErrors({ server: error.response?.data?.message || error.message });
+        showToast({msg:error?.response?.data?.message || error.message,type:"error"});
+        // setErrors({ server: error.response?.data?.message || error.message });
         return;
       }
     },
@@ -78,7 +83,7 @@ export const useLogin = (role: UserRole) => {
       const api = role === "admin" ? "/auth/admin/login" : "/auth/login";
       const res = await axios.post(api, formData);
       console.log("axios response ", res);
-      alert(res.data.message);
+     
 
       setErrors({});
       const { accessToken, user } = res.data.data;
@@ -93,8 +98,8 @@ export const useLogin = (role: UserRole) => {
 
       // console.log('message ',err.response.data.message);
       setFormData({ email: "", password: "" });
-      setErrors({ server: err.response?.data?.message || err.message });
-      alert(err.response?.data?.message || err.message);
+     // setErrors({ server: err.response?.data?.message || err.message });
+      showToast({msg:err.response?.data?.message || err.message,type:"error"});
       return;
     }
   };
@@ -110,12 +115,9 @@ export const useLogin = (role: UserRole) => {
     errors,
     handleGoogleSignIn,
     handleForgotPassword,
+    showPassword,
+    setShowPassword
   };
 };
 
-// onClick={ onSuccess={(credentialResponse) => {
-//     console.log(credentialResponse);
-//   }}
-//   onError={() => {
-//     console.log("Login Failed");
-//   }}}
+

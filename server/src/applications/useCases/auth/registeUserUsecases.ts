@@ -24,7 +24,7 @@ export class RegisterUseCase implements IRegisterUseCase {
     const password = await hashedPassword(request.password);
     const user = new User(request.email, password, request.phone, false);
 
-    let savedUser = await this._userRepository.createUser(user);
+    const savedUser = await this._userRepository.createUser(user);
 
     console.log("pending user from registerusecase", user);
 

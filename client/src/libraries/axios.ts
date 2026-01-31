@@ -2,8 +2,13 @@ import axios from "axios";
 import { store } from "../redux/store";
 import { logout, setAccessToken } from "../redux/authSlice";
 
+
+
+console.log("VITE_BACKEND_URL",import.meta.env.VITE_BACKEND_URL);
+
+
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:7000",
+  baseURL:import.meta.env.VITE_BACKEND_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -31,14 +36,17 @@ axiosInstance.interceptors.response.use(
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
       try {
-        const res = await axios.post(
-          "http://localhost:7000/auth/refresh-token",
+        const res = await axiosInstance.post(
+          `/auth/refresh-token`,
           {},
           { withCredentials: true },
         );
-        const newAccessToken = res.data.data.accessToken;
-        store.dispatch(setAccessToken(newAccessToken));
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        console.log('res',res);
+        
+        
+        const newAccessToken = res.data.accessToken;
+         store.dispatch(setAccessToken(newAccessToken));
+         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axiosInstance(originalRequest);
       } catch (err) {
         console.log(err);
@@ -50,7 +58,7 @@ axiosInstance.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-
+export default axiosInstance;
 // type BackendError={
 //     statusCode:number,
 //     message:string,
@@ -83,4 +91,4 @@ axiosInstance.interceptors.response.use(
 //   }
 // }
 
-export default axiosInstance;
+

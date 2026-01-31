@@ -1,7 +1,7 @@
-import mongoose, { Model, model, Types } from "mongoose";
+import mongoose, { Model, model } from "mongoose";
 
 export interface IOtpDocument {
-  email: String;
+  email: string;
   otp: string;
   isVerified: boolean;
   createdAt: Date;

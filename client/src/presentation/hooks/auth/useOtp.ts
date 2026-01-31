@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "../../../libraries/axios";
+import { type typeOfToast } from "../../../shared/toast/useToast";
 
-export function useOtp() {
+export function useOtp(showToast:(toast:typeOfToast)=>void) {
   const [otp, setOtp] = useState<string[]>(Array(6).fill(""));
   const otprefs = useRef<(HTMLInputElement | null)[]>([]);
   const [error, setError] = useState<string>("");
@@ -96,14 +97,15 @@ export function useOtp() {
       sessionStorage.setItem("otp_expiredAt", response.data.otp_expiry);
       console.log("expired at ", response.data.otp_expiry);
 
-      alert(response.data.message);
+      showToast({msg:response.data.message,type:'success'});
 
       const expiredAt = new Date(response.data.otp_expiry).getTime();
       setTimer(expiredAt);
       setError("");
     } catch (err: any) {
       console.log(err);
-      alert(err.response?.data.message || err.message);
+      
+      showToast({msg:err.response?.data.message || err.message,type:"error"});
     }
   }
   async function submitOtp(e: React.FormEvent<HTMLFormElement>) {
@@ -128,12 +130,12 @@ export function useOtp() {
     try {
       let response = await axios.post("/auth/otp", { otp: finalOtp, email });
       console.log("response from the server", response);
-      alert(response.data.message);
+      showToast({msg:response.data.message,type:'success'});
       navigate("/");
     } catch (error: any) {
       console.log(error);
       setError(error.response.data.message);
-      alert(error.response.data.message);
+      showToast({msg:error.response.data.message,type:"error"});
     }
   }
   const formatTime = (seconds: number) => {

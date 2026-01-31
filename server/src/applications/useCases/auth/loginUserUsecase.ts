@@ -7,7 +7,7 @@ import { comparePassword } from "../../../infrastructure/services/passwordHasher
 import { statusCodes } from "../../../shared/enums/statusCodes";
 import { authMessages } from "../../../shared/constants/messages/authMesages";
 import { ITokenService } from "../../interfaces/services/ITokenService";
-import { IAdminRepository } from "../../../domain/repositoriesInterfaces/IAdminRepository";
+//import { IAdminRepository } from "../../../domain/repositoriesInterfaces/IAdminRepository";
 
 
 export class LoginUseCase implements IUserLoginUseCase {
@@ -25,7 +25,7 @@ export class LoginUseCase implements IUserLoginUseCase {
       input.email,
     );
     if (!user) throw new AppError("user not found ", 401);
-    console.log('comparePassword',comparePassword(input.password,user.password));
+    console.log('comparePassword',await comparePassword(input.password,user.password));
     
     if (!await comparePassword(input.password, user.password))
       throw new AppError(

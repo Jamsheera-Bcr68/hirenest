@@ -1,8 +1,12 @@
 import { useForgotPassword } from "../../hooks/auth/useForgotPassword";
 import type { ILoginFormProps } from "../../../constants/interfaces/auth";
+import { useToast } from "../../../shared/toast/useToast";
+import { useState } from "react";
 
 const ForgotPasswordForm = ({role}:ILoginFormProps) => {
-    const {email,handleChange,submitHandle,error}=useForgotPassword(role)
+  const {showToast,ToastElement}=useToast()
+
+    const {email,handleChange,submitHandle,error}=useForgotPassword(role,showToast)
   return (
     <div className="min-h-screen flex items-center justify-center bg-indigo-50 px-4">
       <div className="w-full max-w-md bg-white rounded-xl shadow-lg p-8">
@@ -44,6 +48,7 @@ const ForgotPasswordForm = ({role}:ILoginFormProps) => {
           </a>
         </div>
       </div>
+      {ToastElement}
     </div>
   );
 };

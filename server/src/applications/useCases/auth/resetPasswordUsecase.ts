@@ -6,7 +6,7 @@ import { statusCodes } from "../../../shared/enums/statusCodes";
 import { AppError } from "../../../domain/errors/AppError";
 import { hashedToken } from "../../../infrastructure/services/resetTokenService";
 
-import { passwordResetToken } from "../../../infrastructure/services/resetTokenService";
+//import { passwordResetToken } from "../../../infrastructure/services/resetTokenService";
 
 export class ResetPasswordUsecase implements IResetPasswordUsecase {
   private _userRepository: IUserRepository;

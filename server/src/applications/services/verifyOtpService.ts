@@ -11,7 +11,7 @@ export class VerifyOtpService implements IVerifyOtpService {
     this._otpRepository = otprepository;
     this._userRepository = userRepository;
   }
-  async execute(email: string, otp: string): Promise<Boolean> {
+  async execute(email: string, otp: string): Promise<boolean> {
     try {
       await this._otpRepository.verifyOtp(email, otp);
 

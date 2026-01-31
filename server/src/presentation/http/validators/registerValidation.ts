@@ -1,7 +1,7 @@
-import { emit } from "process";
+
 import { z } from "zod";
 
-const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export const registerSchema = z
   .object({
     email: z

@@ -7,7 +7,7 @@ import { IGoogleLoginUsecase } from "../../interfaces/auth/IgoogleLoginUsecase";
 import { IGoogleAuthServices } from "../../interfaces/services/IGoogleAuthServices";
 import { ITokenService } from "../../interfaces/services/ITokenService";
 import { loginOutPutDto } from "../../Dtos/loginDto";
-import {AdminLoginOutPutDto} from'../../Dtos/adminDto'
+//import {AdminLoginOutPutDto} from'../../Dtos/adminDto'
 
 export class GoogleLoginUsecase implements IGoogleLoginUsecase {
   private _userRepository: IUserRepository;
@@ -24,6 +24,8 @@ export class GoogleLoginUsecase implements IGoogleLoginUsecase {
   }
   async execute(token: string,role:UserRole): Promise<loginOutPutDto> {
     console.log("from google login usecase");
+    console.log(role);
+    
     const googleUser = await this._googleAuthService.getUserInfo(token);
     console.log("google user ", googleUser)
     

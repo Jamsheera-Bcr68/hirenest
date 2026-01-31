@@ -2,10 +2,12 @@ import { useState } from "react";
 import { forgotPasswordSchema } from "../../../libraries/validations/auth/forgotPasswordValidation";
 import axiosInstance from "../../../libraries/axios";
 import type { UserRole } from "../../../constants/types/user";
+import { type typeOfToast } from "../../../shared/toast/useToast";
 
-export const useForgotPassword = (role:UserRole) => {
+export const useForgotPassword = (role:UserRole,showToast:(toast:typeOfToast)=>void) => {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
+ 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log("from handle change from password forgot page");
@@ -37,9 +39,10 @@ export const useForgotPassword = (role:UserRole) => {
         role:role
       });
       console.log("response from the backend", response);
-      alert(response.data.message)
+      showToast({msg:response.data.message,type:'success'})
     } catch (error: any) {
       setError(error.response.message || error.message);
+      showToast({msg:error.response.message || error.message,type:'error'})
     }
   };
   return { handleChange, email, submitHandle, error };

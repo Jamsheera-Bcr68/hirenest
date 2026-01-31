@@ -28,6 +28,7 @@ export class RefreshTokenController {
         .status(statusCodes.OK)
         .json({
           success: true,
+          accessToken:newToken,
           message: authMessages.success.REFRESH_TOKEN_SUCCESS,
         });
     } catch (error) {

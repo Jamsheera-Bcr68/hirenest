@@ -1,8 +1,9 @@
 import { useLogin } from "../../hooks/auth/useLogin";
 import type { ILoginFormProps } from "../../../constants/interfaces/auth";
-
+import { useToast } from "../../../shared/toast/useToast";
 
 const LoginForm = ({ role }: ILoginFormProps) => {
+  const { ToastElement, showToast } = useToast();
   const {
     handleChange,
     handleForgotPassword,
@@ -10,13 +11,13 @@ const LoginForm = ({ role }: ILoginFormProps) => {
     formData,
     submitHandle,
     handleGoogleSignIn,
-  } = useLogin(role);
+    showPassword,
+    setShowPassword,
+  } = useLogin(role, showToast);
   return (
     <>
       <div className="text-center mb-5">
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">
-          Login 
-        </h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">Login</h1>
 
         {errors.server && (
           <p className="text-red-500 text-sm mt-1">{errors.server}</p>
@@ -27,8 +28,8 @@ const LoginForm = ({ role }: ILoginFormProps) => {
       </div>
 
       <div className="space-y-4">
-        <button 
-        onClick={()=> handleGoogleSignIn()}
+        <button
+          onClick={() => handleGoogleSignIn()}
           type="button"
           className="w-full bg-white border border-gray-300 text-gray-700 py-2.5 rounded-lg font-medium hover:bg-gray-50 transition duration-200 flex items-center justify-center gap-3 shadow-sm hover:shadow"
         >
@@ -39,8 +40,8 @@ const LoginForm = ({ role }: ILoginFormProps) => {
           />
           <span>Login with Google</span>
         </button>
-   
-<p className="text-center" >Or</p>
+
+        <p className="text-center">Or</p>
         {/* Email */}
         <input
           value={formData.email}
@@ -59,10 +60,10 @@ const LoginForm = ({ role }: ILoginFormProps) => {
           value={formData.password}
           onChange={handleChange}
           name="password"
-          type="password"
+          type={showPassword ? "text" : "password"}
           placeholder="Password"
           className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition"
-        />
+        /> <span onClick={()=>setShowPassword(state=>!state)}>A</span>
         {errors.password && (
           <p className="text-red-500 text-xs mt-1">{errors.password}</p>
         )}
@@ -96,6 +97,7 @@ const LoginForm = ({ role }: ILoginFormProps) => {
       ) : (
         ""
       )}
+      {ToastElement}
     </>
   );
 };

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { resetPasswordSchema } from "../../../libraries/validations/auth/resetPasswordValidation";
 import axiosInstance from "../../../libraries/axios";
 import { useParams } from "react-router-dom";
+import {type typeOfToast } from "../../../shared/toast/useToast";
 
 type Errors = {
   password?: string;
@@ -10,7 +11,7 @@ type Errors = {
   resetToken?: string;
   email?: string;
 };
-export const useResetPassword = () => {
+export const useResetPassword = (showToast:(toast:typeOfToast)=>void) => {
   const { resetToken } = useParams();
   const [formData, setFormData] = useState({
     password: "",
@@ -19,6 +20,7 @@ export const useResetPassword = () => {
     email: "",
   });
   const [error, setError] = useState<Errors>({});
+  const [showPassword,setShowPassword]=useState<boolean>(false)
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value, name } = e.currentTarget;
@@ -61,13 +63,14 @@ export const useResetPassword = () => {
         formData,
       );
       console.log(resposnse);
-      alert(resposnse.data.message);
+      showToast({msg:resposnse.data.message,type:'success'});
       setError({});
     } catch (error: any) {
       console.log(error);
 
       let msg = error.response.data.message || error.message;
       setError({ server: msg });
+      showToast({msg:msg,type:'error'})
       return;
     }
   };
@@ -76,5 +79,6 @@ export const useResetPassword = () => {
     handleChange,
     error,
     submitHandle,
+    showPassword,setShowPassword
   };
 };

@@ -1,3 +1,3 @@
 export interface IVerifyOtpService{
-    execute(email:string,otp:string):Promise<Boolean>
+    execute(email:string,otp:string):Promise<boolean>
 }

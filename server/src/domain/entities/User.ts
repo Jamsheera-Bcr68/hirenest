@@ -9,7 +9,7 @@ export class User {
   public updatedAt: Date;
   public resetToken?:string
   public resetTokenExpiry?:Date;
-  public isVerified: Boolean;
+  public isVerified: boolean;
   public googleId?:string
   public role?:UserRole
 

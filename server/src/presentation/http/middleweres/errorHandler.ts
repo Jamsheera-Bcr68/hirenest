@@ -3,7 +3,7 @@ import { AppError } from "../../../domain/errors/AppError";
 import { generalMessages } from "../../../shared/constants/messages/generalMessages";
 import { ZodError } from "zod";
 import { statusCodes } from "../../../shared/enums/statusCodes";
-import { authMessages } from "../../../shared/constants/messages/authMesages";
+//import { authMessages } from "../../../shared/constants/messages/authMesages";
 
 export const errorHandler: ErrorRequestHandler = (
   error: unknown,
@@ -20,11 +20,11 @@ export const errorHandler: ErrorRequestHandler = (
       .json({ success: false, message: error.message });
     return;
   } else if (error instanceof ZodError) {
-  let message=error.issues.map(err=>err.message)[0]
-  
+    let message = error.issues.map((err) => err.message)[0];
+
     res
       .status(statusCodes.BADREQUEST)
-      .json({ success: false, message:message });
+      .json({ success: false, message: message });
     return;
   }
   const statusCode = 500;

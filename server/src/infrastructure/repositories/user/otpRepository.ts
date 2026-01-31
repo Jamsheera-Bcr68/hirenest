@@ -1,8 +1,8 @@
 import { otpModel, IOtpDocument } from "../../database/models/user/otpModel";
 import { IOtpRepository } from "../../../domain/repositoriesInterfaces/IotpRepository";
 import { Model } from "mongoose";
-import { GenericRepository } from "../genericRepository";
-import { AppError } from "../../../domain/errors/AppError";
+//import { GenericRepository } from "../genericRepository";
+//import { AppError } from "../../../domain/errors/AppError";
 
 export class OtpRepository implements IOtpRepository {
   private _model: Model<IOtpDocument>;
@@ -24,7 +24,7 @@ export class OtpRepository implements IOtpRepository {
     return expiresAt
   }
 
-  async verifyOtp(email: string, otp: string): Promise<Boolean> {
+  async verifyOtp(email: string, otp: string): Promise<boolean> {
     const user = await otpModel.findOne({ email });
     if (!user) throw new Error("user not found");
     if (!user?.otp || !user.expiredAt || new Date() > user.expiredAt)

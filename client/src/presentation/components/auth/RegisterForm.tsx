@@ -1,12 +1,12 @@
-
 import { useRegister } from "../../hooks/auth/useRegister";
-function RegisterForm() {
-  
-  
-  const { formData,succesMsg, errors, handleChange, submitHandle } = useRegister();
+import { useToast } from "../../../shared/toast/useToast";
 
-  return (
+function RegisterForm() {
+  const { showToast, ToastElement } = useToast();
+  const { formData, succesMsg, errors, handleChange, submitHandle ,showPassword,setShowPassword} =
+    useRegister(showToast);
   
+  return (
     <>
       <div className="text-center mb-5">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">
@@ -66,10 +66,10 @@ function RegisterForm() {
           value={formData.password}
           onChange={handleChange}
           name="password"
-          type="password"
+          type={showPassword?"text":"password"}
           placeholder="Password"
           className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition"
-        />
+        /> <span onClick={()=>setShowPassword(state=>!state)}>A</span>
         {errors.password && (
           <p className="text-red-500 text-xs mt-1">{errors.password}</p>
         )}
@@ -79,10 +79,10 @@ function RegisterForm() {
           value={formData.confirm_password}
           onChange={handleChange}
           name="confirm_password"
-          type="password"
+          type={showPassword?"text":"password"}
           placeholder="Confirm password"
           className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition"
-        />
+        /><span onClick={()=>setShowPassword(state=>!state)}>A</span>
         {errors.confirm_password && (
           <p className="text-red-500 text-xs mt-1">{errors.confirm_password}</p>
         )}
@@ -105,6 +105,7 @@ function RegisterForm() {
           Sign in
         </a>
       </p>
+      {ToastElement}
     </>
   );
 }

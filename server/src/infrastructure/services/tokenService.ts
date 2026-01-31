@@ -1,5 +1,5 @@
-import { authMessages } from "../../shared/constants/messages/authMesages";
-import { statusCodes } from "../../shared/enums/statusCodes";
+//import { authMessages } from "../../shared/constants/messages/authMesages";
+//import { statusCodes } from "../../shared/enums/statusCodes";
 import jwt from "jsonwebtoken";
 
 export const getToken = (userId: string, email: string) => {
@@ -8,7 +8,7 @@ export const getToken = (userId: string, email: string) => {
   return jwt.sign({ userId, email }, jwt_secret, { expiresIn: "15m" });
 };
 export const getRefreshToken = (userId: string, email: string) => {
-  let refreshSecret = process.env.JWT_REFRESH_SECRET;
+  const refreshSecret = process.env.JWT_REFRESH_SECRET;
   if (!refreshSecret) throw new Error("Refresh Scret is not available");
   return jwt.sign({ userId, email }, refreshSecret, { expiresIn: "7d" });
 };

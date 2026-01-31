@@ -1,4 +1,4 @@
-import { email } from "zod";
+
 import { UserRole } from "../../../domain/enums/userEnums";
 import { AppError } from "../../../domain/errors/AppError";
 import { IAdminRepository } from "../../../domain/repositoriesInterfaces/IAdminRepository";
@@ -24,6 +24,8 @@ export class AdminGoogleAuthUsecase implements IAdminGoogleAuthUsecase {
     this._tokenService = tokenService;
   }
   async execute(token: string, role: UserRole): Promise<AdminLoginOutPutDto> {
+    console.log(role);
+    
     const googleUser = await this._googleAuthService.getUserInfo(token);
     const admin = await this._adminRepository.findByEmail(googleUser.email);
     if (!admin) {

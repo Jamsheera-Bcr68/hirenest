@@ -1,6 +1,8 @@
 import { useOtp } from "../../hooks/auth/useOtp";
+import { useToast } from "../../../shared/toast/useToast";
 
 const Otp: React.FC = () => {
+   const {showToast,ToastElement}=useToast()
   const {
     otp,
     handleChange,
@@ -11,8 +13,9 @@ const Otp: React.FC = () => {
     handleResend,
     timeLeft,
     formatTime,
-  } = useOtp();
-  //  console.log("refs from page ", otprefs.current[0]);
+  } = useOtp(showToast);
+ 
+  
   const isExpired = false;
 
   return (
@@ -100,6 +103,7 @@ const Otp: React.FC = () => {
         </p>
       </form>
       {/* </form> */}
+      {ToastElement}
     </div>
   );
 };

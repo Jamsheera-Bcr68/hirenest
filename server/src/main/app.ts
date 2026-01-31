@@ -1,31 +1,31 @@
-import express from 'express'
-import authRoutes from '../presentation/http/routes/authRoutes'
-import { connectDB } from '../infrastructure/database'
-import {env} from '../infrastructure/config/env'
+import express from "express";
+import routes from "../presentation/http/routes/index";
+import { connectDB } from "../infrastructure/database";
+import { env } from "../infrastructure/config/env";
 import cors from "cors";
-import { errorHandler } from '../presentation/http/middleweres/errorHandler';
-import cookieParser from 'cookie-parser'
+import { errorHandler } from "../presentation/http/middleweres/errorHandler";
+import cookieParser from "cookie-parser";
 
-const app=express()
+const app = express();
 //middleweres
-app.use(express.json())
-app.use(cookieParser())
+app.use(express.json());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
-app.use(cors({origin:'http://localhost:5173',credentials:true}))
+app.use(cors({ origin:process.env.FRONTEND_URL, credentials: true }));
 
-connectDB()
+connectDB();
 
 app.use((req, res, next) => {
   console.log("from server");
   next();
 });
 
-app.use('/auth',authRoutes)
+app.use("/", routes);
 
-app.get('/',(req,res)=>{
-    console.log('env',env);
-    
-    res.send('I am from your new project')
-})
-app.use(errorHandler)
-export default app
+app.get("/", (req, res) => {
+  console.log("env", env);
+
+  res.send("I am from your new project");
+});
+app.use(errorHandler);
+export default app;
