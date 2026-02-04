@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { resetPasswordSchema } from "../../../libraries/validations/auth/resetPasswordValidation";
 import axiosInstance from "../../../libraries/axios";
-import { useParams } from "react-router-dom";
+import { useParams,useNavigate } from "react-router-dom";
 import {type typeOfToast } from "../../../shared/toast/useToast";
 
 type Errors = {
@@ -12,6 +12,7 @@ type Errors = {
   email?: string;
 };
 export const useResetPassword = (showToast:(toast:typeOfToast)=>void) => {
+  const navigate=useNavigate()
   const { resetToken } = useParams();
   const [formData, setFormData] = useState({
     password: "",
@@ -65,6 +66,7 @@ export const useResetPassword = (showToast:(toast:typeOfToast)=>void) => {
       console.log(resposnse);
       showToast({msg:resposnse.data.message,type:'success'});
       setError({});
+      navigate('/login')
     } catch (error: any) {
       console.log(error);
 

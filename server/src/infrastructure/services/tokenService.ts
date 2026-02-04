@@ -1,6 +1,7 @@
 //import { authMessages } from "../../shared/constants/messages/authMesages";
 //import { statusCodes } from "../../shared/enums/statusCodes";
 import jwt from "jsonwebtoken";
+import { type TokenPayload } from "../../applications/interfaces/services/ITokenService";
 
 export const getToken = (userId: string, email: string) => {
   const jwt_secret = process.env.JWT_ACCESS_SECRET;
@@ -12,9 +13,14 @@ export const getRefreshToken = (userId: string, email: string) => {
   if (!refreshSecret) throw new Error("Refresh Scret is not available");
   return jwt.sign({ userId, email }, refreshSecret, { expiresIn: "7d" });
 };
-export const verifyRefreshToken = (token: string): {userId:string,email:string} => {
+export const verifyRefreshToken = (
+  token: string,
+): TokenPayload => {
   const refresh_secret = process.env.JWT_REFRESH_SECRET;
   if (!refresh_secret) throw new Error("Refresh Secret  is not available");
-  const payload = jwt.verify(token, refresh_secret) as {userId:string,email:string}
-  return payload
+  const payload = jwt.verify(token, refresh_secret) as {
+    userId: string;
+    email: string;
+  };
+  return payload;
 };

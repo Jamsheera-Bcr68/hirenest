@@ -10,7 +10,7 @@ export const authMessages = {
     PASSWORD_RESET_LINK_SEND: "Password reset link is send successfuly",
     PASSWORD_RESET: "Password reset successfuly",
     LOGOUT_SUCCESS: "Logout Successfull",
-
+    PASSWORD_CHANGE_SUCCESS: "Password Changed Successfully",
   },
   error: {
     CONFLICT: "Email already exist",
@@ -27,5 +27,6 @@ export const authMessages = {
     GOOGLE_ACCESS_TOKEN_INVALID: "Password reset Token expired",
     GOOGLE_INVALID_GOOGLEID: "Invalid Google id",
     ROLE_NOT_FOUND: "invalid role",
+    INVALID_PASSWORD: "Invalid Password",
   },
 };

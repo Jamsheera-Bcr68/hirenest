@@ -1,3 +1,4 @@
+import  '../types';
 import express from "express";
 import routes from "../presentation/http/routes/index";
 import { connectDB } from "../infrastructure/database";
@@ -5,6 +6,7 @@ import { env } from "../infrastructure/config/env";
 import cors from "cors";
 import { errorHandler } from "../presentation/http/middleweres/errorHandler";
 import cookieParser from "cookie-parser";
+
 
 const app = express();
 //middleweres

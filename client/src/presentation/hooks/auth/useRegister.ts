@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import {type typeOfToast} from "../../../shared/toast/useToast";
 
 
+
 type FormErrors = {
   email?: string;
   password?: string;
@@ -60,17 +61,16 @@ export const useRegister = (showToast:(toast:typeOfToast)=>void) => {
       const response = await axios.post("/auth/register", formData);
       console.log("response", response);
       setMsg(response.data.message);
-      alert(response.data.message);
+     
       sessionStorage.setItem("otp_email", formData.email);
       console.log('expirey from useRegister before setting ',response.data.otp_expiry);
       
       sessionStorage.setItem("otp_expiredAt",response.data.otp_expiry);
+       showToast({msg:response.data.message,type:'success'})
       navigate("/otp");
     } catch (error: any) {
       console.log("error response", error.response);
-      // setErrors({
-      //   server: error.response?.data.message || "Something went wrong",
-      // });
+     
       showToast({msg:error.response?.data.message || "Something went wrong",type:"error"});
       return;
     }

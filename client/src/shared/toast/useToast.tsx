@@ -3,9 +3,9 @@ import { useState } from "react";
 
 export type ToastType = "success" | "error" | "info";
 export const toastStyle: Record<ToastType, string> = {
-  success: "bg-green-500 text-white",
-  error: "bg-red-500 text-white",
-  info: "bg-yellow-500 text-white",
+  success: "bg-green-600 text-white",
+  error: "bg-red-600 text-white",
+  info: "bg-yellow-600 text-white",
 };
 
 export type typeOfToast = {
@@ -18,6 +18,8 @@ export function useToast() {
   const [toast, setToast] = useState<typeOfToast>({ msg: "", type: "info" });
 
   const showToast = (payLoad: typeOfToast) => {
+    console.log('from tost',payLoad);
+    
     setToast(payLoad);
     setOpen(true);
   };

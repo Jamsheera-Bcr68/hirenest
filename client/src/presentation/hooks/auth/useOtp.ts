@@ -131,7 +131,7 @@ export function useOtp(showToast:(toast:typeOfToast)=>void) {
       let response = await axios.post("/auth/otp", { otp: finalOtp, email });
       console.log("response from the server", response);
       showToast({msg:response.data.message,type:'success'});
-      navigate("/");
+      navigate("/login");
     } catch (error: any) {
       console.log(error);
       setError(error.response.data.message);

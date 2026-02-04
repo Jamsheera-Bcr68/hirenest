@@ -35,7 +35,7 @@ export class LoginUseCase implements IUserLoginUseCase {
     if (!user.id) throw new AppError("user id is not found ", 401);
     const accessToken = this._tokenService.generateAccessToken(user.id?.toString(),user.email);
     const refreshToken=this._tokenService.generateRefreshToken(user.id,user.email)
-   // console.log("from login use case refresh token is ", refreshToken);
+  
 
     return {user,accessToken,refreshToken};
   }

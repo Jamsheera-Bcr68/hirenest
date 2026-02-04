@@ -9,18 +9,19 @@ import { useGoogleLogin } from "@react-oauth/google";
 
 import { type typeOfToast } from "../../../shared/toast/useToast";
 
-
 type Errors = {
   email?: string;
   password?: string;
   server?: string;
 };
-export const useLogin = (role: UserRole,showToast:(toast:typeOfToast)=>void) => {
+export const useLogin = (
+  role: UserRole,
+  showToast: (toast: typeOfToast) => void,
+) => {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [errors, setErrors] = useState<Errors>({});
-  const [showPassword,setShowPassword]=useState(false)
+  const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
- 
 
   const handleGoogleSignIn = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -32,8 +33,8 @@ export const useLogin = (role: UserRole,showToast:(toast:typeOfToast)=>void) => 
         return;
       }
       try {
-        let api=role==='user'?'/auth/google':'/auth/admin/google'
-        let response = await axios.post(api, { token,role });
+        let api = role === "user" ? "/auth/google" : "/auth/admin/google";
+        let response = await axios.post(api, { token, role });
         console.log(response);
         const data = response.data.data;
         console.log("data", data);
@@ -41,11 +42,14 @@ export const useLogin = (role: UserRole,showToast:(toast:typeOfToast)=>void) => 
         dispatch(loginSuccess(data));
 
         alert(response.data.message);
-        const route=role=='user'?'/':'/admin/dashboard'
+        const route = role == "user" ? "/" : "/admin/dashboard";
         navigate(route);
       } catch (error: any) {
         console.log(error);
-        showToast({msg:error?.response?.data?.message || error.message,type:"error"});
+        showToast({
+          msg: error?.response?.data?.message || error.message,
+          type: "error",
+        });
         // setErrors({ server: error.response?.data?.message || error.message });
         return;
       }
@@ -83,7 +87,6 @@ export const useLogin = (role: UserRole,showToast:(toast:typeOfToast)=>void) => 
       const api = role === "admin" ? "/auth/admin/login" : "/auth/login";
       const res = await axios.post(api, formData);
       console.log("axios response ", res);
-     
 
       setErrors({});
       const { accessToken, user } = res.data.data;
@@ -92,14 +95,17 @@ export const useLogin = (role: UserRole,showToast:(toast:typeOfToast)=>void) => 
       localStorage.setItem("user", user);
       dispatch(loginSuccess({ user, accessToken }));
       const url = role == "admin" ? "/admin/dashboard" : "/";
-      navigate(url);
+      navigate(url, { replace: true });
     } catch (err: any) {
       console.log("error from backend ", err);
 
       // console.log('message ',err.response.data.message);
       setFormData({ email: "", password: "" });
-     // setErrors({ server: err.response?.data?.message || err.message });
-      showToast({msg:err.response?.data?.message || err.message,type:"error"});
+      // setErrors({ server: err.response?.data?.message || err.message });
+      showToast({
+        msg: err.response?.data?.message || err.message,
+        type: "error",
+      });
       return;
     }
   };
@@ -116,8 +122,6 @@ export const useLogin = (role: UserRole,showToast:(toast:typeOfToast)=>void) => 
     handleGoogleSignIn,
     handleForgotPassword,
     showPassword,
-    setShowPassword
+    setShowPassword,
   };
 };
-
-

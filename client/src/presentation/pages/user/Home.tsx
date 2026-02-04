@@ -1,11 +1,11 @@
 import SideBar from "../../components/common/SideBar";
 import Header from "../../components/common/Header";
+import { useSelector } from "react-redux";
 
 // const Home: React.FC = () => {
 //   const auth=useSelector(state=>state)
 //   const navigate=useNavigate()
 
-  
 // console.log('from home ',auth);
 
 //   return (
@@ -78,15 +78,16 @@ import Header from "../../components/common/Header";
 //     textAlign: "center",
 //   },
 // };
-const Home=()=>{
-  console.log('from home page');
-  
-  return(
-    <>
-    <Header/>
+const Home = () => {
+  console.log("from home page");
    
-    
+  //  const { user } = useSelector((state: any) =>state. auth);
+  //  console.log("isAuthentcated from home", user);
+
+  return (
+    <>
+      <Header />
     </>
-  )
-}
+  );
+};
 export default Home;

@@ -1,5 +1,5 @@
 //usecases
-import { RegisterUseCase } from "../../applications/useCases/auth/registeUserUsecases";
+import { RegisterUseCase } from "../../applications/useCases/auth/registerUserUsecases";
 import { AdminGoogleAuthUsecase } from "../../applications/useCases/auth/adminGoogleAuthUsecase";
 import { LoginUseCase } from "../../applications/useCases/auth/loginUserUsecase";
 import { LogoutUsecase } from "../../applications/useCases/auth/logoutUsecase";
@@ -7,6 +7,7 @@ import { AdminLoginUsecase } from "../../applications/useCases/auth/adminLoginUs
 import { ForgotPassWordUsecase } from "../../applications/useCases/auth/forgotPasswordUsecase";
 import { ResetPasswordUsecase } from "../../applications/useCases/auth/resetPasswordUsecase";
 import { GoogleLoginUsecase } from "../../applications/useCases/auth/googleLoginUsecase";
+import { ChangePasswordUsecase } from "../../applications/useCases/auth/ChangePasswordUsecase";
 
 //==Controllers
 
@@ -17,6 +18,7 @@ import { ForgotPassWordController } from "../../presentation/http/controllers/au
 import { ResetPasswordController } from "../../presentation/http/controllers/auth/resetPasswordController";
 import { GoogleLoginController } from "../../presentation/http/controllers/auth/googleLoginController";
 import { AdminGoogleAuthController } from "../../presentation/http/controllers/auth/AdminGoogleLoginController";
+import { ChangePasswordController } from "../../presentation/http/controllers/auth/ChangePasswordController";
 
 //==repsitories
 
@@ -59,6 +61,7 @@ const resetPasswordUsecase=new ResetPasswordUsecase(userRepository)
 const googleLoginUsecase=new GoogleLoginUsecase(userRepository,googleAuthService,tokenService)
 const adminGoogleAuthUsecase=new AdminGoogleAuthUsecase(googleAuthService,adminRepository,tokenService)
 const logoutUseCase =new LogoutUsecase()
+const changePasswordUsecase=new ChangePasswordUsecase(userRepository)
 
 
 export const authController = new AuthController(
@@ -76,3 +79,5 @@ export const forgotPasswordController = new ForgotPassWordController(
 export const resetPasswordController=new ResetPasswordController(resetPasswordUsecase)
 export const googleLoginController=new GoogleLoginController(googleLoginUsecase)
 export const adminGoogleAuthController=new AdminGoogleAuthController(adminGoogleAuthUsecase)
+
+export const changePasswordController=new ChangePasswordController(changePasswordUsecase)

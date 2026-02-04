@@ -1,6 +1,7 @@
 import { useLogin } from "../../hooks/auth/useLogin";
 import type { ILoginFormProps } from "../../../constants/interfaces/auth";
 import { useToast } from "../../../shared/toast/useToast";
+import { Eye ,EyeClosedIcon} from "lucide-react";
 
 const LoginForm = ({ role }: ILoginFormProps) => {
   const { ToastElement, showToast } = useToast();
@@ -14,6 +15,7 @@ const LoginForm = ({ role }: ILoginFormProps) => {
     showPassword,
     setShowPassword,
   } = useLogin(role, showToast);
+
   return (
     <>
       <div className="text-center mb-5">
@@ -40,34 +42,38 @@ const LoginForm = ({ role }: ILoginFormProps) => {
           />
           <span>Login with Google</span>
         </button>
-
         <p className="text-center">Or</p>
         {/* Email */}
-        <input
-          value={formData.email}
-          onChange={handleChange}
-          name="email"
-          type="email"
-          placeholder="Email address"
-          className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition"
-        />
+        <div>
+          <input
+            value={formData.email}
+            onChange={handleChange}
+            name="email"
+            type="email"
+            placeholder="Email address"
+            className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition"
+          />
+        </div>
         {errors.email && (
           <p className="text-red-500 text-xs mt-1">{errors.email}</p>
         )}
-
         {/* Password */}
-        <input
-          value={formData.password}
-          onChange={handleChange}
-          name="password"
-          type={showPassword ? "text" : "password"}
-          placeholder="Password"
-          className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition"
-        /> <span onClick={()=>setShowPassword(state=>!state)}>A</span>
+        <div className="relative">
+          <input
+            value={formData.password}
+            onChange={handleChange}
+            name="password"
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            className="w-full  px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition"
+          />{" "}
+          <button   className="absolute inset-y-0 right-3 flex items-center text-gray-500" onClick={() => setShowPassword((state) => !state)} >{showPassword?<Eye size={18}/>:<EyeClosedIcon size={18}/>}</button>
+        
+        </div>
+       
         {errors.password && (
           <p className="text-red-500 text-xs mt-1">{errors.password}</p>
         )}
-
         {/* Submit */}
         <button
           onClick={submitHandle}

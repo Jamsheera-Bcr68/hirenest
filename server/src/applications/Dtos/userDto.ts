@@ -1,6 +1,10 @@
+import { UserRole } from "../../domain/enums/userEnums";
+
 export interface userDto {
   id: string;
   email: string;
-
-  isVerified: boolean;
+  imageUrl:string,
+  role:UserRole,
+  phone:string,
+  isBlocked: boolean;
 }

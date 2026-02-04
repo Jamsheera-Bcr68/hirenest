@@ -9,6 +9,7 @@ import { IVerifyOtpService } from "../../../../applications/interfaces/services/
 import { ILogoutUsecase } from "../../../../applications/interfaces/auth/ILogoutUsecase";
 import { AppError } from "../../../../domain/errors/AppError";
 import { IloginInput } from "../../../../applications/Dtos/loginDto";
+import { UserMapper } from "../../../../applications/mappers/userMapper";
 
 export class AuthController {
   private _registerUseCase: IRegisterUseCase;
@@ -86,6 +87,7 @@ export class AuthController {
       const payload:IloginInput = req.body;
       const { user, refreshToken, accessToken } =
         await this._loginUseCase.execute(payload);
+        const userDto=UserMapper.toDto(user)
 
       console.log(" response from authcontroller");
 
@@ -99,7 +101,7 @@ export class AuthController {
       return res.status(statusCodes.OK).json({
         success: true,
         message: authMessages.success.LOGIN_SUCCESS,
-        data: { user, accessToken },
+        data: { user:userDto, accessToken },
       });
     } catch (err) {
       next(err);

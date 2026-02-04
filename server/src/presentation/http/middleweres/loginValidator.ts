@@ -48,3 +48,7 @@ export const googeLoginValidator = (
     next(result.error);
   } else next();
 };
+
+export const changePasswordValidator=(req:Request,res:Response,next:NextFunction)=>{
+  
+}

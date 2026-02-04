@@ -36,3 +36,4 @@ export const resetPasswordSchema = z
 export const googeLoginSchema = z.object({
   token: z.string().trim().min(1, "token is missing"),
 });
+

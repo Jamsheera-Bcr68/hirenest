@@ -6,7 +6,10 @@ import { refreshController } from "../../../infrastructure/config/di";
 import { adminAuthController } from "../../../infrastructure/config/di";
 import { forgotPasswordController } from "../../../infrastructure/config/di";
 import { resetPasswordController } from "../../../infrastructure/config/di";
-import { googleLoginController,adminGoogleAuthController } from "../../../infrastructure/config/di";
+import { googleLoginController,adminGoogleAuthController,changePasswordController } from "../../../infrastructure/config/di";
+import {changePasswordValidator} from '../middleweres/passwordValidator'
+import {authValidator} from '../middleweres/authValidator'
+import {tokenService} from '../../../infrastructure/config/di'
 
 const router=express.Router()
 router.use((req, res, next) => {
@@ -28,6 +31,9 @@ router.post('/admin/google',googeLoginValidator,adminGoogleAuthController.handle
 //forgot password
 router.post('/forgot-password',forgotPasswordValidator,forgotPasswordController.handle)
 router.post('/reset-password',resetPasswordValidator,resetPasswordController.handle)
+
+//change password
+router.post('/changePassword',changePasswordValidator,authValidator,changePasswordController.changePassword)
 
 //google auth
 router.post('/google',googeLoginValidator,googleLoginController.handle)

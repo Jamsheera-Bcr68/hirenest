@@ -10,14 +10,14 @@ import { ToastProvider } from "./shared/toast/ToastProvider.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter>
-      <Provider store={store}>
-        <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
-          <ToastProvider>
+    <ToastProvider>
+      <BrowserRouter>
+        <Provider store={store}>
+          <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID}>
             <App />
-          </ToastProvider>
-        </GoogleOAuthProvider>
-      </Provider>
-    </BrowserRouter>
+          </GoogleOAuthProvider>
+        </Provider>
+      </BrowserRouter>
+    </ToastProvider>
   </StrictMode>,
 );

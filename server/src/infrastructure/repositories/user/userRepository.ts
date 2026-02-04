@@ -11,8 +11,10 @@ export class UserRepository
   constructor() {
     super(userModel);
   }
-  async findByEmail(email: string): Promise<User | null> {
-    const user = await this.findOne({ email });
+  async findByEmail(email: string, userId?: string): Promise<User | null> {
+    const filter = { email };
+
+    const user = await this.findOne(filter);
     console.log("user from repository ", email);
 
     if (!user) return null;
@@ -36,9 +38,9 @@ export class UserRepository
       doc.isVerified,
       doc._id.toString(),
       doc.resetToken,
-      doc.resetTokenExpiry??undefined,
-      doc.googleId??undefined,
-      doc.role??undefined
+      doc.resetTokenExpiry ?? undefined,
+      doc.googleId ?? undefined,
+      doc.role ?? undefined,
     );
   };
   async verifyUser(email: string): Promise<void> {
@@ -69,9 +71,13 @@ export class UserRepository
       { $set: { password, resetToken: null, resetTokenExpiry: null } },
     );
   }
-async  updateGoogleId(email: string,googleId:string): Promise<User | null> {
-    const document=await this._model.findOneAndUpdate({email},{googleId})
-    if(!document)return null
-    return this.mapToEntity(document)
+
+  async updateGoogleId(email: string, googleId: string): Promise<User | null> {
+    const document = await this._model.findOneAndUpdate(
+      { email },
+      { googleId },
+    );
+    if (!document) return null;
+    return this.mapToEntity(document);
   }
 }
