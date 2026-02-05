@@ -4,6 +4,7 @@ import { authMessages } from "../../../shared/constants/messages/authMesages";
 import { statusCodes } from "../../../shared/enums/statusCodes";
 import { IChangePasswordUsecase } from "../../interfaces/auth/IChangePasswordUsecase";
 import { hashedPassword } from "../../../infrastructure/services/passwordHasher";
+import { comparePassword } from "../../../infrastructure/services/passwordHasher";
 
 export class ChangePasswordUsecase implements IChangePasswordUsecase {
   private _userRepository: IUserRepository;
@@ -24,7 +25,7 @@ export class ChangePasswordUsecase implements IChangePasswordUsecase {
         authMessages.error.USER_NOT_FOUND,
         statusCodes.NOTFOUND,
       );
-    if (user.password !== current_password) {
+    if (!await comparePassword(  current_password,user.password)) {
       throw new AppError(
         authMessages.error.INVALID_PASSWORD,
         statusCodes.BADREQUEST,

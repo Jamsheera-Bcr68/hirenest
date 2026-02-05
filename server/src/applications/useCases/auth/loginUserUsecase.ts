@@ -24,7 +24,7 @@ export class LoginUseCase implements IUserLoginUseCase {
     const user: User | null = await this._userRepository.findByEmail(
       input.email,
     );
-    if (!user) throw new AppError("user not found ", 401);
+    if (!user) throw new AppError(authMessages.error.USER_NOT_FOUND, statusCodes.NOTFOUND);
     console.log('comparePassword',await comparePassword(input.password,user.password));
     
     if (!await comparePassword(input.password, user.password))
@@ -32,7 +32,7 @@ export class LoginUseCase implements IUserLoginUseCase {
         authMessages.error.BAD_REQUEST,
         statusCodes.UNAUTHERIZED,
       );
-    if (!user.id) throw new AppError("user id is not found ", 401);
+    if (!user.id) throw new AppError(authMessages.error.USERID_NOT_FOUND, statusCodes.BADREQUEST);
     const accessToken = this._tokenService.generateAccessToken(user.id?.toString(),user.email);
     const refreshToken=this._tokenService.generateRefreshToken(user.id,user.email)
   

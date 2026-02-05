@@ -28,5 +28,9 @@ export const authMessages = {
     GOOGLE_INVALID_GOOGLEID: "Invalid Google id",
     ROLE_NOT_FOUND: "invalid role",
     INVALID_PASSWORD: "Invalid Password",
+    REFRESH_SECRET_NOT_FOUND: "Refresh Secret  is not available",
+    ACCESS_SECRET_NOT_FOUND: "Access Secret  is not available",
+    ACCESSTOKEN_EXPIRED:"Access token expired",
+    USERID_NOT_FOUND:"user id is not found "
   },
 };

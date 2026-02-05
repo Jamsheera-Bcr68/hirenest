@@ -2,13 +2,10 @@ import axios from "axios";
 import { store } from "../redux/store";
 import { logout, setAccessToken } from "../redux/authSlice";
 
-
-
-console.log("VITE_BACKEND_URL",import.meta.env.VITE_BACKEND_URL);
-
+console.log("VITE_BACKEND_URL", import.meta.env.VITE_BACKEND_URL);
 
 const axiosInstance = axios.create({
-  baseURL:import.meta.env.VITE_BACKEND_URL,
+  baseURL: import.meta.env.VITE_BACKEND_URL,
   withCredentials: true,
   headers: {
     "Content-Type": "application/json",
@@ -32,8 +29,21 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
+    console.log("error from inceptors", error);
+
     const originalRequest = error.config;
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    console.log("originalRequest ", originalRequest);
+    let url = originalRequest.url;
+    const isAuthRequest =
+      url?.includes("/auth/login") ||
+      url?.includes("/auth/admin/login") ||
+      url?.includes("/auth/refresh-token");
+
+    if (
+      error.response?.status === 401 &&
+      !isAuthRequest &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
       try {
         const res = await axiosInstance.post(
@@ -41,16 +51,15 @@ axiosInstance.interceptors.response.use(
           {},
           { withCredentials: true },
         );
-        console.log('res',res);
-        
-        
+        console.log("res", res);
+
         const newAccessToken = res.data.accessToken;
-         store.dispatch(setAccessToken(newAccessToken));
-         originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        store.dispatch(setAccessToken(newAccessToken));
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         return axiosInstance(originalRequest);
       } catch (err) {
         console.log(err);
-        axiosInstance.post("/auth/logout", {}, { withCredentials: true });
+        await axiosInstance.post("/auth/logout", {}, { withCredentials: true });
         store.dispatch(logout());
         return Promise.reject(err);
       }
@@ -90,5 +99,3 @@ export default axiosInstance;
 //     return;
 //   }
 // }
-
-

@@ -3,7 +3,7 @@ import { EyeClosedIcon, Eye } from "lucide-react";
 import { useChangePassword } from "../hooks/auth/useChangePassword";
 import { useToast } from "../../shared/toast/useToast";
 
-export default function ChangePassword() {
+export default function ChangePassword({}) {
   const { showToast, ToastElement } = useToast();
   const { handleChange, formData, show, error, setShow, handleSubmit } =
     useChangePassword(showToast);

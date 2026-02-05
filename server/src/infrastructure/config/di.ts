@@ -42,7 +42,7 @@ const adminRepository = new AdminRepository();
 
 const emailService = new EmailService();
 const verifyOtpService = new VerifyOtpService(otpRepository, userRepository);
-const tokenService = new TokenService();
+export const tokenService = new TokenService();
 const googleAuthService =new GoogleAuthService()
 
 const registerUseCase = new RegisterUseCase(userRepository);

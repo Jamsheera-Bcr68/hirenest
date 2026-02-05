@@ -7,4 +7,5 @@ export interface ITokenService {
   generateAccessToken(userId: string, email: string): string;
   generateRefreshToken(userId: string, email: string): string;
   verifyRefreshToken(token: string): TokenPayload;
+  verifyAccessToken(token:string):TokenPayload
 }

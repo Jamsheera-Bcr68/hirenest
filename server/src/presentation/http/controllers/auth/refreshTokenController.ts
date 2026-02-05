@@ -12,6 +12,8 @@ export class RefreshTokenController {
   }
    handle=(req: Request, res: Response, next: NextFunction)=> {
     try {
+      console.log("refresh-token endpoint hit");
+
       const refreshToken = req.cookies.refreshToken;
       if (!refreshToken)
         throw new AppError(

@@ -15,7 +15,7 @@ type Errors = {
   password: string | undefined;
   confirm_password: string | undefined;
 };
-export const useChangePassword = (showToast:(toast:typeOfToast)=>void) => {
+export const useChangePassword = (showToast:(toast:typeOfToast)=>void,onClose:()=>void) => {
   
   const [show, setShow] = useState(false);
   const [error, setErrors] = useState<Errors>({
@@ -49,6 +49,7 @@ export const useChangePassword = (showToast:(toast:typeOfToast)=>void) => {
        const response=await axiosInstance.post('/auth/changePassword',formData)
        console.log("response" ,response);
        showToast({msg:response.data.message,type:'success'})
+      
      } catch (error:any) {
       console.log(error);
       

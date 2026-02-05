@@ -79,7 +79,8 @@ import { useSelector } from "react-redux";
 //   },
 // };
 const Home = () => {
-  console.log("from home page");
+  const user=useSelector((state:any)=>state.auth.user)
+  console.log("from home page",user);
    
   //  const { user } = useSelector((state: any) =>state. auth);
   //  console.log("isAuthentcated from home", user);

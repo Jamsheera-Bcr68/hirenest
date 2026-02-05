@@ -14,7 +14,13 @@ export abstract class GenericRepository<
   }
   async findOne(filter: Partial<T>): Promise<T | null> {
      console.log('from generic repository filter',filter);
-    const document = await this._model.findOne(filter);
+     const {id,...rest}=filter
+     const query={...rest} as Partial<D>
+     if(id){
+      query._id=new Types.ObjectId(id)
+     }
+     
+    const document = await this._model.findOne(query);
     console.log('from generic repository documnt',document);
     
     if (!document) return null;

@@ -18,7 +18,7 @@ export class AdminLoginUsecase implements IAdminLoginUsecase {
   async execute(input: AdminloginInput): Promise<AdminLoginOutPutDto> {
     const admin = await this._adminRepository.findByEmail(input.email);
     if (!admin)
-      throw new AppError(authMessages.error.ADMIN_NOT_FOUND, statusCodes.NOTFOUND);
+      throw new AppError(authMessages.error.ADMIN_NOT_FOUND, statusCodes.UNAUTHERIZED);
     if (!(await comparePassword(input.password, admin.password)))
       throw new AppError(
         authMessages.error.BAD_REQUEST,

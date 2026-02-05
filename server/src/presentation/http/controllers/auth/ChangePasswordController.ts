@@ -5,13 +5,12 @@ import { authMessages } from "../../../../shared/constants/messages/authMesages"
 import { statusCodes } from "../../../../shared/enums/statusCodes";
 import { IChangePasswordUsecase } from "../../../../applications/interfaces/auth/IChangePasswordUsecase";
 
-
 export class ChangePasswordController {
   private _changePasswordUsecase: IChangePasswordUsecase;
   constructor(changePasswordUsecase: IChangePasswordUsecase) {
     this._changePasswordUsecase = changePasswordUsecase;
   }
-  async changePassword(req: Request, res: Response, next: NextFunction) {
+   changePassword= async(req: Request, res: Response, next: NextFunction)=> {
     if (!req.user) {
       throw new AppError(
         authMessages.error.UNAUTHORIZED,
@@ -20,13 +19,22 @@ export class ChangePasswordController {
     }
     const { userId, email } = req.user;
     console.log("userId,email", userId, email);
-    const payload:changePasswordInputDto=req.body
-   try {
-     await this._changePasswordUsecase.execute(userId, email,payload.password,payload.current_password);
-     return res.status(statusCodes.OK).json({success:true,message:authMessages.success.PASSWORD_CHANGE_SUCCESS})
-   } catch (error) {
-    next(error)
-   }
+    const payload: changePasswordInputDto = req.body;
+    try {
+      await this._changePasswordUsecase.execute(
+        userId,
+        email,
+        payload.password,
+        payload.current_password,
+      );
+      return res
+        .status(statusCodes.OK)
+        .json({
+          success: true,
+          message: authMessages.success.PASSWORD_CHANGE_SUCCESS,
+        });
+    } catch (error) {
+      next(error);
+    }
   }
 }
-
