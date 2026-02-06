@@ -1,6 +1,6 @@
-import { useResetPassword } from "../../hooks/auth/useResetPassword";
-import { useToast } from "../../../shared/toast/useToast";
-import { Eye, EyeClosedIcon } from "lucide-react";
+import { useResetPassword } from '../../hooks/auth/useResetPassword';
+import { useToast } from '../../../shared/toast/useToast';
+import { Eye, EyeClosedIcon } from 'lucide-react';
 
 const ResetPasswordForm = () => {
   const { showToast, ToastElement } = useToast();
@@ -23,21 +23,21 @@ const ResetPasswordForm = () => {
             {error.server}
           </p>
         ) : (
-          ""
+          ''
         )}
         {error?.email ? (
           <p className="text-sm  text-red-500 text-center mb-2">
             {error.email}
           </p>
         ) : (
-          ""
+          ''
         )}
         {error?.resetToken ? (
           <p className="text-sm  text-red-500 text-center mb-2">
             {error.resetToken}
           </p>
         ) : (
-          ""
+          ''
         )}
         <p className="text-sm text-gray-600 text-center mb-6"></p>
         <p className=" text-sm font-medium text-red-500 mb-1 text-center"></p>
@@ -48,7 +48,7 @@ const ResetPasswordForm = () => {
                 value={formData.password}
                 onChange={handleChange}
                 name="password"
-                type={showPassword ? "text" : "password"}
+                type={showPassword ? 'text' : 'password'}
                 placeholder="Enter Your Password"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg
                        focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -65,7 +65,7 @@ const ResetPasswordForm = () => {
             {error?.password ? (
               <p className="text-sm  text-red-600 mb-2">* {error.password}</p>
             ) : (
-              ""
+              ''
             )}
           </div>
 
@@ -74,7 +74,7 @@ const ResetPasswordForm = () => {
               name="confirm_password"
               value={formData.confirm_password}
               onChange={handleChange}
-              type={showPassword ? "text" : "password"}
+              type={showPassword ? 'text' : 'password'}
               placeholder="Confirm Your Password"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg
                        focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -85,7 +85,7 @@ const ResetPasswordForm = () => {
                 * {error.confirm_password}
               </p>
             ) : (
-              ""
+              ''
             )}
           </div>
 

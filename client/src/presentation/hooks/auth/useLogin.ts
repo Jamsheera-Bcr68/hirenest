@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { loginSchema } from "../../../libraries/validations/auth/loginValidation";
-import axios from "../../../libraries/axios";
-import { useNavigate } from "react-router-dom";
-import type { UserRole } from "../../../constants/types/user";
-import { loginSuccess } from "../../../redux/authSlice";
-import { useDispatch } from "react-redux";
-import { useGoogleLogin } from "@react-oauth/google";
+import { useState } from 'react';
+import { loginSchema } from '../../../libraries/validations/auth/loginValidation';
+import axios from '../../../libraries/axios';
+import { useNavigate } from 'react-router-dom';
+import type { UserRole } from '../../../constants/types/user';
+import { loginSuccess } from '../../../redux/authSlice';
+import { useDispatch } from 'react-redux';
+import { useGoogleLogin } from '@react-oauth/google';
 
-import { type typeOfToast } from "../../../shared/toast/useToast";
+import { type typeOfToast } from '../../../shared/toast/useToast';
 
 type Errors = {
   email?: string;
@@ -16,46 +16,46 @@ type Errors = {
 };
 export const useLogin = (
   role: UserRole,
-  showToast: (toast: typeOfToast) => void,
+  showToast: (toast: typeOfToast) => void
 ) => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [errors, setErrors] = useState<Errors>({});
   const [showPassword, setShowPassword] = useState(false);
   const dispatch = useDispatch();
 
   const handleGoogleSignIn = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
-      console.log("google login success ,login response ", tokenResponse);
+      console.log('google login success ,login response ', tokenResponse);
       const token = tokenResponse.access_token;
       if (!token) {
-        console.log("access token is not found");
+        console.log('access token is not found');
 
         return;
       }
       try {
-        let api = role === "user" ? "/auth/google" : "/auth/admin/google";
+        let api = role === 'admin' ?'/auth/admin/google': '/auth/google' 
         let response = await axios.post(api, { token, role });
         console.log(response);
         const data = response.data.data;
-        console.log("data", data);
+        console.log('data', data);
 
         dispatch(loginSuccess(data));
 
-        alert(response.data.message);
-        const route = role == "user" ? "/" : "/admin/dashboard";
+        showToast({ msg: response.data.message, type: 'success' });
+        const route = role == 'admin' ? '/admin/dashboard' : '/'
         navigate(route);
       } catch (error: any) {
         console.log(error);
         showToast({
           msg: error?.response?.data?.message || error.message,
-          type: "error",
+          type: 'error',
         });
         // setErrors({ server: error.response?.data?.message || error.message });
         return;
       }
     },
     onError: () => {
-      console.log("google login failed");
+      console.log('google login failed');
     },
   });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -67,9 +67,9 @@ export const useLogin = (
   const submitHandle = async (e: any) => {
     e.preventDefault();
 
-    console.log("login formdata ", formData);
+    console.log('login formdata ', formData);
     const result = loginSchema.safeParse(formData);
-    console.log("result", result);
+    console.log('result', result);
 
     if (!result.success) {
       const error = result.error.flatten().fieldErrors;
@@ -81,36 +81,36 @@ export const useLogin = (
       return;
     }
     setErrors({});
-    console.log("frontend validation success");
+    console.log('frontend validation success');
     // fetching user
     try {
-      const api = role === "admin" ? "/auth/admin/login" : "/auth/login";
+      const api = role === 'admin' ? '/auth/admin/login' : '/auth/login';
       const res = await axios.post(api, formData);
-      console.log("axios response ", res);
+      console.log('axios response ', res);
 
       setErrors({});
       const { accessToken, user } = res.data.data;
 
-      localStorage.setItem("accessToken", accessToken);
-      localStorage.setItem("user", user);
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('user', user);
       dispatch(loginSuccess({ user, accessToken }));
-      const url = role == "admin" ? "/admin/dashboard" : "/";
+      const url = role == 'admin' ? '/admin/dashboard' : '/';
       navigate(url, { replace: true });
     } catch (err: any) {
-      console.log("error from backend ", err);
+      console.log('error from backend ', err);
 
       // console.log('message ',err.response.data.message);
-      setFormData({ email: "", password: "" });
+      setFormData({ email: '', password: '' });
       // setErrors({ server: err.response?.data?.message || err.message });
       showToast({
         msg: err.response?.data?.message || err.message,
-        type: "error",
+        type: 'error',
       });
       return;
     }
   };
   const handleForgotPassword = () => {
-    console.log("from forgot password");
+    console.log('from forgot password');
     navigate(`/forgot-password?role=${role}`);
   };
 

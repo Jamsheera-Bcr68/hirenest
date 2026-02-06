@@ -10,7 +10,7 @@ export class RefreshTokenController {
   constructor(tokenService: ITokenService) {
     this._tokenService = tokenService;
   }
-   handle=(req: Request, res: Response, next: NextFunction)=> {
+  handle = (req: Request, res: Response, next: NextFunction) => {
     try {
       console.log("refresh-token endpoint hit");
 
@@ -21,20 +21,19 @@ export class RefreshTokenController {
           statusCodes.BADREQUEST,
         );
       //  verify token
-      const payload =  this._tokenService.verifyRefreshToken(refreshToken);
+      const payload = this._tokenService.verifyRefreshToken(refreshToken);
       const newToken = this._tokenService.generateAccessToken(
         payload.userId,
         payload.email,
+        payload.role
       );
-      return res
-        .status(statusCodes.OK)
-        .json({
-          success: true,
-          accessToken:newToken,
-          message: authMessages.success.REFRESH_TOKEN_SUCCESS,
-        });
+      return res.status(statusCodes.OK).json({
+        success: true,
+        accessToken: newToken,
+        message: authMessages.success.REFRESH_TOKEN_SUCCESS,
+      });
     } catch (error) {
       next(error);
     }
-  }
+  };
 }

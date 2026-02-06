@@ -1,8 +1,8 @@
-import { useOtp } from "../../hooks/auth/useOtp";
-import { useToast } from "../../../shared/toast/useToast";
+import { useOtp } from '../../hooks/auth/useOtp';
+import { useToast } from '../../../shared/toast/useToast';
 
 const Otp: React.FC = () => {
-   const {showToast,ToastElement}=useToast()
+  const { showToast, ToastElement } = useToast();
   const {
     otp,
     handleChange,
@@ -14,8 +14,7 @@ const Otp: React.FC = () => {
     timeLeft,
     formatTime,
   } = useOtp(showToast);
- 
-  
+
   const isExpired = false;
 
   return (
@@ -49,7 +48,7 @@ const Otp: React.FC = () => {
               type="text"
               data-index={index}
               maxLength={1}
-              value={otp[index] ?? ""}
+              value={otp[index] ?? ''}
               onChange={handleChange}
               onKeyDown={handleKeyDown}
               className="w-12 h-12 text-center text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -67,7 +66,7 @@ const Otp: React.FC = () => {
                 ) : (
                   <span className="text-sm text-red-700">OTP Expired</span>
                 )}
-              </div>{" "}
+              </div>{' '}
               <br />
               <div className="inline-flex items-center gap-2 px-4 py-1.0 rounded-lg bg-blue-50 border border-blue-200">
                 <span className="text-sm font-semibold text-blue-500 tabular-nums">
@@ -86,14 +85,14 @@ const Otp: React.FC = () => {
         {/* Verify Button */}
         <button
           type="submit"
-          className={`w-full mt-6 py-2 rounded-lg text-white  ${timeLeft !== 0 ? "bg-blue-600  hover:bg-blue-700 transition" : "bg-gray-300 cursor-not-allowed text-gray-500"}`}
+          className={`w-full mt-6 py-2 rounded-lg text-white  ${timeLeft !== 0 ? 'bg-blue-600  hover:bg-blue-700 transition' : 'bg-gray-300 cursor-not-allowed text-gray-500'}`}
         >
-           Verify OTP
+          Verify OTP
         </button>
 
         {/* Resend */}
         <p className="text-center text-sm text-gray-500 mt-4">
-          Didn’t receive the code?{" "}
+          Didn’t receive the code?{' '}
           <span
             onClick={handleResend}
             className="text-blue-600 cursor-pointer hover:underline"

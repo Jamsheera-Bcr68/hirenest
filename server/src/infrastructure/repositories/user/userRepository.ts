@@ -41,7 +41,17 @@ export class UserRepository
       doc.resetTokenExpiry ?? undefined,
       doc.googleId ?? undefined,
       doc.role ?? undefined,
+      doc.name ?? undefined,
+      doc.title ?? undefined,
+      doc.address ?? undefined,
     );
+  };
+  mapToPersistance = (entity: User) => {
+    return {
+      name: entity.name,
+      title: entity.title,
+      address: entity.address,
+    };
   };
   async verifyUser(email: string): Promise<void> {
     const user = await this._model.findOne({ email });

@@ -11,7 +11,7 @@ export function authValidator(tokenService: ITokenService) {
   console.log("from auth validator ");
   return async (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
-    console.log("from auth validator ", authHeader);
+    console.log("from auth validator authHeader is ", authHeader);
 
     if (!authHeader)
       throw new AppError(

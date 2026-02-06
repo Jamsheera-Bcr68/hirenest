@@ -1,20 +1,17 @@
-.header{
-    background:#E2D8FC
+.header {
+  background: #e2d8fc;
 }
-.sidebar{
-    background: #F3F0FB;
-    margin-top: 0;
+.sidebar {
+  background: #f3f0fb;
+  margin-top: 0;
 }
-.sidebox-active{
-    background: #7B19B9;
-    border-radius: 10px;
-   color: white;
+.sidebox-active {
+  background: #7b19b9;
+  border-radius: 10px;
+  color: white;
 }
-.sidebox{
-  
-    border-radius: 10px;
-  
-   font-weight: bold;
-  
-   
+.sidebox {
+  border-radius: 10px;
+
+  font-weight: bold;
 }

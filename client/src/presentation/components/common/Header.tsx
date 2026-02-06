@@ -1,10 +1,13 @@
-
 import { useNavigate } from 'react-router-dom';
-import './header.css'
+import './header.css';
 import { useHeader } from '../../hooks/user/useHeader';
+import { useToast } from '../../../shared/toast/useToast';
+
 const Header = () => {
-  const {isMenuOpen,setIsMenuOpen,HandleLogout}=useHeader()
-const navigate=useNavigate()
+  const { showToast, ToastElement } = useToast();
+  const { isMenuOpen, setIsMenuOpen, HandleLogout, user } =
+    useHeader(showToast);
+  const navigate = useNavigate();
   return (
     <header className="  shadow-md">
       <nav className="container header  mx-auto px-4 sm:px-6 lg:px-8">
@@ -18,34 +21,64 @@ const navigate=useNavigate()
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex space-x-8">
-            <a href="#" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+            <a
+              href="#"
+              className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
+            >
               Home
             </a>
-            <a href="#" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+            <a
+              href="#"
+              className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
+            >
               About
             </a>
-            <a href="#" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+            <a
+              href="#"
+              className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
+            >
               Services
             </a>
-            <a href="#" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+            <a
+              href="#"
+              className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
+            >
               Find Jobs
             </a>
-            <a href="/user/profile" className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors">
+            <a
+              href="/user/profile"
+              className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
+            >
               Profile
             </a>
           </div>
 
           {/* Desktop Auth Buttons */}
           <div className="hidden md:flex items-center space-x-4">
-            <button onClick={()=>navigate('/login')} className="text-gray-700 hover:text-blue-600 px-4 py-2 text-sm font-medium transition-colors">
-              Login
-            </button>
-            <button onClick={()=>navigate('/register')}  className="bg-blue-600 text-white hover:bg-blue-700 px-6 py-2 rounded-lg text-sm font-medium transition-colors">
-              Sign Up
-            </button>
-            <button onClick={HandleLogout}  className="bg-blue-600 text-white hover:bg-blue-700 px-6 py-2 rounded-lg text-sm font-medium transition-colors">
-              Logout
-            </button>
+            {!user && (
+              <button
+                onClick={() => navigate('/login')}
+                className="text-gray-700 hover:text-blue-600 px-4 py-2 text-sm font-medium transition-colors"
+              >
+                Login
+              </button>
+            )}
+            {!user && (
+              <button
+                onClick={() => navigate('/register')}
+                className="bg-blue-600 text-white hover:bg-blue-700 px-6 py-2 rounded-lg text-sm font-medium transition-colors"
+              >
+                Sign Up
+              </button>
+            )}
+            {user && (
+              <button
+                onClick={HandleLogout}
+                className="bg-blue-600 text-white hover:bg-blue-700 px-6 py-2 rounded-lg text-sm font-medium transition-colors"
+              >
+                Logout
+              </button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -77,23 +110,38 @@ const navigate=useNavigate()
         {isMenuOpen && (
           <div className="md:hidden pb-4">
             <div className="flex flex-col space-y-2 pt-2">
-              <a href="#" className="text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-3 py-2 rounded-lg text-base font-medium transition-colors">
+              <a
+                href="#"
+                className="text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-3 py-2 rounded-lg text-base font-medium transition-colors"
+              >
                 Home
               </a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-3 py-2 rounded-lg text-base font-medium transition-colors">
+              <a
+                href="#"
+                className="text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-3 py-2 rounded-lg text-base font-medium transition-colors"
+              >
                 About
               </a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-3 py-2 rounded-lg text-base font-medium transition-colors">
+              <a
+                href="#"
+                className="text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-3 py-2 rounded-lg text-base font-medium transition-colors"
+              >
                 Services
               </a>
-              <a href="#" className="text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-3 py-2 rounded-lg text-base font-medium transition-colors">
+              <a
+                href="#"
+                className="text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-3 py-2 rounded-lg text-base font-medium transition-colors"
+              >
                 Contact
               </a>
               <div className="border-t border-gray-200 pt-4 mt-2 space-y-2">
                 <button className="w-full text-left text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-3 py-2 rounded-lg text-base font-medium transition-colors">
                   Login
                 </button>
-                <button onClick={()=>navigate('/register')} className="w-full bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 rounded-lg text-base font-medium transition-colors">
+                <button
+                  onClick={() => navigate('/register')}
+                  className="w-full bg-blue-600 text-white hover:bg-blue-700 px-3 py-2 rounded-lg text-base font-medium transition-colors"
+                >
                   Sign Up
                 </button>
               </div>
@@ -101,6 +149,7 @@ const navigate=useNavigate()
           </div>
         )}
       </nav>
+      {ToastElement}
     </header>
   );
 };

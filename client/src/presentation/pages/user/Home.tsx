@@ -1,6 +1,6 @@
-import SideBar from "../../components/common/SideBar";
-import Header from "../../components/common/Header";
-import { useSelector } from "react-redux";
+import SideBar from '../../components/common/SideBar';
+import Header from '../../components/common/Header';
+import { useSelector } from 'react-redux';
 
 // const Home: React.FC = () => {
 //   const auth=useSelector(state=>state)
@@ -79,9 +79,9 @@ import { useSelector } from "react-redux";
 //   },
 // };
 const Home = () => {
-  const user=useSelector((state:any)=>state.auth.user)
-  console.log("from home page",user);
-   
+  const user = useSelector((state: any) => state.auth.user);
+  console.log('from home page', user);
+
   //  const { user } = useSelector((state: any) =>state. auth);
   //  console.log("isAuthentcated from home", user);
 

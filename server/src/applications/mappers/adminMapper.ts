@@ -1,5 +1,5 @@
 import { Admin } from "../../domain/entities/admin";
-import { AdminLoginOutPutDto,AdminDto } from "../Dtos/adminDto";
+import { AdminDto } from "../Dtos/adminDto";
 
 export class AdminMapper{
     static toDto(admin:Admin):AdminDto{

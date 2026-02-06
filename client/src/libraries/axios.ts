@@ -1,14 +1,14 @@
-import axios from "axios";
-import { store } from "../redux/store";
-import { logout, setAccessToken } from "../redux/authSlice";
+import axios from 'axios';
+import { store } from '../redux/store';
+import { logout, setAccessToken } from '../redux/authSlice';
 
-console.log("VITE_BACKEND_URL", import.meta.env.VITE_BACKEND_URL);
+console.log('VITE_BACKEND_URL', import.meta.env.VITE_BACKEND_URL);
 
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
   withCredentials: true,
   headers: {
-    "Content-Type": "application/json",
+    'Content-Type': 'application/json',
   },
 });
 
@@ -17,27 +17,27 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const token = store.getState().auth.accessToken;
     if (token) {
-      config.headers["Authorization"] = `Bearer ${token}`;
+      config.headers['Authorization'] = `Bearer ${token}`;
     }
     return config;
   },
   (error) => {
     return Promise.reject(error);
-  },
+  }
 );
 
 axiosInstance.interceptors.response.use(
   (response) => response,
   async (error) => {
-    console.log("error from inceptors", error);
+    console.log('error from inceptors', error);
 
     const originalRequest = error.config;
-    console.log("originalRequest ", originalRequest);
+    console.log('originalRequest ', originalRequest);
     let url = originalRequest.url;
     const isAuthRequest =
-      url?.includes("/auth/login") ||
-      url?.includes("/auth/admin/login") ||
-      url?.includes("/auth/refresh-token");
+      url?.includes('/auth/login') ||
+      url?.includes('/auth/admin/login') ||
+      url?.includes('/auth/refresh-token');
 
     if (
       error.response?.status === 401 &&
@@ -49,9 +49,9 @@ axiosInstance.interceptors.response.use(
         const res = await axiosInstance.post(
           `/auth/refresh-token`,
           {},
-          { withCredentials: true },
+          { withCredentials: true }
         );
-        console.log("res", res);
+        console.log('res', res);
 
         const newAccessToken = res.data.accessToken;
         store.dispatch(setAccessToken(newAccessToken));
@@ -59,13 +59,13 @@ axiosInstance.interceptors.response.use(
         return axiosInstance(originalRequest);
       } catch (err) {
         console.log(err);
-        await axiosInstance.post("/auth/logout", {}, { withCredentials: true });
+        await axiosInstance.post('/auth/logout', {}, { withCredentials: true });
         store.dispatch(logout());
         return Promise.reject(err);
       }
     }
     return Promise.reject(error);
-  },
+  }
 );
 export default axiosInstance;
 // type BackendError={

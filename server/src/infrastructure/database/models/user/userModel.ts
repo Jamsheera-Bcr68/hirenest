@@ -1,5 +1,6 @@
 import { Types, Schema, model, Model, Document } from "mongoose";
 import { UserRole } from "../../../../domain/enums/userEnums";
+import { IAddress } from "../../../../domain/values/Address";
 
 export interface IUserDocument extends Document {
   _id: Types.ObjectId;
@@ -11,7 +12,9 @@ export interface IUserDocument extends Document {
   isVerified: boolean;
   resetToken?: string;
   resetTokenExpiry?: Date;
-  fullName?: string;
+  name?: string;
+  title?:string;
+  address?:IAddress
   createdAt: Date;
   updatedAt: Date;
   imageUrl?: string;

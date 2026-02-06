@@ -1,21 +1,20 @@
-import BasicDataPart from "./BasicdataPart";
-import AboutMe from "./AboutMe";
-import Skills from "./Skills";
-import Experience from "./Experience";
-import Education from "./Education";
-
+import BasicDataPart from './BasicdataPart';
+import AboutMe from './AboutMe';
+import Skills from './Skills';
+import Experience from './Experience';
+import Education from './Education';
 
 const ProfilePart = () => {
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Sidebar - Profile Card */}
-        <BasicDataPart/>
+        <BasicDataPart />
 
         {/* Right Side - Main Content */}
         <div className="lg:col-span-2 space-y-6">
           {/* About Me */}
-         {/* <AboutMe/> */}
+          {/* <AboutMe/> */}
 
           {/* Skills */}
           {/* <Skills/> */}
@@ -24,7 +23,7 @@ const ProfilePart = () => {
           {/* <Experience/> */}
 
           {/* Education */}
-         {/* <Education/> */}
+          {/* <Education/> */}
 
           {/* Certifications
           <div className="bg-white rounded-lg shadow-md p-6">
@@ -118,7 +117,7 @@ const ProfilePart = () => {
                 Update Resume
               </button>
             </div>
-          </div> */} 
+          </div> */}
         </div>
       </div>
     </div>

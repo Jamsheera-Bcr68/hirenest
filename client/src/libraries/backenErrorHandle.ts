@@ -1,7 +1,6 @@
 // import axiosInstance from "./axios"
 // import { type BackendError,normalizeError } from "./errorNormalizer"
 
-
 // axiosInstance.interceptors.response.use((response)=>response,
 // (error)=>Promise.reject(normalizeError(error))
 // )

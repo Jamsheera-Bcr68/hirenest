@@ -22,12 +22,13 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/", routes);
+
 
 app.get("/", (req, res) => {
   console.log("env", env);
 
   res.send("I am from your new project");
 });
+app.use("/", routes);
 app.use(errorHandler);
 export default app;

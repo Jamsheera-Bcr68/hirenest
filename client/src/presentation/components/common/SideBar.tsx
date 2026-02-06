@@ -1,4 +1,4 @@
-import { SideBox } from "./ReusableComponents";
+import { SideBox } from './ReusableComponents';
 
 const SideBar = () => {
   return (
@@ -13,7 +13,7 @@ const SideBar = () => {
       <SideBox text="Messages" isActive={false} />
 
       <SideBox text="Logout" isActive={false} />
-     <p className="sidebox"> changePassword</p>
+      <p className="sidebox"> changePassword</p>
     </div>
   );
 };

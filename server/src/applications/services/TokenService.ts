@@ -8,19 +8,21 @@ import {
   verifyRefreshToken,
   verifyAccessToken,
 } from "../../infrastructure/services/tokenService";
+import { UserRole } from "../../domain/enums/userEnums";
+
 
 export class TokenService implements ITokenService {
-  generateAccessToken(userId: string, email: string): string {
-    const token = getToken(userId, email);
+  generateAccessToken(userId: string, email: string,role:UserRole): string {
+    const token = getToken(userId, email,role);
     console.log("token from token service ", token);
 
     return token;
   }
-  generateRefreshToken(userId: string, email: string): string {
+  generateRefreshToken(userId: string, email: string,role:UserRole): string {
     const token = getRefreshToken(userId, email);
     return token;
   }
-  verifyRefreshToken(token: string): { userId: string; email: string } {
+  verifyRefreshToken(token: string): { userId: string; email: string,role:UserRole } {
     console.log("from token servise verify token");
     const payload = verifyRefreshToken(token);
     console.log("from token servise verify token payload is ", payload);

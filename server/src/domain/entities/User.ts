@@ -1,4 +1,5 @@
 import { UserRole } from "../enums/userEnums";
+import { IAddress } from "../values/Address";
 
 export class User {
   public readonly id?: string;
@@ -12,8 +13,11 @@ export class User {
   public isVerified: boolean;
   public googleId?: string;
   public role?: UserRole;
-  public imageUrl?:string
-  public isBlocked?:boolean
+  public imageUrl?: string;
+  public isBlocked?: boolean;
+  public name?: string;
+  public title?: string;
+  public address?: IAddress;
 
   constructor(
     email: string,
@@ -25,6 +29,9 @@ export class User {
     resetTokenExpiry?: Date | undefined,
     googleId?: string,
     role?: UserRole | undefined,
+    name?: string,
+    title?: string,
+    address?: IAddress,
     createdAt = new Date(),
     updatedAt = new Date(),
   ) {
@@ -39,6 +46,9 @@ export class User {
     this.resetTokenExpiry = resetTokenExpiry;
     this.googleId = googleId;
     this.role = role;
+    this.name=name;
+    this.title=title;
+    this.address=address
+
   }
 }
-

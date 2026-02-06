@@ -1,19 +1,31 @@
-import { useEditBasicData } from "../../../hooks/user/candidate/profile/useEditBascData";
-import ChangePasswordModal from "../../../modals/ChangePasswordModal";
+import { useEditBasicData } from '../../../hooks/user/candidate/profile/useEditBascData';
+import ChangePasswordModal from '../../../modals/ChangePasswordModal';
+import ProfileImageViewModal from '../../../modals/ProfileImageViewModal';
+import ProfileEditModal from '../../../modals/EditProfileModal';
 
 const BasicDataPart = () => {
-  const { handleChangePassword, open, setOpen } = useEditBasicData();
+  const {
+    handleChangePassword,
+    open,
+    setOpen,
+    handleImageClick,
+    openImageModal,
+    setOpenImageModal,
+    openEditModal,
+    setOpenEditModal,
+    handleEditProfile,
+  } = useEditBasicData();
   return (
     <div className="lg:col-span-1">
       <div className="bg-white rounded-lg shadow-md p-6">
         {/* Profile Picture */}
         <div className="flex flex-col items-center">
-          <div className="w-32 h-32 bg-gray-300 rounded-full flex items-center justify-center text-4xl font-bold text-gray-600">
-            RK
+          <div
+            onClick={handleImageClick}
+            className="w-32 h-32 bg-gray-300 rounded-full flex items-center justify-center text-gray-600"
+          >
+            <img className="rounded-full" src="/profileImage.jpg" alt="" />
           </div>
-          <button className="mt-3 text-blue-600 hover:text-blue-700 text-sm font-medium">
-            Change Photo
-          </button>
         </div>
 
         {/* Basic Info */}
@@ -86,7 +98,10 @@ const BasicDataPart = () => {
         </div>
 
         {/* Edit Profile Button */}
-        <button className="w-full mt-6 bg-gray-200 text-gray-700 hover:bg-gray-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors">
+        <button
+          onClick={handleEditProfile}
+          className="w-full mt-6 bg-gray-200 text-gray-700 hover:bg-gray-300 px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+        >
           Edit Profile
         </button>
         <button
@@ -96,12 +111,22 @@ const BasicDataPart = () => {
           Change Password
         </button>
       </div>
-      <ChangePasswordModal open={open} onClose={() => {
-        console.log('set open closed');
-        
-        setOpen(false)}}/>
-       
-    
+      <ChangePasswordModal
+        open={open}
+        onClose={() => {
+          console.log('set open closed');
+
+          setOpen(false);
+        }}
+      />
+      <ProfileImageViewModal
+        open={openImageModal}
+        onClose={() => setOpenImageModal(false)}
+      />
+      <ProfileEditModal
+        open={openEditModal}
+        onClose={() => setOpenEditModal(false)}
+      />
     </div>
   );
 };

@@ -1,4 +1,5 @@
-//usecases
+//*==================  usecases    ================*
+//auth
 import { RegisterUseCase } from "../../applications/useCases/auth/registerUserUsecases";
 import { AdminGoogleAuthUsecase } from "../../applications/useCases/auth/adminGoogleAuthUsecase";
 import { LoginUseCase } from "../../applications/useCases/auth/loginUserUsecase";
@@ -9,8 +10,12 @@ import { ResetPasswordUsecase } from "../../applications/useCases/auth/resetPass
 import { GoogleLoginUsecase } from "../../applications/useCases/auth/googleLoginUsecase";
 import { ChangePasswordUsecase } from "../../applications/useCases/auth/ChangePasswordUsecase";
 
-//==Controllers
+//candidate
 
+import { CandidateProfileEditUsecase } from "../../applications/useCases/candidate/CandidateProfileEditUsecase";
+
+//==Controllers
+//auth
 import { AuthController } from "../../presentation/http/controllers/auth/authController";
 import { RefreshTokenController } from "../../presentation/http/controllers/auth/refreshTokenController";
 import { AdminAuthController } from "../../presentation/http/controllers/auth/adminAuthController";
@@ -19,6 +24,9 @@ import { ResetPasswordController } from "../../presentation/http/controllers/aut
 import { GoogleLoginController } from "../../presentation/http/controllers/auth/googleLoginController";
 import { AdminGoogleAuthController } from "../../presentation/http/controllers/auth/AdminGoogleLoginController";
 import { ChangePasswordController } from "../../presentation/http/controllers/auth/ChangePasswordController";
+
+//candidate
+import { CandidateProfileController } from "../../presentation/http/controllers/candidate/CandidateProfileController";
 
 //==repsitories
 
@@ -43,7 +51,7 @@ const adminRepository = new AdminRepository();
 const emailService = new EmailService();
 const verifyOtpService = new VerifyOtpService(otpRepository, userRepository);
 export const tokenService = new TokenService();
-const googleAuthService =new GoogleAuthService()
+const googleAuthService = new GoogleAuthService();
 
 const registerUseCase = new RegisterUseCase(userRepository);
 const sendOtpService = new SendOtpService(
@@ -57,27 +65,51 @@ const forgotPasswordUsecase = new ForgotPassWordUsecase(
   userRepository,
   emailService,
 );
-const resetPasswordUsecase=new ResetPasswordUsecase(userRepository)
-const googleLoginUsecase=new GoogleLoginUsecase(userRepository,googleAuthService,tokenService)
-const adminGoogleAuthUsecase=new AdminGoogleAuthUsecase(googleAuthService,adminRepository,tokenService)
-const logoutUseCase =new LogoutUsecase()
-const changePasswordUsecase=new ChangePasswordUsecase(userRepository)
+const resetPasswordUsecase = new ResetPasswordUsecase(userRepository);
+const googleLoginUsecase = new GoogleLoginUsecase(
+  userRepository,
+  googleAuthService,
+  tokenService,
+);
+const adminGoogleAuthUsecase = new AdminGoogleAuthUsecase(
+  googleAuthService,
+  adminRepository,
+  tokenService,
+);
+const logoutUseCase = new LogoutUsecase();
+const changePasswordUsecase = new ChangePasswordUsecase(userRepository);
 
+//candidate
+const candidateEditProfileUsecase = new CandidateProfileEditUsecase(
+  userRepository,
+);
 
 export const authController = new AuthController(
   registerUseCase,
   loginUseCase,
   sendOtpService,
   verifyOtpService,
-  logoutUseCase
+  logoutUseCase,
 );
 export const refreshController = new RefreshTokenController(tokenService);
 export const adminAuthController = new AdminAuthController(adminLoginUsecase);
 export const forgotPasswordController = new ForgotPassWordController(
   forgotPasswordUsecase,
 );
-export const resetPasswordController=new ResetPasswordController(resetPasswordUsecase)
-export const googleLoginController=new GoogleLoginController(googleLoginUsecase)
-export const adminGoogleAuthController=new AdminGoogleAuthController(adminGoogleAuthUsecase)
+export const resetPasswordController = new ResetPasswordController(
+  resetPasswordUsecase,
+);
+export const googleLoginController = new GoogleLoginController(
+  googleLoginUsecase,
+);
+export const adminGoogleAuthController = new AdminGoogleAuthController(
+  adminGoogleAuthUsecase,
+);
 
-export const changePasswordController=new ChangePasswordController(changePasswordUsecase)
+export const changePasswordController = new ChangePasswordController(
+  changePasswordUsecase,
+);
+
+export const candidateProfileController = new CandidateProfileController(
+  candidateEditProfileUsecase,
+);

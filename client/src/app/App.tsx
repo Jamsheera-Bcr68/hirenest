@@ -1,7 +1,7 @@
-import "./App.css";
-import { Routes, Route } from "react-router-dom";
-import { AuthRoutes } from "../routes/authRoutes.tsx";
-import { CandidateRoutes } from "../routes/userRoutes/candidateRoute.tsx";
+import './App.css';
+import { Routes, Route } from 'react-router-dom';
+import { AuthRoutes } from '../routes/authRoutes.tsx';
+import { CandidateRoutes } from '../routes/userRoutes/candidateRoute.tsx';
 
 function App() {
   return (

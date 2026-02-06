@@ -24,11 +24,11 @@ export class AdminGoogleAuthUsecase implements IAdminGoogleAuthUsecase {
     this._tokenService = tokenService;
   }
   async execute(token: string, role: UserRole): Promise<AdminLoginOutPutDto> {
-    console.log(role);
+    
     
     const googleUser = await this._googleAuthService.getUserInfo(token);
     const admin = await this._adminRepository.findByEmail(googleUser.email);
-    if (!admin) {
+    if (!admin||admin.role!==UserRole.ADMIN) {
       throw new AppError(
         authMessages.error.ADMIN_NOT_FOUND,
         statusCodes.NOTFOUND,
@@ -48,10 +48,12 @@ export class AdminGoogleAuthUsecase implements IAdminGoogleAuthUsecase {
     const accessToken = this._tokenService.generateAccessToken(
       admin.id,
       admin.email,
+      UserRole.ADMIN
     );
     const refreshToken = this._tokenService.generateRefreshToken(
       admin.id,
       admin.email,
+      UserRole.ADMIN
     );
 
     return { admin, accessToken, refreshToken };

@@ -1,8 +1,8 @@
-import * as Dialog from "@radix-ui/react-dialog";
+import * as Dialog from '@radix-ui/react-dialog';
 
-import { EyeClosedIcon, Eye } from "lucide-react";
-import { useChangePassword } from "../hooks/auth/useChangePassword";
-import { useToast } from "../../shared/toast/useToast";
+import { EyeClosedIcon, Eye } from 'lucide-react';
+import { useChangePassword } from '../hooks/auth/useChangePassword';
+import { useToast } from '../../shared/toast/useToast';
 
 export default function ChangePasswordModal({
   open,
@@ -13,7 +13,7 @@ export default function ChangePasswordModal({
 }) {
   const { showToast, ToastElement } = useToast();
   const { handleChange, formData, show, error, setShow, handleSubmit } =
-    useChangePassword(showToast,onClose);
+    useChangePassword(showToast, onClose);
 
   return (
     <Dialog.Root
@@ -47,14 +47,14 @@ export default function ChangePasswordModal({
                 name="current_password"
                 value={formData.current_password}
                 onChange={handleChange}
-                type={show ? "text" : "password"}
+                type={show ? 'text' : 'password'}
                 placeholder="••••••••"
                 className="w-full rounded-lg border px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
               />
               {error?.current_password ? (
                 <p className="text-sm text-red-500">{error.current_password}</p>
               ) : (
-                ""
+                ''
               )}
             </div>
 
@@ -67,21 +67,15 @@ export default function ChangePasswordModal({
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  type={show ? "text" : "password"}
+                  type={show ? 'text' : 'password'}
                   placeholder="••••••••"
                   className="w-full rounded-lg border px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
                 />
-                {/* <button
-              type="button"
-              className="absolute inset-y-0 right-3 flex items-center text-gray-500"
-            >
-              <EyeClosedIcon size={18} />
-            </button> */}
               </div>
               {error?.password ? (
                 <p className="text-sm text-red-500">{error.password}</p>
               ) : (
-                ""
+                ''
               )}
             </div>
             <div>
@@ -93,7 +87,7 @@ export default function ChangePasswordModal({
                   name="confirm_password"
                   value={formData.confirm_password}
                   onChange={handleChange}
-                  type={show ? "text" : "password"}
+                  type={show ? 'text' : 'password'}
                   placeholder="••••••••"
                   className="w-full rounded-lg border px-4 py-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"
                 />
@@ -108,7 +102,7 @@ export default function ChangePasswordModal({
               {error?.confirm_password ? (
                 <p className="text-sm text-red-500">{error.confirm_password}</p>
               ) : (
-                ""
+                ''
               )}
             </div>
           </div>

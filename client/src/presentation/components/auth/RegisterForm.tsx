@@ -1,6 +1,6 @@
-import { useRegister } from "../../hooks/auth/useRegister";
-import { useToast } from "../../../shared/toast/useToast";
-import { Eye, EyeClosedIcon } from "lucide-react";
+import { useRegister } from '../../hooks/auth/useRegister';
+import { useToast } from '../../../shared/toast/useToast';
+import { Eye, EyeClosedIcon } from 'lucide-react';
 
 function RegisterForm() {
   const { showToast, ToastElement } = useToast();
@@ -75,10 +75,10 @@ function RegisterForm() {
             value={formData.password}
             onChange={handleChange}
             name="password"
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             placeholder="Password"
             className="w-full  px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition"
-          />{" "}
+          />{' '}
           <button
             className="absolute inset-y-0 right-3 flex items-center text-gray-500"
             onClick={() => setShowPassword((state) => !state)}
@@ -97,10 +97,10 @@ function RegisterForm() {
             value={formData.confirm_password}
             onChange={handleChange}
             name="confirm_password"
-            type={showPassword ? "text" : "password"}
+            type={showPassword ? 'text' : 'password'}
             placeholder="Confirm password"
             className="w-full px-4 py-2.5 text-sm border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent outline-none transition"
-          />{" "}
+          />{' '}
         </div>
 
         {errors.confirm_password && (
@@ -117,7 +117,7 @@ function RegisterForm() {
       </div>
 
       <p className="text-center text-sm text-gray-600 mt-6">
-        Already have an account?{" "}
+        Already have an account?{' '}
         <a
           href="/login"
           className="text-indigo-600 font-semibold hover:text-indigo-700 transition"

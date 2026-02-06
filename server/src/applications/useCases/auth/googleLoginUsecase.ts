@@ -12,27 +12,26 @@ import { loginOutPutDto } from "../../Dtos/loginDto";
 export class GoogleLoginUsecase implements IGoogleLoginUsecase {
   private _userRepository: IUserRepository;
   private _googleAuthService: IGoogleAuthServices;
-  private _tokenService:ITokenService
+  private _tokenService: ITokenService;
   constructor(
     userRepository: IUserRepository,
     googleAuthService: IGoogleAuthServices,
-    tokenService:ITokenService
+    tokenService: ITokenService,
   ) {
     this._userRepository = userRepository;
     this._googleAuthService = googleAuthService;
-    this._tokenService=tokenService
+    this._tokenService = tokenService;
   }
-  async execute(token: string,role:UserRole): Promise<loginOutPutDto> {
+  async execute(token: string, role: UserRole): Promise<loginOutPutDto> {
     console.log("from google login usecase");
     console.log(role);
-    
+
     const googleUser = await this._googleAuthService.getUserInfo(token);
-    console.log("google user ", googleUser)
-    
-   
-     const user = await this._userRepository.findByEmail(googleUser.email);
-   
-    if (!user ||!user.id) {
+    console.log("google user ", googleUser);
+
+    const user = await this._userRepository.findByEmail(googleUser.email);
+
+    if (!user || !user.id || !user.role) {
       throw new AppError(
         authMessages.error.USER_NOT_FOUND,
         statusCodes.NOTFOUND,
@@ -43,12 +42,23 @@ export class GoogleLoginUsecase implements IGoogleLoginUsecase {
         googleUser.email,
         googleUser.googleId,
       );
-    }else if(user.googleId!==googleUser.googleId){
-      throw new AppError(authMessages.error.GOOGLE_INVALID_GOOGLEID,statusCodes.BADREQUEST)
+    } else if (user.googleId !== googleUser.googleId) {
+      throw new AppError(
+        authMessages.error.GOOGLE_INVALID_GOOGLEID,
+        statusCodes.BADREQUEST,
+      );
     }
 
-    const accessToken=this._tokenService.generateAccessToken(user.id,user.email)
-    const refreshToken=this._tokenService.generateRefreshToken(user.id,user.email)
-    return {user,accessToken,refreshToken}
+    const accessToken = this._tokenService.generateAccessToken(
+      user.id,
+      user.email,
+      user.role,
+    );
+    const refreshToken = this._tokenService.generateRefreshToken(
+      user.id,
+      user.email,
+      user.role,
+    );
+    return { user, accessToken, refreshToken };
   }
 }

@@ -17,7 +17,7 @@ export class ChangePasswordUsecase implements IChangePasswordUsecase {
     password: string,
     current_password: string,
   ): Promise<void> => {
-    let user = await this._userRepository.findOne({ email, id: userId });
+    const user = await this._userRepository.findOne({ email, id: userId });
     console.log("user form changepassword");
 
     if (!user)

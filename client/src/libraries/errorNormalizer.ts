@@ -1,5 +1,3 @@
-
-
 // export type BackendError={
 //     statusCode:number,
 //     message:string,
@@ -13,6 +11,3 @@
 //         success:response?.success??false
 //     }
 // }
-
-
-
