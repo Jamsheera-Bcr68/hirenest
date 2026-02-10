@@ -1,17 +1,22 @@
-import { UserRole } from "../../domain/enums/userEnums";
-import jwt from "jsonwebtoken";
-import { type TokenPayload } from "../../applications/interfaces/services/ITokenService";
-import { authMessages } from "../../shared/constants/messages/authMesages";
+import { UserRole } from '../../domain/enums/userEnums';
+import jwt from 'jsonwebtoken';
+import { type TokenPayload } from '../../applications/interfaces/services/ITokenService';
+import { authMessages } from '../../shared/constants/messages/authMesages';
 
-export const getToken = (userId: string, email: string,role:UserRole) => {
+export const getToken = (userId: string, email: string, role: UserRole) => {
   const jwt_secret = process.env.JWT_ACCESS_SECRET;
   if (!jwt_secret) throw new Error(authMessages.error.ACCESS_SECRET_NOT_FOUND);
-  return jwt.sign({ userId, email,role }, jwt_secret, { expiresIn: "15m" });
+  return jwt.sign({ userId, email, role }, jwt_secret, { expiresIn: '5s' });
 };
-export const getRefreshToken = (userId: string, email: string) => {
+export const getRefreshToken = (
+  userId: string,
+  email: string,
+  role: UserRole
+) => {
   const refreshSecret = process.env.JWT_REFRESH_SECRET;
-  if (!refreshSecret) throw new Error(authMessages.error.REFRESH_SECRET_NOT_FOUND);
-  return jwt.sign({ userId, email }, refreshSecret, { expiresIn: "7d" });
+  if (!refreshSecret)
+    throw new Error(authMessages.error.REFRESH_SECRET_NOT_FOUND);
+  return jwt.sign({ userId, email, role }, refreshSecret, { expiresIn: '7d' });
 };
 export const verifyRefreshToken = (token: string): TokenPayload => {
   const refresh_secret = process.env.JWT_REFRESH_SECRET;
@@ -20,7 +25,7 @@ export const verifyRefreshToken = (token: string): TokenPayload => {
   const payload = jwt.verify(token, refresh_secret) as {
     userId: string;
     email: string;
-    role:UserRole
+    role: UserRole;
   };
   return payload;
 };

@@ -33,7 +33,7 @@ export const useLogin = (
         return;
       }
       try {
-        let api = role === 'admin' ?'/auth/admin/google': '/auth/google' 
+        let api = role === 'admin' ? '/auth/admin/google' : '/auth/google';
         let response = await axios.post(api, { token, role });
         console.log(response);
         const data = response.data.data;
@@ -42,7 +42,7 @@ export const useLogin = (
         dispatch(loginSuccess(data));
 
         showToast({ msg: response.data.message, type: 'success' });
-        const route = role == 'admin' ? '/admin/dashboard' : '/'
+        const route = role == 'admin' ? '/admin/dashboard' : '/';
         navigate(route);
       } catch (error: any) {
         console.log(error);

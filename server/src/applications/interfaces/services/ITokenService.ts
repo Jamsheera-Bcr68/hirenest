@@ -1,4 +1,4 @@
-import { UserRole } from "../../../domain/enums/userEnums";
+import { UserRole } from '../../../domain/enums/userEnums';
 
 export type TokenPayload = {
   userId: string;

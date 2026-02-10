@@ -1,10 +1,9 @@
 import Header from '../../../components/common/Header';
 import SideBar from '../../../components/common/SideBar';
+
 import ProfilePart from '../../../components/user/profile/profilePart';
 
 const CandidateProfile = () => {
-  console.log('from candidate profiel');
-
   return (
     <div className="min-h-screen bg-gray-100">
       <Header />

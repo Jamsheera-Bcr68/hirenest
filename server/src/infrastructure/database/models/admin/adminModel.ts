@@ -1,6 +1,5 @@
-import { Types, Schema, Model, model, Document } from "mongoose";
-import { UserRole } from "../../../../domain/enums/userEnums";
-
+import { Types, Schema, Model, model, Document } from 'mongoose';
+import { UserRole } from '../../../../domain/enums/userEnums';
 
 export interface IAdminDocument extends Document {
   _id: Types.ObjectId;
@@ -8,7 +7,7 @@ export interface IAdminDocument extends Document {
   password: string;
   resetToken: string;
   role: UserRole;
-  googleId?:string,
+  googleId?: string;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -25,13 +24,13 @@ const adminSchema = new Schema<IAdminDocument>(
       default: UserRole.ADMIN,
     },
     resetToken: { type: String },
-    googleId:{type:String}
+    googleId: { type: String },
   },
 
-  { timestamps: true },
+  { timestamps: true }
 );
 
 export const adminModel: Model<IAdminDocument> = model<IAdminDocument>(
-  "Admin",
-  adminSchema,
+  'Admin',
+  adminSchema
 );

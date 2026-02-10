@@ -2,13 +2,13 @@ import {
   loginSchema,
   forgotPasswordSchema,
   resetPasswordSchema,
-  googeLoginSchema
-} from "../validators/loginValidation";
-import { Request, Response, NextFunction } from "express";
+  googeLoginSchema,
+} from '../validators/loginValidation';
+import { Request, Response, NextFunction } from 'express';
 export const loginValidator = (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   const result = loginSchema.safeParse(req.body);
   if (!result.success) {
@@ -19,7 +19,7 @@ export const loginValidator = (
 export const forgotPasswordValidator = (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   const result = forgotPasswordSchema.safeParse(req.body);
   if (!result.success) {
@@ -29,10 +29,10 @@ export const forgotPasswordValidator = (
 export const resetPasswordValidator = (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
   const result = resetPasswordSchema.safeParse(req.body);
-  console.log("result from  resetvalidator", result);
+  console.log('result from  resetvalidator', result);
   if (!result.success) {
     next(result.error);
   } else next();
@@ -41,14 +41,16 @@ export const resetPasswordValidator = (
 export const googeLoginValidator = (
   req: Request,
   res: Response,
-  next: NextFunction,
+  next: NextFunction
 ) => {
-  const result=googeLoginSchema.safeParse(req.body)
-   if (!result.success) {
+  const result = googeLoginSchema.safeParse(req.body);
+  if (!result.success) {
     next(result.error);
   } else next();
 };
 
-export const changePasswordValidator=(req:Request,res:Response,next:NextFunction)=>{
-  
-}
+export const changePasswordValidator = (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {};

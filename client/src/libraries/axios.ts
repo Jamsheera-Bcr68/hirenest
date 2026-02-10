@@ -8,10 +8,16 @@ const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
   withCredentials: true,
   headers: {
-    'Content-Type': 'application/json',
+    'Content-Type': ' application/json',
   },
 });
-
+const refreshAxios = axios.create({
+  baseURL: import.meta.env.VITE_BACKEND_URL,
+  withCredentials: true,
+  headers: {
+    'Content-Type': ' application/json',
+  },
+});
 //if token is available attach
 axiosInstance.interceptors.request.use(
   (config) => {
@@ -46,20 +52,31 @@ axiosInstance.interceptors.response.use(
     ) {
       originalRequest._retry = true;
       try {
-        const res = await axiosInstance.post(
+        const res = await refreshAxios.post(
           `/auth/refresh-token`,
           {},
           { withCredentials: true }
         );
-        console.log('res', res);
+        console.log('refresh response', res.data);
 
-        const newAccessToken = res.data.accessToken;
+        const newAccessToken = res.data?.accessToken;
+        if (!newAccessToken) {
+          console.error(
+            'Token not found in response. Response data:',
+            res.data
+          );
+          throw new Error('accessToken not in refresh response');
+        }
         store.dispatch(setAccessToken(newAccessToken));
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        //  originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        originalRequest.headers = {
+          ...originalRequest.headers,
+          Authorization: `Bearer ${newAccessToken}`,
+        };
         return axiosInstance(originalRequest);
       } catch (err) {
         console.log(err);
-        await axiosInstance.post('/auth/logout', {}, { withCredentials: true });
+        await refreshAxios.post('/auth/logout', {}, { withCredentials: true });
         store.dispatch(logout());
         return Promise.reject(err);
       }

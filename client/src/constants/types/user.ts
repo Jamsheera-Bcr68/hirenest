@@ -1,4 +1,4 @@
-export type UserRole = 'admin' | 'candidate'|'company';
+export type UserRole = 'admin' | 'candidate' | 'company';
 
 export type AuthState = {
   user: any | null;

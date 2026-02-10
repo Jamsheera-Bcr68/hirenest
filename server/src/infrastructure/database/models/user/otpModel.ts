@@ -1,4 +1,4 @@
-import mongoose, { Model, model } from "mongoose";
+import mongoose, { Model, model } from 'mongoose';
 
 export interface IOtpDocument {
   email: string;
@@ -8,7 +8,7 @@ export interface IOtpDocument {
   expiredAt: Date;
 }
 const otpSchema = new mongoose.Schema<IOtpDocument>({
-  email: { type: String, required: true,unique:true},
+  email: { type: String, required: true, unique: true },
   otp: { type: String, required: true },
   isVerified: { type: Boolean, default: false },
   expiredAt: { type: Date, required: true },
@@ -16,6 +16,6 @@ const otpSchema = new mongoose.Schema<IOtpDocument>({
 });
 
 export const otpModel: Model<IOtpDocument> = model<IOtpDocument>(
-  "OTP",
-  otpSchema,
+  'OTP',
+  otpSchema
 );

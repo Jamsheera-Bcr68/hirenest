@@ -1,3 +1,3 @@
-export interface IGenerateOtpService{
-generate():string
+export interface IGenerateOtpService {
+  generate(): string;
 }

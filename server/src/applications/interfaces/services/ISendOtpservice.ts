@@ -1,4 +1,3 @@
 export interface ISendOtpService {
-  execute( email: string): Promise<Date>
+  execute(email: string): Promise<Date>;
 }
-

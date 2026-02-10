@@ -1,5 +1,5 @@
-import { UserRole } from "../enums/userEnums";
-import { IAddress } from "../values/Address";
+import { UserRole } from '../enums/userEnums';
+import { IAddress, ISocialMediaLinks } from '../values/profileTypes';
 
 export class User {
   public readonly id?: string;
@@ -18,6 +18,7 @@ export class User {
   public name?: string;
   public title?: string;
   public address?: IAddress;
+  public socialMediaLinks?: ISocialMediaLinks;
 
   constructor(
     email: string,
@@ -32,8 +33,9 @@ export class User {
     name?: string,
     title?: string,
     address?: IAddress,
+    socialMediaLinks?: ISocialMediaLinks,
     createdAt = new Date(),
-    updatedAt = new Date(),
+    updatedAt = new Date()
   ) {
     this.id = id;
     this.email = email;
@@ -46,9 +48,9 @@ export class User {
     this.resetTokenExpiry = resetTokenExpiry;
     this.googleId = googleId;
     this.role = role;
-    this.name=name;
-    this.title=title;
-    this.address=address
-
+    this.name = name;
+    this.title = title;
+    this.address = address;
+    this.socialMediaLinks = socialMediaLinks;
   }
 }

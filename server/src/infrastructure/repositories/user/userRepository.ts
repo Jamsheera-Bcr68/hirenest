@@ -1,8 +1,8 @@
-import { GenericRepository } from "../genericRepository";
-import { User } from "../../../domain/entities/User";
-import { IUserDocument, userModel } from "../../database/models/user/userModel";
-import { IUserRepository } from "../../../domain/repositoriesInterfaces/IUserRepositories";
-import { Types } from "mongoose";
+import { GenericRepository } from '../genericRepository';
+import { User } from '../../../domain/entities/User';
+import { IUserDocument, userModel } from '../../database/models/user/userModel';
+import { IUserRepository } from '../../../domain/repositoriesInterfaces/IUserRepositories';
+import { Types } from 'mongoose';
 
 export class UserRepository
   extends GenericRepository<User, IUserDocument>
@@ -15,7 +15,7 @@ export class UserRepository
     const filter = { email };
 
     const user = await this.findOne(filter);
-    console.log("user from repository ", email);
+    console.log('user from repository ', email);
 
     if (!user) return null;
     else return user;
@@ -26,7 +26,7 @@ export class UserRepository
       password: user.password,
       phone: user.phone,
     });
-    console.log("from userRepository and user is ", document);
+    console.log('from userRepository and user is ', document);
 
     return this.mapToEntity(document);
   }
@@ -44,6 +44,7 @@ export class UserRepository
       doc.name ?? undefined,
       doc.title ?? undefined,
       doc.address ?? undefined,
+      doc.socialMediaLinks ?? {}
     );
   };
   mapToPersistance = (entity: User) => {
@@ -51,41 +52,42 @@ export class UserRepository
       name: entity.name,
       title: entity.title,
       address: entity.address,
+      socialMediaLinks: entity.socialMediaLinks,
     };
   };
   async verifyUser(email: string): Promise<void> {
     const user = await this._model.findOne({ email });
-    if (!user) throw new Error("user not found");
+    if (!user) throw new Error('user not found');
     user.isVerified = true;
     await user.save();
   }
   async updateResetToken(
     userId: string,
     hashedToken: string,
-    resetTokenExpiry: Date,
+    resetTokenExpiry: Date
   ): Promise<void> {
     await this._model.updateOne(
       { _id: new Types.ObjectId(userId) },
-      { resetToken: hashedToken, resetTokenExpiry },
+      { resetToken: hashedToken, resetTokenExpiry }
     );
     console.log(
-      "from update reset token ",
+      'from update reset token ',
       userId,
       hashedToken,
-      resetTokenExpiry,
+      resetTokenExpiry
     );
   }
   async updatePassword(email: string, password: string): Promise<void> {
     await this._model.findOneAndUpdate(
       { email },
-      { $set: { password, resetToken: null, resetTokenExpiry: null } },
+      { $set: { password, resetToken: null, resetTokenExpiry: null } }
     );
   }
 
   async updateGoogleId(email: string, googleId: string): Promise<User | null> {
     const document = await this._model.findOneAndUpdate(
       { email },
-      { googleId },
+      { googleId }
     );
     if (!document) return null;
     return this.mapToEntity(document);

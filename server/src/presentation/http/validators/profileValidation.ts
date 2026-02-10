@@ -16,4 +16,15 @@ export const profileDataSchema = z.object({
   place: optionalString(2, 50, 'Place'),
   state: optionalString(2, 50, 'State'),
   country: optionalString(2, 50, 'Country'),
+  socialMediaLinks: z
+    .object({
+      linkedIn: optionalString(2, 100, 'LinkedIn'),
+      gitHub: optionalString(2, 100, 'GitHub'),
+      whatsapp: optionalString(2, 100, 'WhatsApp'),
+      portfolio: optionalString(2, 100, 'PortFolio'),
+      twitter: optionalString(2, 100, 'Twitter'),
+    })
+    .optional(),
 });
+
+export type UpdataUserProfileInput = z.infer<typeof profileDataSchema>;

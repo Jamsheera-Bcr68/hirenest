@@ -1,6 +1,9 @@
-import { Types, Schema, model, Model, Document } from "mongoose";
-import { UserRole } from "../../../../domain/enums/userEnums";
-import { IAddress } from "../../../../domain/values/Address";
+import { Types, Schema, model, Model, Document } from 'mongoose';
+import { UserRole } from '../../../../domain/enums/userEnums';
+import {
+  IAddress,
+  ISocialMediaLinks,
+} from '../../../../domain/values/profileTypes';
 
 export interface IUserDocument extends Document {
   _id: Types.ObjectId;
@@ -13,12 +16,13 @@ export interface IUserDocument extends Document {
   resetToken?: string;
   resetTokenExpiry?: Date;
   name?: string;
-  title?:string;
-  address?:IAddress
+  title?: string;
+  address?: IAddress;
   createdAt: Date;
   updatedAt: Date;
   imageUrl?: string;
   isBlocked: boolean;
+  socialMediaLinks: ISocialMediaLinks;
 }
 
 const userSchema = new Schema<IUserDocument>({
@@ -34,11 +38,26 @@ const userSchema = new Schema<IUserDocument>({
 
   resetToken: { type: String },
   resetTokenExpiry: { type: Date },
+  name: { type: String },
+  title: { type: String },
+  address: {
+    type: { place: String, state: String, country: String },
+  },
   isVerified: { type: Boolean, required: true, default: false },
   isBlocked: { type: Boolean, default: false },
   googleId: { type: String },
+  socialMediaLinks: {
+    type: {
+      linkedIn: String,
+      whatsapp: String,
+      youtube: String,
+      gitHub: String,
+      twitter: String,
+      portfolio: String,
+    },
+  },
 });
 export const userModel: Model<IUserDocument> = model<IUserDocument>(
-  "User",
-  userSchema,
+  'User',
+  userSchema
 );

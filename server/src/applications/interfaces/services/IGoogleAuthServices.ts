@@ -1,5 +1,5 @@
-import {IGoogleAuthDto} from '../../Dtos/loginDto'
+import { IGoogleAuthDto } from '../../Dtos/loginDto';
 
-export interface IGoogleAuthServices{
-    getUserInfo(token:string):Promise<IGoogleAuthDto>
+export interface IGoogleAuthServices {
+  getUserInfo(token: string): Promise<IGoogleAuthDto>;
 }

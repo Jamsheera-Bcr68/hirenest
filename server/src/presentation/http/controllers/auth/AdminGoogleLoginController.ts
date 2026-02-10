@@ -1,7 +1,7 @@
-import { NextFunction, Request, Response } from "express";
-import { authMessages } from "../../../../shared/constants/messages/authMesages";
-import { statusCodes } from "../../../../shared/enums/statusCodes";
-import { IAdminGoogleAuthUsecase } from "../../../../applications/interfaces/auth/IAdminGoogleAuthUsecase";
+import { NextFunction, Request, Response } from 'express';
+import { authMessages } from '../../../../shared/constants/messages/authMesages';
+import { statusCodes } from '../../../../shared/enums/statusCodes';
+import { IAdminGoogleAuthUsecase } from '../../../../applications/interfaces/auth/IAdminGoogleAuthUsecase';
 
 export class AdminGoogleAuthController {
   private _adminGoogleAuthUsecase: IAdminGoogleAuthUsecase;
@@ -13,10 +13,10 @@ export class AdminGoogleAuthController {
     try {
       const { admin, refreshToken, accessToken } =
         await this._adminGoogleAuthUsecase.execute(token, role);
-      res.cookie("refreshToken", refreshToken, {
+      res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
-        sameSite: "strict",
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'lax',
         maxAge: 24 * 60 * 60 * 1000,
       });
 

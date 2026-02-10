@@ -1,9 +1,9 @@
-import { UserRole } from "../enums/userEnums"
+import { UserRole } from '../enums/userEnums';
 
-export interface Admin{
-    id:string,
-    email:string,
-    password:string
-    googleId?:string|undefined
-    role:UserRole
+export interface Admin {
+  id: string;
+  email: string;
+  password: string;
+  googleId?: string | undefined;
+  role: UserRole;
 }

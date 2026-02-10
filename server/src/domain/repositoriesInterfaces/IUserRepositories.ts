@@ -1,5 +1,5 @@
-import { User } from "../entities/User";
-import { IBaseRepository } from "./IBaseRepository";
+import { User } from '../entities/User';
+import { IBaseRepository } from './IBaseRepository';
 export interface IUserRepository extends IBaseRepository<User> {
   findByEmail(email: string, userId?: string): Promise<User | null>;
   createUser(user: User): Promise<User>;
@@ -7,9 +7,9 @@ export interface IUserRepository extends IBaseRepository<User> {
   updateResetToken(
     userId: string,
     hashedToken: string,
-    resetTokenExpiry: Date,
+    resetTokenExpiry: Date
   ): Promise<void>;
   updatePassword(email: string, password: string): Promise<void>;
- 
+
   updateGoogleId(email: string, googleId: string): Promise<User | null>;
 }

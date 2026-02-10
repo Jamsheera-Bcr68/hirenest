@@ -1,5 +1,3 @@
-
-
 export const emailPasswordResetTemplate = (link: string) => `<!DOCTYPE html>
 <html lang="en">
 <head>

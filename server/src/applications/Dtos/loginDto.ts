@@ -1,5 +1,4 @@
-import { User } from "../../domain/entities/User";
-
+import { User } from '../../domain/entities/User';
 
 export interface loginOutPutDto {
   user: User;
@@ -12,8 +11,8 @@ export interface IloginInput {
   password: string;
 }
 export interface IGoogleAuthDto {
-  isVerified:boolean,
-  googleId:string,
+  isVerified: boolean;
+  googleId: string;
   email: string;
-  name:string
+  name: string;
 }

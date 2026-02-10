@@ -1,4 +1,3 @@
-
-export interface IForgotPasswordUsecase{
-    execute(email:string):Promise<void>
+export interface IForgotPasswordUsecase {
+  execute(email: string): Promise<void>;
 }

@@ -11,7 +11,7 @@ export default function ChangePasswordModal({
   open: boolean;
   onClose: () => void;
 }) {
-  const { showToast, ToastElement } = useToast();
+  const { showToast } = useToast();
   const { handleChange, formData, show, error, setShow, handleSubmit } =
     useChangePassword(showToast, onClose);
 
@@ -122,7 +122,6 @@ export default function ChangePasswordModal({
               Save
             </button>
           </div>
-          {ToastElement}
         </Dialog.Content>
         {/* <ChangePassword /> */}
       </Dialog.Portal>

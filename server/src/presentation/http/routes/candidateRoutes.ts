@@ -1,15 +1,21 @@
-import express from 'express'
-import { profileValidator } from '../middleweres/profileValidator'
-import { authValidator } from '../middleweres/authValidator'
-import { tokenService } from '../../../infrastructure/config/di'
-import { candidateProfileController } from '../../../infrastructure/config/di'
+import express from 'express';
+import { profileValidator } from '../middleweres/profileValidator';
+import { authValidator } from '../middleweres/authValidator';
+import { tokenService } from '../../../infrastructure/config/di';
+import { candidateProfileController } from '../../../infrastructure/config/di';
 
-const router=express.Router()
+const router = express.Router();
 
-router.post('/profile',profileValidator,authValidator(tokenService),candidateProfileController.editProfile)
+router.post(
+  '/profile',
+  profileValidator,
+  authValidator(tokenService),
+  candidateProfileController.editProfile
+);
+router.get(
+  '/profile',
+  authValidator(tokenService),
+  candidateProfileController.getUser
+);
 
-
-export default router
-
-
-
+export default router;

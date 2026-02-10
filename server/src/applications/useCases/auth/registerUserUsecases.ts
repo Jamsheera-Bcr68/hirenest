@@ -1,11 +1,11 @@
-import { IRegisterUseCase } from "../../interfaces/auth/IUserRegisterUseCase";
-import { IRegisterInput, IRegisterOutput } from "../../Dtos/registerTypes";
-import { IUserRepository } from "../../../domain/repositoriesInterfaces/IUserRepositories";
-import { authMessages } from "../../../shared/constants/messages/authMesages";
-import { statusCodes } from "../../../shared/enums/statusCodes";
-import { hashedPassword } from "../../../infrastructure/services/passwordHasher";
-import { User } from "../../../domain/entities/User";
-import { AppError } from "../../../domain/errors/AppError";
+import { IRegisterUseCase } from '../../interfaces/auth/IUserRegisterUseCase';
+import { IRegisterInput, IRegisterOutput } from '../../Dtos/registerTypes';
+import { IUserRepository } from '../../../domain/repositoriesInterfaces/IUserRepositories';
+import { authMessages } from '../../../shared/constants/messages/authMesages';
+import { statusCodes } from '../../../shared/enums/statusCodes';
+import { hashedPassword } from '../../../infrastructure/services/passwordHasher';
+import { User } from '../../../domain/entities/User';
+import { AppError } from '../../../domain/errors/AppError';
 
 export class RegisterUseCase implements IRegisterUseCase {
   private _userRepository: IUserRepository;
@@ -26,7 +26,7 @@ export class RegisterUseCase implements IRegisterUseCase {
 
     const savedUser = await this._userRepository.createUser(user);
 
-    console.log("pending user from registerusecase", user);
+    console.log('pending user from registerusecase', user);
 
     return savedUser;
   }
