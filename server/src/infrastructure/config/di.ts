@@ -14,6 +14,7 @@ import { ChangePasswordUsecase } from '../../applications/useCases/auth/ChangePa
 
 import { CandidateProfileEditUsecase } from '../../applications/useCases/candidate/CandidateProfileEditUsecase';
 import { GetUserUseCase } from '../../applications/useCases/user/GetUserUseCase';
+import { EditProfileImageUseCase } from '../../applications/useCases/user/EditProfileImageUseCase';
 //user
 
 //==Controllers
@@ -44,6 +45,7 @@ import { TokenService } from '../../applications/services/TokenService';
 import { SendOtpService } from '../../applications/services/sendOtpServices';
 import { VerifyOtpService } from '../../applications/services/verifyOtpService';
 import { GoogleAuthService } from '../../applications/services/googleAuthService';
+import { ImageStorageService } from '../services/ImageStorageService';
 
 const userRepository = new UserRepository();
 const otpGenerator = new OtpGenerator();
@@ -54,6 +56,7 @@ const emailService = new EmailService();
 const verifyOtpService = new VerifyOtpService(otpRepository, userRepository);
 export const tokenService = new TokenService();
 const googleAuthService = new GoogleAuthService();
+const imageStorageService=new ImageStorageService()
 
 const registerUseCase = new RegisterUseCase(userRepository);
 const sendOtpService = new SendOtpService(
@@ -88,6 +91,7 @@ const candidateEditProfileUsecase = new CandidateProfileEditUsecase(
 
 //user
 const getUserUserCase = new GetUserUseCase(userRepository);
+const editProfileImageUseCase=new EditProfileImageUseCase(userRepository,imageStorageService)
 
 export const authController = new AuthController(
   registerUseCase,
@@ -117,5 +121,6 @@ export const changePasswordController = new ChangePasswordController(
 
 export const candidateProfileController = new CandidateProfileController(
   candidateEditProfileUsecase,
-  getUserUserCase
+  getUserUserCase,
+  editProfileImageUseCase
 );

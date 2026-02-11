@@ -27,7 +27,7 @@ const BasicDataPart = ({ user, onUserUpdate }: BasicDataProps) => {
             onClick={handleImageClick}
             className="w-32 h-32 bg-gray-300 rounded-full flex items-center justify-center text-gray-600"
           >
-            <img className="rounded-full" src="/profileImage.jpg" alt="" />
+            <img className="rounded-full" src={user?.imageUrl||"/profileImage.jpg"} alt="" />
           </div>
         </div>
 
@@ -221,12 +221,14 @@ const BasicDataPart = ({ user, onUserUpdate }: BasicDataProps) => {
       <ProfileImageViewModal
         open={openImageModal}
         onClose={() => setOpenImageModal(false)}
+        profileImage={user?.imageUrl}
       />
       <ProfileEditModal
         open={openEditModal}
         onClose={() => setOpenEditModal(false)}
         user={user}
         onUserUpdate={onUserUpdate}
+        
       />
     </div>
   );

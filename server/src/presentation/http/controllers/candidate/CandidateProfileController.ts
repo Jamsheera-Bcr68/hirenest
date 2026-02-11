@@ -8,16 +8,21 @@ import type { UpdataUserProfileInput } from '../../validators/profileValidation'
 import { userMessages } from '../../../../shared/constants/messages/userMessages';
 import { IGetUserUseCase } from '../../../../applications/interfaces/user/IGetUserDataUsecase';
 import { UserMapper } from '../../../../applications/mappers/userMapper';
+import { IEditProfileImageUsecase } from '../../../../applications/interfaces/user/IEditProfileImageUsecase';
+import { UploadFileDto } from '../../../../applications/Dtos/uploadFileDto';
 
 export class CandidateProfileController {
   private _candidateEditProfileUsecase: IProfileEditUsecase;
   private _getUserUseCase: IGetUserUseCase;
+  private _editProfileImageUseCase: IEditProfileImageUsecase;
   constructor(
     candidateEditProfileUsecase: IProfileEditUsecase,
-    getUserUseCase: IGetUserUseCase
+    getUserUseCase: IGetUserUseCase,
+    editProfileImageUseCase: IEditProfileImageUsecase
   ) {
     this._candidateEditProfileUsecase = candidateEditProfileUsecase;
     this._getUserUseCase = getUserUseCase;
+    this._editProfileImageUseCase = editProfileImageUseCase;
   }
   editProfile = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
@@ -78,6 +83,45 @@ export class CandidateProfileController {
         message: userMessages.success.USER_FETCHED,
         user: userProfile,
       });
+    } catch (error) {
+      next(error);
+    }
+  };
+
+  editProfileImage = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    console.log('from edit image');
+    const user = req.user;
+    if (!user || !user.role)
+      throw new AppError(
+        authMessages.error.UNAUTHORIZED,
+        statusCodes.UNAUTHERIZED
+      );
+    const file = req.file;
+    if (!file) {
+      throw new AppError(
+        userMessages.error.IMAGE_NOT_FOUND,
+        statusCodes.BADREQUEST
+      );
+    }
+    console.log('file ', file);
+
+    const imageFile: UploadFileDto = {
+      buffer: file.buffer,
+      mimetype: file.mimetype,
+      size: file.size,
+      originalName: file.originalname,
+    };
+    try {
+      const updatedUser = await this._editProfileImageUseCase.execute(
+        user?.userId,
+        user?.role,
+        imageFile
+      );
+      console.log('updted user from controlleer image edit ', updatedUser);
     } catch (error) {
       next(error);
     }

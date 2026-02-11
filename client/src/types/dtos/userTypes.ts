@@ -21,4 +21,5 @@ export interface UserProfileType {
   skills: Array<string>;
   address?: AddressType;
   socialLinks?: ISocialLinks;
+  imageUrl?:string
 }

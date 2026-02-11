@@ -3,7 +3,7 @@ import {
   forgotPasswordSchema,
   resetPasswordSchema,
   googeLoginSchema,
-} from '../validators/loginValidation';
+} from '../../validators/loginValidation';
 import { Request, Response, NextFunction } from 'express';
 export const loginValidator = (
   req: Request,

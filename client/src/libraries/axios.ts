@@ -7,9 +7,9 @@ console.log('VITE_BACKEND_URL', import.meta.env.VITE_BACKEND_URL);
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
   withCredentials: true,
-  headers: {
-    'Content-Type': ' application/json',
-  },
+  // headers: {
+  //   'Content-Type': ' application/json',
+  // },
 });
 const refreshAxios = axios.create({
   baseURL: import.meta.env.VITE_BACKEND_URL,
@@ -57,7 +57,7 @@ axiosInstance.interceptors.response.use(
           {},
           { withCredentials: true }
         );
-        console.log('refresh response', res.data);
+        //console.log('refresh response', res.data);
 
         const newAccessToken = res.data?.accessToken;
         if (!newAccessToken) {
@@ -67,7 +67,7 @@ axiosInstance.interceptors.response.use(
           );
           throw new Error('accessToken not in refresh response');
         }
-        store.dispatch(setAccessToken(newAccessToken));
+        store.dispatch(setAccessToken({accessToken:newAccessToken}));
         //  originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         originalRequest.headers = {
           ...originalRequest.headers,

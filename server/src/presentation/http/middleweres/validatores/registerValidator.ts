@@ -3,9 +3,10 @@ import {
   registerSchema,
   otpSchema,
   resendOtpSchema,
-} from '../validators/registerValidation';
+} from '../../validators/registerValidation';
+
 import { ZodError } from 'zod';
-import { AppError } from '../../../domain/errors/AppError';
+import { AppError } from '../../../../domain/errors/AppError';
 export const registerValidator = (
   req: Request,
   res: Response,

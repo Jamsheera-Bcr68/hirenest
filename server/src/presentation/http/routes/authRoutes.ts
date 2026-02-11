@@ -3,13 +3,13 @@ import {
   otpValidator,
   registerValidator,
   resendOtpValidator,
-} from '../middleweres/registerValidator';
+} from '../middleweres/validatores/registerValidator';
 import {
   loginValidator,
   forgotPasswordValidator,
   resetPasswordValidator,
   googeLoginValidator,
-} from '../middleweres/loginValidator';
+} from '../middleweres/validatores/loginValidator';
 import { authController } from '../../../infrastructure/config/di';
 import { refreshController } from '../../../infrastructure/config/di';
 import { adminAuthController } from '../../../infrastructure/config/di';
@@ -20,7 +20,7 @@ import {
   adminGoogleAuthController,
   changePasswordController,
 } from '../../../infrastructure/config/di';
-import { changePasswordValidator } from '../middleweres/passwordValidator';
+import { changePasswordValidator } from '../middleweres/validatores/passwordValidator';
 import { authValidator } from '../middleweres/authValidator';
 import { tokenService } from '../../../infrastructure/config/di';
 

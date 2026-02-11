@@ -5,5 +5,6 @@ export const userMessages = {
   },
   error: {
     NOT_FOUND: 'User Not found',
+    IMAGE_NOT_FOUND: 'image Not found',
   },
 };

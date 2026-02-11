@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { AuthState } from '../constants/types/user';
+import {type userDto } from '../types/dtos/userTypes';
 
 const savedUser = localStorage.getItem('user');
 const token = localStorage.getItem('accessToken');
@@ -15,7 +16,7 @@ export const authSlice = createSlice({
   reducers: {
     loginSuccess(
       state,
-      action: PayloadAction<{ user: any; accessToken: string }>
+      action: PayloadAction<{ user: userDto; accessToken: string }>
     ) {
       console.log('from login success');
       console.log('action  is ', action);
@@ -27,15 +28,19 @@ export const authSlice = createSlice({
       localStorage.setItem('accessToken', action.payload.accessToken);
     },
     logout(state) {
-      ((state.accessToken = ''),
-        (state.user = null),
-        (state.isAuthenticated = false));
+      state.accessToken = '',
+        state.user = null,
+        state.isAuthenticated = false
       localStorage.removeItem('user');
       localStorage.removeItem('accessToken');
     },
-    setAccessToken(state, action) {
+    setAccessToken(state, action:PayloadAction<{accessToken:string}>) {
       localStorage.setItem('accessToken', action.payload.accessToken);
+      console.log('payload token ',action.payload.accessToken);
+      
       state.accessToken = action.payload.accessToken;
+      //console.log('new access tokes set',state.accessToken);
+      
     },
   },
 });

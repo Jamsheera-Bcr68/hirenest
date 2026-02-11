@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
-import { changePasswordSchema } from '../validators/changePasswordValidation';
+import { changePasswordSchema } from '../../validators/changePasswordValidation';
 import { ZodError } from 'zod';
-import { AppError } from '../../../domain/errors/AppError';
+import { AppError } from '../../../../domain/errors/AppError';
 
 export const changePasswordValidator = (
   req: Request,

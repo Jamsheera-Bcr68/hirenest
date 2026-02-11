@@ -5,7 +5,7 @@ import { authMessages } from '../../../../shared/constants/messages/authMesages'
 import { IUserLoginUseCase } from '../../../../applications/interfaces/auth/IUserLoginUseCase';
 
 import { ISendOtpService } from '../../../../applications/interfaces/services/ISendOtpservice';
-import { IVerifyOtpService } from '../../../../applications/interfaces/services/IVerifyOtpUsecase';
+import { IVerifyOtpService } from '../../../../applications/interfaces/services/IVerifyOtpService';
 import { ILogoutUsecase } from '../../../../applications/interfaces/auth/ILogoutUsecase';
 import { AppError } from '../../../../domain/errors/AppError';
 import { IloginInput } from '../../../../applications/Dtos/loginDto';

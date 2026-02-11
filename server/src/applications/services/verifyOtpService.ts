@@ -1,4 +1,4 @@
-import { IVerifyOtpService } from '../interfaces/services/IVerifyOtpUsecase';
+import { IVerifyOtpService } from '../interfaces/services/IVerifyOtpService';
 import { IOtpRepository } from '../../domain/repositoriesInterfaces/IotpRepository';
 import { IUserRepository } from '../../domain/repositoriesInterfaces/IUserRepositories';
 import { AppError } from '../../domain/errors/AppError';
