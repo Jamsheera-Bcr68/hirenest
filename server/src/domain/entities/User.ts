@@ -1,5 +1,6 @@
 import { UserRole } from '../enums/userEnums';
 import { IAddress, ISocialMediaLinks } from '../values/profileTypes';
+import { UserSkillDto } from '../../applications/Dtos/skillDto';
 
 export class User {
   public readonly id?: string;
@@ -19,6 +20,8 @@ export class User {
   public title?: string;
   public address?: IAddress;
   public socialMediaLinks?: ISocialMediaLinks;
+  public about?:string
+  public skills?:UserSkillDto[]
 
   constructor(
     email: string,
@@ -34,6 +37,9 @@ export class User {
     title?: string,
     address?: IAddress,
     socialMediaLinks?: ISocialMediaLinks,
+    imageUrl?:string|undefined,
+    about?:string,
+    skills?:UserSkillDto[]|[],
     createdAt = new Date(),
     updatedAt = new Date()
   ) {
@@ -52,5 +58,8 @@ export class User {
     this.title = title;
     this.address = address;
     this.socialMediaLinks = socialMediaLinks;
+    this.imageUrl=imageUrl
+    this.about=about
+    this.skills=skills
   }
 }

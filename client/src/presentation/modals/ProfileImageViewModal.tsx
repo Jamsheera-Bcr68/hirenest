@@ -11,8 +11,10 @@ export default function ProfileImgViewModal({
   open,
   onClose,
   profileImage,
+  onUserUpdate,
 }: ProfileImgViewModalProps) {
   const { showToast } = useToast();
+  console.log('profileimage', profileImage);
 
   const {
     preview,
@@ -23,11 +25,13 @@ export default function ProfileImgViewModal({
     zoom,
     setZoom,
     isCropping,
+    setIsCropping,
     onCropComplete,
     imageClick,
     handleFileChange,
     saveCroppedImage,
-  } = useImageChange(showToast);
+    removeProfleImage,
+  } = useImageChange(showToast, onClose, onUserUpdate);
 
   return (
     <Dialog.Root
@@ -54,6 +58,10 @@ export default function ProfileImgViewModal({
             <button
               aria-label="Close"
               className="absolute top-3 right-3 p-2 rounded-full hover:bg-gray-100"
+              onClick={()=>{
+                setPreview(null),
+               setIsCropping (false)
+              }}
             >
               <X size={20} />
             </button>
@@ -70,37 +78,6 @@ export default function ProfileImgViewModal({
                   className="w-4/5 h-3/4  object-cover border"
                 />
               </div>
-              {/* <div className="flex flex-col ">
-                {profileImage ? (
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => {
-                        imageClick();
-                      }}
-                      className="w-full w-1/4 ml-4  rounded-md bg-blue-600 text-white hover:bg-blue-700"
-                    >
-                      Change Image
-                    </button>
-                    <button
-                      onClick={() => setPreview(null)}
-                      className="w-full w-1/4 ml-2 mr-3 rounded-md border border-red-600 text-red-600 py-2 hover:bg-red-50"
-                    >
-                      Remove Image
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex justify-center">
-                    <button
-                      onClick={() => {
-                        imageClick();
-                      }}
-                      className="w-1/2 mt-3 rounded-md bg-indigo-600 text-white py-2 hover:bg-blue-700"
-                    >
-                      Add Image
-                    </button>
-                  </div>
-                )}
-              </div> */}
             </>
           )}
           {isCropping && preview && (
@@ -127,7 +104,11 @@ export default function ProfileImgViewModal({
                   Save
                 </button>
                 <button
-                  onClick={() => setPreview(null)}
+                  onClick={() => {
+                    setPreview(null)
+                    setIsCropping(false)
+                  }}
+
                   className="w-full w-1/4 ml-2 mr-3 mt-3 rounded-md border border-red-600 text-red-600 py-2 hover:bg-red-50"
                 >
                   Cancel
@@ -151,7 +132,7 @@ export default function ProfileImgViewModal({
                   Change Image
                 </button>
                 <button
-                  //  onClick={() => setProfileImage(null)}
+                  onClick={removeProfleImage}
                   className="w-full w-1/4 mt-3 ml-2 mr-3 rounded-md border border-red-600 text-red-600 py-2 hover:bg-red-50"
                 >
                   Remove Image
@@ -159,54 +140,6 @@ export default function ProfileImgViewModal({
               </div>
             )}
           </div>
-
-          {/* Buttons */}
-          {/* <div className="flex flex-col ">
-                {profileImage &&!isCropping ? (
-                  <div className="flex gap-2">
-                    <button
-                      onClick={() => {
-                        imageClick();
-                      }}
-                      className="w-full w-1/4 ml-4  rounded-md bg-blue-600 text-white hover:bg-blue-700"
-                    >
-                      Change Image
-                    </button>
-                    <button
-                      onClick={() => setPreview(null)}
-                      className="w-full w-1/4 ml-2 mr-3 rounded-md border border-red-600 text-red-600 py-2 hover:bg-red-50"
-                    >
-                      Remove Image
-                    </button>
-                  </div>
-                ) :!isCropping? (
-                  <div className="flex justify-center">
-                    <button
-                      onClick={() => {
-                        imageClick();
-                      }}
-                      className="w-1/2 mt-3 rounded-md bg-indigo-600 text-white py-2 hover:bg-blue-700"
-                    >
-                      Add Image
-                    </button>
-                  </div>
-                ):isCropping&&preview?(<div className="flex gap-2">
-                    <button
-                      onClick={() => {
-                        saveCroppedImage();
-                      }}
-                      className="w-full w-1/4 ml-4  rounded-md bg-blue-600 text-white hover:bg-blue-700"
-                    >
-                      save
-                    </button>
-                    <button
-                      onClick={() => setPreview(null)}
-                      className="w-full w-1/4 ml-2 mr-3 rounded-md border border-red-600 text-red-600 py-2 hover:bg-red-50"
-                    >
-                     cancel
-                    </button>
-                  </div>)}
-              </div> */}
 
           {/* Hidden file input */}
           <input

@@ -24,7 +24,7 @@ export class CandidateProfileEditUsecase implements IProfileEditUsecase {
       role: data.role,
     });
     console.log('user from usercase ', user);
-    if (!user) {
+    if (!user||!user.id) {
       throw new AppError(
         authMessages.error.USER_NOT_FOUND,
         statusCodes.NOTFOUND
@@ -54,7 +54,7 @@ export class CandidateProfileEditUsecase implements IProfileEditUsecase {
     user.socialMediaLinks = links;
     console.log('user before saving ', user);
 
-    const updated = await this._userRepository.save(user);
+    const updated = await this._userRepository.save(user?.id,user);
     if (!updated) {
       throw new AppError(
         authMessages.error.USERID_NOT_FOUND,

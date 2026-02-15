@@ -4,6 +4,7 @@ import {
   IAddress,
   ISocialMediaLinks,
 } from '../../../../domain/values/profileTypes';
+import { ISkillDocument } from './skillModel';
 
 export interface IUserDocument extends Document {
   _id: Types.ObjectId;
@@ -23,6 +24,8 @@ export interface IUserDocument extends Document {
   imageUrl?: string;
   isBlocked: boolean;
   socialMediaLinks: ISocialMediaLinks;
+  about:string
+  skills:Types.ObjectId[]|ISkillDocument[]
 }
 
 const userSchema = new Schema<IUserDocument>({
@@ -35,7 +38,7 @@ const userSchema = new Schema<IUserDocument>({
     required: true,
     default: UserRole.CANDIDATE,
   },
-
+  imageUrl: { type: String },
   resetToken: { type: String },
   resetTokenExpiry: { type: Date },
   name: { type: String },
@@ -56,6 +59,8 @@ const userSchema = new Schema<IUserDocument>({
       portfolio: String,
     },
   },
+  about:{type:String},
+  skills:{type:[Schema.Types.ObjectId],ref:'Skill',default:[]}
 });
 export const userModel: Model<IUserDocument> = model<IUserDocument>(
   'User',

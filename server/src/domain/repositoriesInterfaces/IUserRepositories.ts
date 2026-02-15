@@ -12,4 +12,6 @@ export interface IUserRepository extends IBaseRepository<User> {
   updatePassword(email: string, password: string): Promise<void>;
 
   updateGoogleId(email: string, googleId: string): Promise<User | null>;
+  addSkill(id:string,skillId:string):Promise<User|null>
+  removeSkill(userId:string,skillId:string):Promise<User|null>
 }

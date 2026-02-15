@@ -3,34 +3,47 @@ import { useProfile } from '../../../hooks/user/candidate/profile/useProfile';
 import { useToast } from '../../../../shared/toast/useToast';
 import type { UserProfileType } from '../../../../types/dtos/userTypes';
 
-// import AboutMe from './AboutMe';
-// import Skills from './Skills';
-// import Experience from './Experience';
+import AboutMe from './AboutMe';
+import Skills from './Skills';
+import Experience from './Experience';
 // import Education from './Education';
 
 const ProfilePart = () => {
   console.log('from candidate profiel');
   const { showToast } = useToast();
-  const { user, setUser } = useProfile(showToast);
+  const { user, setUser, allSkills } = useProfile(showToast);
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Sidebar - Profile Card */}
-        <BasicDataPart
-          user={user}
-          onUserUpdate={(updatedUser: UserProfileType) => setUser(updatedUser)}
-        />
+        <div >
+          <BasicDataPart
+            user={user}
+            onUserUpdate={(updatedUser: UserProfileType) =>
+              setUser(updatedUser)
+            }
+          />
+        </div>
 
         {/* Right Side - Main Content */}
-        <div className="lg:col-span-2 space-y-6">
+        <div className="lg:col-span-2  space-y-6">
           {/* About Me */}
-          {/* <AboutMe/> */}
+          <AboutMe
+            user={user}
+            onUserUpdate={(updatedUser: UserProfileType) =>
+              setUser(updatedUser)
+            }
+          />
 
           {/* Skills */}
-          {/* <Skills/> */}
+          <Skills
+            user={user}
+            skills={allSkills}
+            onUserUpdate={(updated: UserProfileType) => setUser(updated)}
+          />
 
           {/* Experience */}
-          {/* <Experience/> */}
+          <Experience  />
 
           {/* Education */}
           {/* <Education/> */}

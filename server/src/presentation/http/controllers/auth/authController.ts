@@ -32,14 +32,14 @@ export class AuthController {
     this._logoutUsecase = logoutUsecase;
   }
   register = async (req: Request, res: Response, next: NextFunction) => {
-    console.log('register controller');
+   // console.log('register controller');
 
     try {
       const payload = req.body;
       const pendingUser = await this._registerUseCase.execute(payload);
-      console.log('user', pendingUser);
+    //  console.log('user', pendingUser);
       const otp_expiry = await this._sendOtpService.execute(pendingUser.email);
-      console.log('otp expiry from aut conroller', otp_expiry);
+    //  console.log('otp expiry from aut conroller', otp_expiry);
       res.status(statusCodes.CREATED).json({
         sucess: true,
         message: authMessages.success.PENDING_SIGNUP,
@@ -82,17 +82,17 @@ export class AuthController {
     }
   };
   login = async (req: Request, res: Response, next: NextFunction) => {
-    console.log('from login controller');
+  //  console.log('from login controller');
     try {
       const payload: IloginInput = req.body;
       const { user, refreshToken, accessToken } =
         await this._loginUseCase.execute(payload);
       const userDto = UserMapper.toDto(user);
 
-      console.log(
-        ' response from authcontroller refreshToken is ',
-        refreshToken
-      );
+    // //  console.log(
+    //     ' response from authcontroller refreshToken is ',
+    //     refreshToken
+    //   );
 
       res.cookie('refreshToken', refreshToken, {
         httpOnly: true,
@@ -101,7 +101,7 @@ export class AuthController {
         maxAge: 7 * 24 * 60 * 60,
         path: '/',
       });
-      console.log('Set-Cookie header:', res.getHeader('Set-Cookie'));
+     // console.log('Set-Cookie header:', res.getHeader('Set-Cookie'));
       return res.status(statusCodes.OK).json({
         success: true,
         message: authMessages.success.LOGIN_SUCCESS,

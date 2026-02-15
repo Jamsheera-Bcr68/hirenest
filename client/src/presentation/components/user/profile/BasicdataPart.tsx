@@ -4,9 +4,12 @@ import ProfileImageViewModal from '../../../modals/ProfileImageViewModal';
 import ProfileEditModal from '../../../modals/EditProfileModal';
 import { Twitter } from 'lucide-react';
 
-import { type BasicDataProps } from '../../../../types/propTypes/profileProps';
+import { type BasicDataProps } from '../../../../types/propTypes/profileProps';import { process } from 'zod/v4/core';
 
 const BasicDataPart = ({ user, onUserUpdate }: BasicDataProps) => {
+  const BASE_URL=import.meta.env.VITE_BACKEND_URL
+  console.log('baser ulr',BASE_URL);
+  
   const {
     handleChangePassword,
     open,
@@ -27,7 +30,10 @@ const BasicDataPart = ({ user, onUserUpdate }: BasicDataProps) => {
             onClick={handleImageClick}
             className="w-32 h-32 bg-gray-300 rounded-full flex items-center justify-center text-gray-600"
           >
-            <img className="rounded-full" src={user?.imageUrl||"/profileImage.jpg"} alt="" />
+            <img onError={(e)=>{
+              console.log('failed url',e.currentTarget.src);
+              
+              e.currentTarget.src="/profileImage.jpg"}} className="rounded-full" src={user?.imageUrl?`${BASE_URL}${user?.imageUrl}`:"/profileImage.jpg"} alt="" />
           </div>
         </div>
 
@@ -221,7 +227,8 @@ const BasicDataPart = ({ user, onUserUpdate }: BasicDataProps) => {
       <ProfileImageViewModal
         open={openImageModal}
         onClose={() => setOpenImageModal(false)}
-        profileImage={user?.imageUrl}
+        profileImage={user?.imageUrl?`${BASE_URL}${user?.imageUrl}`:''}
+        onUserUpdate={onUserUpdate}
       />
       <ProfileEditModal
         open={openEditModal}

@@ -17,7 +17,7 @@ export class UserMapper {
       id: user.id,
       email: user.email,
       phone: user.phone,
-
+      skills: user.skills,
       name: user.name,
 
       imageUrl: user.imageUrl,
@@ -25,6 +25,7 @@ export class UserMapper {
 
       address: user.address,
       socialLinks: user.socialMediaLinks,
+      about: user.about,
     };
   }
 }

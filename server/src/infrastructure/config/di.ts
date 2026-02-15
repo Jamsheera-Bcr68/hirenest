@@ -15,8 +15,13 @@ import { ChangePasswordUsecase } from '../../applications/useCases/auth/ChangePa
 import { CandidateProfileEditUsecase } from '../../applications/useCases/candidate/CandidateProfileEditUsecase';
 import { GetUserUseCase } from '../../applications/useCases/user/GetUserUseCase';
 import { EditProfileImageUseCase } from '../../applications/useCases/user/EditProfileImageUseCase';
+import { RemoveProfileImageUseCase } from '../../applications/useCases/user/RemoveProfileImageUseCase';
+import { EditAboutUseCase } from '../../applications/useCases/candidate/EditAboutUseCase';
+import { AddSkillsToProfieUseCase } from '../../applications/useCases/candidate/AddSkillstoProfileUseCase';
+import { RemoveSkillFromProfileUseCase } from '../../applications/useCases/candidate/RemoveSkillFromProfileUseCase';
 //user
-
+//skills
+import { GetAllSkillsUseCase } from '../../applications/useCases/skills/GetAllSkillsUseCase';
 //==Controllers
 //auth
 import { AuthController } from '../../presentation/http/controllers/auth/authController';
@@ -28,14 +33,17 @@ import { GoogleLoginController } from '../../presentation/http/controllers/auth/
 import { AdminGoogleAuthController } from '../../presentation/http/controllers/auth/AdminGoogleLoginController';
 import { ChangePasswordController } from '../../presentation/http/controllers/auth/ChangePasswordController';
 
+
+
 //candidate
 import { CandidateProfileController } from '../../presentation/http/controllers/candidate/CandidateProfileController';
-
+import { SkillsController } from '../../presentation/http/controllers/SkillsController';
 //==repsitories
 
 import { UserRepository } from '../repositories/user/userRepository';
 import { OtpRepository } from '../repositories/user/otpRepository';
 import { AdminRepository } from '../repositories/admin/adminRepository';
+import { SkillRepository } from '../repositories/user/SkillsRepository';
 
 //services
 
@@ -47,16 +55,18 @@ import { VerifyOtpService } from '../../applications/services/verifyOtpService';
 import { GoogleAuthService } from '../../applications/services/googleAuthService';
 import { ImageStorageService } from '../services/ImageStorageService';
 
+//repositories
 const userRepository = new UserRepository();
 const otpGenerator = new OtpGenerator();
 const otpRepository = new OtpRepository();
 const adminRepository = new AdminRepository();
+const skillRepository = new SkillRepository();
 
 const emailService = new EmailService();
 const verifyOtpService = new VerifyOtpService(otpRepository, userRepository);
 export const tokenService = new TokenService();
 const googleAuthService = new GoogleAuthService();
-const imageStorageService=new ImageStorageService()
+const imageStorageService = new ImageStorageService();
 
 const registerUseCase = new RegisterUseCase(userRepository);
 const sendOtpService = new SendOtpService(
@@ -88,10 +98,23 @@ const changePasswordUsecase = new ChangePasswordUsecase(userRepository);
 const candidateEditProfileUsecase = new CandidateProfileEditUsecase(
   userRepository
 );
+const addSkilltoProfileUseCase=new AddSkillsToProfieUseCase(userRepository,skillRepository)
+const removeSkillFromProfileUseCase=new RemoveSkillFromProfileUseCase(userRepository)
 
 //user
 const getUserUserCase = new GetUserUseCase(userRepository);
-const editProfileImageUseCase=new EditProfileImageUseCase(userRepository,imageStorageService)
+const editProfileImageUseCase = new EditProfileImageUseCase(
+  userRepository,
+  imageStorageService
+);
+const removeProfileImageUseCase = new RemoveProfileImageUseCase(
+  userRepository,
+  imageStorageService
+);
+const editAboutUsecase = new EditAboutUseCase(userRepository);
+
+//skills
+const getAllSkillsUseCase = new GetAllSkillsUseCase(skillRepository);
 
 export const authController = new AuthController(
   registerUseCase,
@@ -122,5 +145,11 @@ export const changePasswordController = new ChangePasswordController(
 export const candidateProfileController = new CandidateProfileController(
   candidateEditProfileUsecase,
   getUserUserCase,
-  editProfileImageUseCase
+  editProfileImageUseCase,
+  removeProfileImageUseCase,
+  editAboutUsecase,
+  addSkilltoProfileUseCase,
+  removeSkillFromProfileUseCase
 );
+
+export const skillController=new SkillsController(getAllSkillsUseCase)

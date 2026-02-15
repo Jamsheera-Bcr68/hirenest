@@ -19,5 +19,9 @@ router.get(
   candidateProfileController.getUser
 );
 router.patch('/profile/image',authValidator(tokenService),upload.single("image"),candidateProfileController.editProfileImage)
+router.delete('/profile/image',authValidator(tokenService),candidateProfileController.removeProfileImage)
+router.patch('/profile/about',authValidator(tokenService),candidateProfileController.addAbout)
+router.patch('/profile/skills/add',authValidator(tokenService),candidateProfileController.addSkill)
+router.patch('/profile/skills/remove/:skillId',authValidator(tokenService),candidateProfileController.removeSkill)
 
 export default router;

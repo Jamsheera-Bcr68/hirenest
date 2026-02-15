@@ -1,4 +1,4 @@
-import { Model, Types } from 'mongoose';
+import { Model, Types, UpdateQuery } from 'mongoose';
 import { IBaseRepository } from '../../domain/repositoriesInterfaces/IBaseRepository';
 
 export abstract class GenericRepository<
@@ -24,24 +24,28 @@ export abstract class GenericRepository<
     if (!document) return null;
     else return this.mapToEntity(document);
   }
-  async save(entity: T): Promise<T | null> {
-    console.log('entity from repo ', entity);
-
+  async save(id: string, data: Partial<T>): Promise<T | null> {
+    console.log('entity from generic  repo ', data);
+    const persisted = this.mapToPersistance(data);
+    console.log('persisted ',persisted);
+    
     const updated = await this._model.findByIdAndUpdate(
-      entity.id,
-      this.mapToPersistance(entity),
+      id,
+      persisted as UpdateQuery<D>,
       { new: true }
-    );
-    console.log('updated from user repo', updated);
+    )
+    console.log('updated from user after savig repo', updated);
 
     if (!updated) return null;
     return this.mapToEntity(updated);
   }
   async findById(id: string): Promise<T | null> {
+    console.log('from general reppo findby id');
+    
     const user = await this._model.findById(id);
     if (!user) return null;
     return this.mapToEntity(user);
   }
   protected abstract mapToEntity(doc: D): T;
-  protected abstract mapToPersistance(entity: T): Partial<D>;
+  protected abstract mapToPersistance(entity: Partial<T>): Partial<D>;
 }

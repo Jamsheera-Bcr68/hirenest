@@ -100,7 +100,7 @@ export const useProfileEdit = (
     try {
       const response = await axiosInstance.post('/candidate/profile', formData);
       console.log('response from backend after updating user ', response);
-      const updated = response.data.user;
+      const updated:UserProfileType = response.data.user;
       showToast({ msg: response.data.message, type: 'success' });
       onUserUpdate(updated);
       onClose();

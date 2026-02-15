@@ -4,11 +4,10 @@ import { AppError } from '../../../domain/errors/AppError';
 import { IUserRepository } from '../../../domain/repositoriesInterfaces/IUserRepositories';
 import { userMessages } from '../../../shared/constants/messages/userMessages';
 import { statusCodes } from '../../../shared/enums/statusCodes';
-import { UploadFileDto } from '../../Dtos/uploadFileDto';
-import { IEditProfileImageUsecase } from '../../interfaces/user/IEditProfileImageUsecase';
+import { IRemoveProfileImageUseCase } from '../../interfaces/user/IRemoveProfileImage';
 import { IImageStorageService } from '../../interfaces/services/IImageStorage';
 
-export class EditProfileImageUseCase implements IEditProfileImageUsecase {
+export class RemoveProfileImageUseCase implements IRemoveProfileImageUseCase {
   private _userRepository: IUserRepository;
   private _imageStorageService: IImageStorageService;
   constructor(
@@ -18,20 +17,18 @@ export class EditProfileImageUseCase implements IEditProfileImageUsecase {
     this._userRepository = userRepository;
     this._imageStorageService = imageStorageService;
   }
-  async execute(
-    userId: string,
-    role: UserRole,
-    file: UploadFileDto
-  ): Promise<User> {
+  async execute(userId: string, role: UserRole): Promise<User> {
     const user = await this._userRepository.findById(userId);
-    if (!user||!user.id || user.role !== role) {
+    if (!user || !user.role || !user.id)
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
-    }
-    user.imageUrl = await this._imageStorageService.uploadImage(file);
-    const updated = await this._userRepository.save(user?.id,user);
-    if (!updated) {
+      if(!user.imageUrl) throw new AppError(userMessages.error.IMAGE_ALREADY_REMOVED, statusCodes.CONFLICT);
+    const fileName=user.imageUrl
+  
+    user.imageUrl = '';
+    const updatad = await this._userRepository.save(user.id, user);
+    if (!updatad)
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
-    }
-    return updated;
+    await this._imageStorageService.removeImage(fileName)
+    return updatad;
   }
 }

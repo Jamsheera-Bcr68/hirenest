@@ -7,8 +7,7 @@ import { loginSuccess } from '../../../redux/authSlice';
 import { useDispatch } from 'react-redux';
 import { useGoogleLogin } from '@react-oauth/google';
 
-import { type typeOfToast } from '../../../shared/toast/useToast';
-
+import { type typeOfToast} from '../../../types/toastTypes'
 type Errors = {
   email?: string;
   password?: string;
