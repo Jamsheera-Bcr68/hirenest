@@ -22,6 +22,7 @@ const Skills = ({
     setSkillName,
     removeSkill,
     filteredSkills,
+    setIsAddSkill,
   } = useEditProfileDetails(showToast, onUserUpdate, user, skills);
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
@@ -70,12 +71,15 @@ const Skills = ({
       {isAddSkill && (
         <div className="mt-2">
           <input
+            onBlur={() => {
+              setSkillName('');
+              setIsAddSkill(false);
+            }}
             value={skillName}
             type="text"
             onChange={(e) => {
-              setSkillName(e.target.value)
-              console.log('skill name ',skillName);
-              
+              setSkillName(e.target.value);
+              console.log('skill name ', skillName);
             }}
             placeholder="Enter a skill"
             className="
@@ -99,10 +103,9 @@ const Skills = ({
           {filteredSkills.map((skill) => (
             <div
               key={skill.id}
-               onClick={() => {
-                setSkillName(skill.skillName)
-               
-               }}
+              onClick={() => {
+                setSkillName(skill.skillName);
+              }}
               className="p-2 hover:bg-gray-100 border cursor-pointer"
             >
               {skill.skillName}

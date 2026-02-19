@@ -1,4 +1,5 @@
 import { User } from '../entities/User';
+import { IExperience } from '../values/profileTypes';
 import { IBaseRepository } from './IBaseRepository';
 export interface IUserRepository extends IBaseRepository<User> {
   findByEmail(email: string, userId?: string): Promise<User | null>;
@@ -12,6 +13,8 @@ export interface IUserRepository extends IBaseRepository<User> {
   updatePassword(email: string, password: string): Promise<void>;
 
   updateGoogleId(email: string, googleId: string): Promise<User | null>;
-  addSkill(id:string,skillId:string):Promise<User|null>
-  removeSkill(userId:string,skillId:string):Promise<User|null>
+  addSkill(id: string, skillId: string): Promise<User | null>;
+  removeSkill(userId: string, skillId: string): Promise<User | null>;
+  addExperience(userId:string,experienceId:string):Promise<User|null>
+  removeExperience(userId:string,expId:string):Promise<User|null>
 }

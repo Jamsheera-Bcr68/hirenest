@@ -24,11 +24,11 @@ export class EditProfileImageUseCase implements IEditProfileImageUsecase {
     file: UploadFileDto
   ): Promise<User> {
     const user = await this._userRepository.findById(userId);
-    if (!user||!user.id || user.role !== role) {
+    if (!user || !user.id || user.role !== role) {
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
     }
     user.imageUrl = await this._imageStorageService.uploadImage(file);
-    const updated = await this._userRepository.save(user?.id,user);
+    const updated = await this._userRepository.save(user?.id, user);
     if (!updated) {
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
     }

@@ -18,10 +18,10 @@ export class SkillRepository
     const skills = await this._model.find({
       status: SkillStatus.APPROVED,
     });
-   // console.log('skills are ',skills);
-    
+    // console.log('skills are ',skills);
+
     if (!skills.length) return [];
-     return  this.mapToEntities(skills)
+    return this.mapToEntities(skills);
   }
   protected mapToEntity(doc: ISkillDocument): Skill {
     return {
@@ -30,16 +30,15 @@ export class SkillRepository
       createdBy: doc.createdBy,
     };
   }
-  mapToEntities(docs:ISkillDocument[]):Skill[]{
-      return docs.map(doc=>this.mapToEntity(doc))
+  mapToEntities(docs: ISkillDocument[]): Skill[] {
+    return docs.map((doc) => this.mapToEntity(doc));
   }
   protected mapToPersistance(entity: Partial<Skill>): Partial<ISkillDocument> {
-    return{
-      skillName:entity.skillName,
-     createdBy:entity.createdBy,
-      createdAt:entity.createdAt,
-      status:entity.status
-    }
+    return {
+      skillName: entity.skillName,
+      createdBy: entity.createdBy,
+      createdAt: entity.createdAt,
+      status: entity.status,
+    };
   }
-
 }

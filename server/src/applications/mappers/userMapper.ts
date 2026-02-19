@@ -19,7 +19,7 @@ export class UserMapper {
       phone: user.phone,
       skills: user.skills,
       name: user.name,
-
+      experience: user.experience,
       imageUrl: user.imageUrl,
       title: user.title,
 

@@ -16,7 +16,7 @@ const ProfilePart = () => {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Left Sidebar - Profile Card */}
-        <div >
+        <div>
           <BasicDataPart
             user={user}
             onUserUpdate={(updatedUser: UserProfileType) =>
@@ -43,7 +43,7 @@ const ProfilePart = () => {
           />
 
           {/* Experience */}
-          <Experience  />
+          <Experience user={user}  onUserUpdate={(updated: UserProfileType) => setUser(updated)} />
 
           {/* Education */}
           {/* <Education/> */}

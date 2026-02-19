@@ -20,7 +20,7 @@ export class AddSkillsToProfieUseCase implements IAddSkillToProfileUseCase {
   async execute(id: string, skillName: string, role: UserRole): Promise<User> {
     console.log('from add skill to profiel usercase');
 
-    const user = await this._userRepository.findById(id)
+    const user = await this._userRepository.findById(id);
     if (!user || !user.id || user.role !== role)
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
 
@@ -37,21 +37,23 @@ export class AddSkillsToProfieUseCase implements IAddSkillToProfileUseCase {
         userMessages.error.INVALID_SKILL,
         statusCodes.BADREQUEST
       );
-      const skillExist=user.skills?.find(skill=>skill.skillName==skillName)
+    const skillExist = user.skills?.find(
+      (skill) => skill.skillName == skillName
+    );
     if (skillExist) {
       throw new AppError(
         userMessages.error.SKILL_ALREADY_EXIST,
         statusCodes.CONFLICT
       );
     }
-   user.skills?.push(skill);
+    user.skills?.push(skill);
     // console.log('usr.skills', user.skills);
 
     const updated = await this._userRepository.addSkill(user.id, skill.id);
     if (!updated)
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
-    console.log('skill updated user for addskillusecase ',updated);
-    
+    console.log('skill updated user for addskillusecase ', updated);
+
     return updated;
   }
 }

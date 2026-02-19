@@ -14,7 +14,7 @@ const AboutMe = ({
     addAbout,
     isEditing,
     handleChange,
-   onEdit,
+    onEdit,
     value,
     cancelEdit,
     onBlur,

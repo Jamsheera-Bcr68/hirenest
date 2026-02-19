@@ -53,7 +53,7 @@ export default function ProfileEditModal({
             </button>
           </Dialog.Close>
           <Dialog.Title className="text-2xl font-semibold mt-3 text-indigo-800 text-center">
-            Edit Profie
+            Edit Profile
           </Dialog.Title>
           <form action="" onSubmit={handleSubmit}>
             <div className="mt-6 space-y-3 ml-2">

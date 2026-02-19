@@ -1,7 +1,9 @@
 import { Types, Schema, model, Model, Document } from 'mongoose';
 import { UserRole } from '../../../../domain/enums/userEnums';
+import { WorkMode } from '../../../../domain/enums/WorkMode';
 import {
   IAddress,
+  IExperience,
   ISocialMediaLinks,
 } from '../../../../domain/values/profileTypes';
 import { ISkillDocument } from './skillModel';
@@ -24,8 +26,9 @@ export interface IUserDocument extends Document {
   imageUrl?: string;
   isBlocked: boolean;
   socialMediaLinks: ISocialMediaLinks;
-  about:string
-  skills:Types.ObjectId[]|ISkillDocument[]
+  about: string;
+  skills: Types.ObjectId[] | ISkillDocument[];
+  experience: Types.ObjectId[] | [];
 }
 
 const userSchema = new Schema<IUserDocument>({
@@ -59,8 +62,10 @@ const userSchema = new Schema<IUserDocument>({
       portfolio: String,
     },
   },
-  about:{type:String},
-  skills:{type:[Schema.Types.ObjectId],ref:'Skill',default:[]}
+  about: { type: String },
+  skills: { type: [Schema.Types.ObjectId], ref: 'Skill', default: [] },
+  experience:{type:[Schema.Types.ObjectId],ref:'Experience',default:[]},
+  
 });
 export const userModel: Model<IUserDocument> = model<IUserDocument>(
   'User',

@@ -13,10 +13,14 @@ export interface ISkillDocument extends Document {
 const skillSchema = new mongoose.Schema<ISkillDocument>({
   _id: Types.ObjectId,
   skillName: String,
-  createdBy:{type:String,enum:Object.values(UserRole)},
+  createdBy: { type: String, enum: Object.values(UserRole) },
   createdAt: { type: Date, default: new Date() },
 
-  status: {type:String,enum:Object.values(SkillStatus),default:SkillStatus.PENDING},
+  status: {
+    type: String,
+    enum: Object.values(SkillStatus),
+    default: SkillStatus.PENDING,
+  },
 });
 
 export const skillModel: Model<ISkillDocument> = model<ISkillDocument>(

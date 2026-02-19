@@ -14,6 +14,12 @@ export const useEditProfileDetails = (
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [value, setValue] = useState<string>('');
 
+  //skills component
+  const [isAddSkill, setIsAddSkill] = useState<boolean>(false);
+  const [skillName, setSkillName] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  //const [filteredSkill, setFilteredSkill] = useState<SkillType[] | []>([]);
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setIsEditing(true);
     setValue(e.target.value);
@@ -58,15 +64,9 @@ export const useEditProfileDetails = (
     }
   };
 
-  //skills component
-  const [isAddSkill, setIsAddSkill] = useState<boolean>(false);
-  const [skillName, setSkillName] = useState<string>('');
-  const [error, setError] = useState<string>('');
-  const [filteredSkill, setFilteredSkill] = useState<SkillType[] | []>([]);
-console.log('skiilfrom paraent',skills);
-
+  //for skill componet
   const addSkill = async () => {
-    setFilteredSkill([]);
+   // setFilteredSkill([]);
     if (!isAddSkill) {
       setIsAddSkill(true);
       setSkillName('');
@@ -115,7 +115,7 @@ console.log('skiilfrom paraent',skills);
       });
     }
   };
-  
+
   const filteredSkills = useMemo(() => {
     if (!skillName.trim()) return [];
     return skills
@@ -143,7 +143,7 @@ console.log('skiilfrom paraent',skills);
     skillName,
     setSkillName,
     removeSkill,
-
+setIsAddSkill,
     filteredSkills,
   };
 };

@@ -8,5 +8,3 @@ export type AuthState = {
 export type StateType = {
   auth: AuthState;
 };
-
-

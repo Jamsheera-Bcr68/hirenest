@@ -58,9 +58,8 @@ export default function ProfileImgViewModal({
             <button
               aria-label="Close"
               className="absolute top-3 right-3 p-2 rounded-full hover:bg-gray-100"
-              onClick={()=>{
-                setPreview(null),
-               setIsCropping (false)
+              onClick={() => {
+                (setPreview(null), setIsCropping(false));
               }}
             >
               <X size={20} />
@@ -105,10 +104,9 @@ export default function ProfileImgViewModal({
                 </button>
                 <button
                   onClick={() => {
-                    setPreview(null)
-                    setIsCropping(false)
+                    setPreview(null);
+                    setIsCropping(false);
                   }}
-
                   className="w-full w-1/4 ml-2 mr-3 mt-3 rounded-md border border-red-600 text-red-600 py-2 hover:bg-red-50"
                 >
                   Cancel

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { registerSchema } from '../../../libraries/validations/auth/registerValidations';
 import axios from '../../../libraries/axios';
 import { useNavigate } from 'react-router-dom';
-import { type typeOfToast } from '../../../types/toastTypes'
+import { type typeOfToast } from '../../../types/toastTypes';
 
 type FormErrors = {
   email?: string;

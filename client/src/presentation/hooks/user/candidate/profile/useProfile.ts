@@ -8,7 +8,6 @@ import { type SkillType } from '../../../../../types/dtos/skillTypes';
 export const useProfile = (showToast: (toast: typeOfToast) => void) => {
   const [user, setUser] = useState<UserProfileType>();
   const [allSkills, setAllSkills] = useState<SkillType[]>([]);
- // const [filteredSkills, setFileteredSkills] = useState<SkillType[]>([]);
 
   const navigate = useNavigate();
   useEffect(() => {
@@ -50,5 +49,5 @@ export const useProfile = (showToast: (toast: typeOfToast) => void) => {
     getAllSkills();
   }, []);
 
-  return { user, setUser,allSkills };
+  return { user, setUser, allSkills };
 };

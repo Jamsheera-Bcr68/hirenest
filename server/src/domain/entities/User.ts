@@ -1,6 +1,8 @@
 import { UserRole } from '../enums/userEnums';
-import { IAddress, ISocialMediaLinks } from '../values/profileTypes';
+import { IAddress, IExperience, ISocialMediaLinks } from '../values/profileTypes';
 import { UserSkillDto } from '../../applications/Dtos/skillDto';
+
+import { Experience } from './Experience';
 
 export class User {
   public readonly id?: string;
@@ -20,26 +22,29 @@ export class User {
   public title?: string;
   public address?: IAddress;
   public socialMediaLinks?: ISocialMediaLinks;
-  public about?:string
-  public skills?:UserSkillDto[]
+  public about?: string;
+  public skills?: UserSkillDto[];
+  public experience:Experience[]
 
   constructor(
     email: string,
     password: string,
     phone: string,
     isVerified: boolean,
+     experience:Experience[]|[],
     id?: string | undefined,
     resetToken?: string,
     resetTokenExpiry?: Date | undefined,
     googleId?: string,
-    role?: UserRole | undefined,
+    role?: UserRole|undefined,
     name?: string,
     title?: string,
     address?: IAddress,
     socialMediaLinks?: ISocialMediaLinks,
-    imageUrl?:string|undefined,
-    about?:string,
-    skills?:UserSkillDto[]|[],
+    imageUrl?: string | undefined,
+    about?: string,
+    skills?: UserSkillDto[] | [],
+   
     createdAt = new Date(),
     updatedAt = new Date()
   ) {
@@ -50,6 +55,7 @@ export class User {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.isVerified = isVerified;
+    this.experience=experience,
     this.resetToken = resetToken;
     this.resetTokenExpiry = resetTokenExpiry;
     this.googleId = googleId;
@@ -58,8 +64,9 @@ export class User {
     this.title = title;
     this.address = address;
     this.socialMediaLinks = socialMediaLinks;
-    this.imageUrl=imageUrl
-    this.about=about
-    this.skills=skills
+    this.imageUrl = imageUrl;
+    this.about = about;
+    this.skills = skills;
+    
   }
 }

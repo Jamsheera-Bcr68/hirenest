@@ -21,8 +21,9 @@ export class RemoveSkillFromProfileUseCase implements IRemoveSkillFromProfileUse
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
 
     user.skills = user.skills?.filter((skill) => skill.id !== skillId);
-    const updated=await this._userRepository.removeSkill(userId,skillId)
-    if(!updated) throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
-    return updated
+    const updated = await this._userRepository.removeSkill(userId, skillId);
+    if (!updated)
+      throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
+    return updated;
   }
 }

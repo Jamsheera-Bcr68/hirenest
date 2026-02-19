@@ -1,5 +1,7 @@
 import { type ISocialLinks, type AddressType } from '../profileTypes';
-import {type SkillType } from './skillTypes';
+import { type SkillType } from './skillTypes';
+import { type ExperienceType } from './experienceType';
+
 export type userDto = {
   id: string;
   name: string;
@@ -21,8 +23,7 @@ export interface UserProfileType {
   skills: Array<SkillType>;
   address?: AddressType;
   socialLinks?: ISocialLinks;
-  imageUrl?:string
-  about?:string,
-  
+  imageUrl?: string;
+  about?: string;
+  experience?: ExperienceType[];
 }
-

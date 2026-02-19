@@ -10,6 +10,7 @@ export abstract class GenericRepository<
   constructor(model: Model<D>) {
     this._model = model;
   }
+  
   async findOne(filter: Partial<T>): Promise<T | null> {
     //console.log("from generic repository filter", filter);
     const { id, ...rest } = filter;
@@ -27,13 +28,13 @@ export abstract class GenericRepository<
   async save(id: string, data: Partial<T>): Promise<T | null> {
     console.log('entity from generic  repo ', data);
     const persisted = this.mapToPersistance(data);
-    console.log('persisted ',persisted);
-    
+    console.log('persisted ', persisted);
+
     const updated = await this._model.findByIdAndUpdate(
       id,
       persisted as UpdateQuery<D>,
       { new: true }
-    )
+    );
     console.log('updated from user after savig repo', updated);
 
     if (!updated) return null;
@@ -41,7 +42,7 @@ export abstract class GenericRepository<
   }
   async findById(id: string): Promise<T | null> {
     console.log('from general reppo findby id');
-    
+
     const user = await this._model.findById(id);
     if (!user) return null;
     return this.mapToEntity(user);
