@@ -6,7 +6,7 @@ export interface IAddExperienceUseCase {
   execute(
     userId: string,
     role: UserRole,
-    
+
     payLoad: ExperienceDto
   ): Promise<User>;
 }

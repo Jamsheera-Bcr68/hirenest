@@ -1,4 +1,4 @@
-import type { UserProfileType } from '../dtos/userTypes';
+import type { UserProfileType } from '../dtos/profileTypes/userTypes';
 
 export interface BasicDataProps {
   user?: UserProfileType;

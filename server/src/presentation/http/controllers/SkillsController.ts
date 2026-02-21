@@ -14,13 +14,11 @@ export class SkillsController {
     console.log('from getAllskills controller');
     try {
       const skills = await this._getAllSkillsUseCase.execute();
-      return res
-        .status(statusCodes.OK)
-        .json({
-          success: true,
-          message: userMessages.success.SKILL_FETCHED,
-          skills,
-        });
+      return res.status(statusCodes.OK).json({
+        success: true,
+        message: userMessages.success.SKILL_FETCHED,
+        skills,
+      });
     } catch (error) {
       next(error);
     }

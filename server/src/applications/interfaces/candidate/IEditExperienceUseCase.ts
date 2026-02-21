@@ -5,7 +5,7 @@ import { ExperienceDto } from '../../../presentation/http/validators/profileVali
 export interface IEditExperienceUseCase {
   execute(
     userId: string,
-    expId:string,
+    expId: string,
     role: UserRole,
     payLoad: ExperienceDto
   ): Promise<User>;

@@ -1,6 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
-import { profileDataSchema,ExperienceSchema } from '../../validators/profileValidation';
-
+import {
+  profileDataSchema,
+  ExperienceSchema,
+} from '../../validators/profileValidation';
 
 export const profileValidator = (
   req: Request,
@@ -14,13 +16,15 @@ export const profileValidator = (
     next(error);
   }
 };
-export const experienceFormValidator=(req: Request,
+export const experienceFormValidator = (
+  req: Request,
   res: Response,
-  next: NextFunction)=>{
- try {
+  next: NextFunction
+) => {
+  try {
     ExperienceSchema.parse(req.body);
     next();
   } catch (error) {
     next(error);
   }
-}
+};

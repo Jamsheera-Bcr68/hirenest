@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { profileService } from '../../../services/apiServices/candidateService';
-import { addExperienceSchema } from '../../../libraries/validations/auth/candidate/experienceFormValidation';
-import type { UserProfileType } from '../../../types/dtos/userTypes';
+import { profileService } from '../../../../../services/apiServices/candidateService';
+import { addExperienceSchema } from '../../../../../libraries/validations/auth/candidate/experienceFormValidation';
+import type { UserProfileType } from '../../../../../types/dtos/profileTypes/userTypes';
 
-import type { ExperienceType } from '../../../types/dtos/experienceType';
-import { useToast } from '../../../shared/toast/useToast';
-import { type WorkMode } from '../../../types/dtos/experienceType';
+import type { ExperienceType } from '../../../../../types/dtos/profileTypes/experienceType';
+import { useToast } from '../../../../../shared/toast/useToast';
+import { type WorkMode } from '../../../../..//types/dtos/profileTypes/experienceType';
 
 type FormError = {
   title?: string;
@@ -154,10 +154,11 @@ export const useExperience = (
       return;
     }
     console.log('validation success');
-    try {if(!exp||!exp.id){
-      showToast({msg:"Experience id is not found",type:'error'})
-      return
-    }
+    try {
+      if (!exp || !exp.id) {
+        showToast({ msg: 'Experience id is not found', type: 'error' });
+        return;
+      }
 
       if (formData.isWorking) formData.endDate = '';
       const data = await profileService.editExperience(formData, exp.id);

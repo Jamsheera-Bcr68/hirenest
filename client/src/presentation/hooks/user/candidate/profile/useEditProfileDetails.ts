@@ -1,9 +1,10 @@
 import { useMemo, useState } from 'react';
-import { type typeOfToast } from '../../../types/toastTypes';
-import axiosInstance from '../../../libraries/axios';
-import type { UserProfileType } from '../../../types/dtos/userTypes';
-import { skillService } from '../../../services/apiServices/skillServices';
-import { type SkillType } from '../../../types/dtos/skillTypes';
+import { type typeOfToast } from '../../../../../types/toastTypes';
+import axiosInstance from '../../../../../libraries/axios';
+import type { UserProfileType } from '../../../../../types/dtos/profileTypes/userTypes';
+
+import { type SkillType } from '../../../../../types/dtos/profileTypes/skillTypes';
+import { profileService } from '../../../../../services/apiServices/candidateService';
 
 export const useEditProfileDetails = (
   showToast: (data: typeOfToast) => void,
@@ -17,8 +18,6 @@ export const useEditProfileDetails = (
   //skills component
   const [isAddSkill, setIsAddSkill] = useState<boolean>(false);
   const [skillName, setSkillName] = useState<string>('');
-  const [error, setError] = useState<string>('');
-  //const [filteredSkill, setFilteredSkill] = useState<SkillType[] | []>([]);
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setIsEditing(true);
@@ -65,44 +64,28 @@ export const useEditProfileDetails = (
   };
 
   //for skill componet
-  const addSkill = async () => {
-   // setFilteredSkill([]);
-    if (!isAddSkill) {
-      setIsAddSkill(true);
+  const selectSkill = async (skillId: string) => {
+    try {
+      const data = await profileService.addSkill(skillId);
+      onUserUpdate(data.user);
+      showToast({
+        msg: data.message,
+        type: 'success',
+      });
+      setIsAddSkill(false);
       setSkillName('');
-    } else {
-      if (!skillName.trim()) {
-        setError('Nothing to add');
-        return;
-      } else if (skillName.trim().length < 4) {
-        setError('Skill name should atleast 3 letters');
-        return;
-      }
-      setError('');
-      try {
-        console.log('validateion success skill name is ', skillName);
-
-        const res = await axiosInstance.patch('/candidate/profile/skills/add', {
-          skillName,
-        });
-        console.log('after adding skill ', res);
-        onUserUpdate(res.data.user);
-        showToast({ msg: res.data.message, type: 'success' });
-        setSkillName('');
-        setIsAddSkill(false);
-      } catch (error: any) {
-        console.log(error);
-        showToast({
-          msg: error.response?.data?.message || error.message,
-          type: 'error',
-        });
-      }
+    } catch (error: any) {
+      console.log(error);
+      showToast({
+        msg: error.response?.data?.message || error.message,
+        type: 'error',
+      });
     }
   };
 
   const removeSkill = async (skillId: string) => {
     try {
-      const data = await skillService.removeSkill(skillId);
+      const data = await profileService.removeSkill(skillId);
       console.log('data ', data);
 
       showToast({ msg: data.message, type: 'success' });
@@ -137,13 +120,13 @@ export const useEditProfileDetails = (
     onBlur,
 
     //skills
-    error,
-    addSkill,
+    //error,
+    selectSkill,
     isAddSkill,
     skillName,
     setSkillName,
     removeSkill,
-setIsAddSkill,
+    setIsAddSkill,
     filteredSkills,
   };
 };

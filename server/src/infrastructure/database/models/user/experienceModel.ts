@@ -1,5 +1,5 @@
-import mongoose, { Schema, model, Types, Document } from "mongoose";
-import { WorkMode } from "../../../../domain/enums/WorkMode";
+import mongoose, { Schema, model, Types, Document } from 'mongoose';
+import { WorkMode } from '../../../../domain/enums/WorkMode';
 
 export interface IExperienceDocument extends Document {
   userId: Types.ObjectId;
@@ -19,7 +19,7 @@ const experienceSchema = new Schema<IExperienceDocument>(
   {
     userId: {
       type: Schema.Types.ObjectId,
-      ref: "User",
+      ref: 'User',
       required: true,
     },
 
@@ -67,6 +67,6 @@ const experienceSchema = new Schema<IExperienceDocument>(
 );
 
 export const ExperienceModel = model<IExperienceDocument>(
-  "Experience",
+  'Experience',
   experienceSchema
 );

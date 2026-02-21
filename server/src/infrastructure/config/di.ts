@@ -22,7 +22,10 @@ import { RemoveSkillFromProfileUseCase } from '../../applications/useCases/candi
 import { AddExperienceUseCase } from '../../applications/useCases/candidate/AddExperienceUseCase';
 import { EditExperienceUseCase } from '../../applications/useCases/candidate/EditExperienceUseCase';
 import { RemoveExperienceUseCase } from '../../applications/useCases/candidate/RemoveExperienceUseCase';
-//user
+import { AddEducationUseCase } from '../../applications/useCases/candidate/AddEducationUseCase';
+import { GetAllEducationUseCase } from '../../applications/useCases/candidate/GetAllEducationUseCase';
+import { EditEducationUseCase } from '../../applications/useCases/candidate/EditEducationUseCase';
+import { IRemoveEducationUseCase } from '../../applications/interfaces/candidate/IRemoveEducationUseCase';
 //skills
 import { GetAllSkillsUseCase } from '../../applications/useCases/skills/GetAllSkillsUseCase';
 //==Controllers
@@ -46,6 +49,7 @@ import { OtpRepository } from '../repositories/user/otpRepository';
 import { AdminRepository } from '../repositories/admin/adminRepository';
 import { SkillRepository } from '../repositories/user/SkillsRepository';
 import { ExperieceRepository } from '../repositories/user/ExperienceRepository';
+import { EducationRepository } from '../repositories/user/educationRepository';
 //services
 
 import { OtpGenerator } from '../services/otpgenerator';
@@ -55,7 +59,7 @@ import { SendOtpService } from '../../applications/services/sendOtpServices';
 import { VerifyOtpService } from '../../applications/services/verifyOtpService';
 import { GoogleAuthService } from '../../applications/services/googleAuthService';
 import { ImageStorageService } from '../services/ImageStorageService';
-
+import { RemoveEducationUseCase } from '../../applications/useCases/candidate/RemoveEducationUseCase';
 
 //repositories
 const userRepository = new UserRepository();
@@ -63,7 +67,8 @@ const otpGenerator = new OtpGenerator();
 const otpRepository = new OtpRepository();
 const adminRepository = new AdminRepository();
 const skillRepository = new SkillRepository();
-const experienceRepository=new ExperieceRepository()
+const experienceRepository = new ExperieceRepository();
+const educationRepository = new EducationRepository();
 
 const emailService = new EmailService();
 const verifyOtpService = new VerifyOtpService(otpRepository, userRepository);
@@ -96,7 +101,10 @@ const adminGoogleAuthUsecase = new AdminGoogleAuthUsecase(
 );
 const logoutUseCase = new LogoutUsecase();
 const changePasswordUsecase = new ChangePasswordUsecase(userRepository);
-const removeExperienceUseCase=new RemoveExperienceUseCase(experienceRepository,userRepository)
+const removeExperienceUseCase = new RemoveExperienceUseCase(
+  experienceRepository,
+  userRepository
+);
 
 //candidate
 const candidateEditProfileUsecase = new CandidateProfileEditUsecase(
@@ -109,8 +117,14 @@ const addSkilltoProfileUseCase = new AddSkillsToProfieUseCase(
 const removeSkillFromProfileUseCase = new RemoveSkillFromProfileUseCase(
   userRepository
 );
-const addExperienceUseCase=new AddExperienceUseCase(userRepository,experienceRepository)
-const editExperienceUseCase=new EditExperienceUseCase(userRepository,experienceRepository)
+const addExperienceUseCase = new AddExperienceUseCase(
+  userRepository,
+  experienceRepository
+);
+const editExperienceUseCase = new EditExperienceUseCase(
+  userRepository,
+  experienceRepository
+);
 //user
 const getUserUserCase = new GetUserUseCase(userRepository);
 const editProfileImageUseCase = new EditProfileImageUseCase(
@@ -122,14 +136,22 @@ const removeProfileImageUseCase = new RemoveProfileImageUseCase(
   imageStorageService
 );
 const editAboutUsecase = new EditAboutUseCase(userRepository);
-
+//education
+const addEducationUseCase = new AddEducationUseCase(
+  educationRepository,
+  userRepository
+);
+const getAllEducationUseCase = new GetAllEducationUseCase(educationRepository);
+const editEducationUseCase = new EditEducationUseCase(
+  educationRepository,
+  userRepository
+);
+const removeEducationUseCase = new RemoveEducationUseCase(
+  educationRepository,
+  userRepository
+);
 //skills
 const getAllSkillsUseCase = new GetAllSkillsUseCase(skillRepository);
-
-
-
-
-
 
 export const authController = new AuthController(
   registerUseCase,
@@ -167,7 +189,10 @@ export const candidateProfileController = new CandidateProfileController(
   removeSkillFromProfileUseCase,
   addExperienceUseCase,
   editExperienceUseCase,
-  removeExperienceUseCase
+  removeExperienceUseCase,
+  addEducationUseCase,
+  editEducationUseCase,
+  removeEducationUseCase
 );
 
 export const skillController = new SkillsController(getAllSkillsUseCase);

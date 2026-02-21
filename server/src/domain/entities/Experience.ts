@@ -1,7 +1,7 @@
 import { WorkMode } from '../enums/WorkMode';
 
 export interface Experience {
-    userId:string
+  userId: string;
   id?: string;
   title: string;
   company: string;

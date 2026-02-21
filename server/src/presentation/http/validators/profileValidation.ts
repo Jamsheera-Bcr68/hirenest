@@ -69,7 +69,7 @@ export const ExperienceSchema = z
 
     const startYM = toYearMonthNumber(data.startDate);
 
-    if (startYM >currentYM) {
+    if (startYM > currentYM) {
       ctx.addIssue({
         code: z.ZodIssueCode.custom,
         message: 'Start date cannot be in the future',
@@ -95,7 +95,6 @@ export const ExperienceSchema = z
           path: ['endDate'],
         });
       }
-      
     }
   });
 

@@ -1,6 +1,7 @@
-import { type ISocialLinks, type AddressType } from '../profileTypes';
+import { type ISocialLinks, type AddressType } from '../../profileTypes';
 import { type SkillType } from './skillTypes';
 import { type ExperienceType } from './experienceType';
+import type { EducationType } from './educationTypes';
 
 export type userDto = {
   id: string;
@@ -26,4 +27,5 @@ export interface UserProfileType {
   imageUrl?: string;
   about?: string;
   experience?: ExperienceType[];
+  education: EducationType[] | [];
 }

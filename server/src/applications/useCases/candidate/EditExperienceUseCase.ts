@@ -24,13 +24,12 @@ export class EditExperienceUseCase implements IEditExperienceUseCase {
   }
   async execute(
     userId: string,
-    expId:string,
+    expId: string,
     role: UserRole,
     payLoad: ExperienceDto
   ): Promise<User> {
-    
     const exp = await this._experienceRepository.findById(expId);
-    if (!exp||!exp.id)
+    if (!exp || !exp.id)
       throw new AppError(
         userMessages.error.EXPEIENCE_NOT_FOUND,
         statusCodes.NOTFOUND
@@ -70,15 +69,15 @@ export class EditExperienceUseCase implements IEditExperienceUseCase {
     };
 
     const updatedExp = await this._experienceRepository.editExperience(
-     exp.id,
+      exp.id,
       experience
     );
     if (!updatedExp)
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
-    const updated=await this._userRepository.findById(user.id)
-     if (!updated)
+    const updated = await this._userRepository.findById(user.id);
+    if (!updated)
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
-  
+
     return updated;
   }
 }

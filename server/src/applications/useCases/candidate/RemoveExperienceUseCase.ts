@@ -22,9 +22,9 @@ export class RemoveExperienceUseCase implements IRemoveExperienceUseCase {
     if (!user || !user.id || user.role !== role) {
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
     }
-     await this._experienceRepository.removeExperience(expId);
+    await this._experienceRepository.deleteById(expId);
     const updated = await this._userRepository.removeExperience(userId, expId);
-   
+
     if (!updated)
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
     return updated;

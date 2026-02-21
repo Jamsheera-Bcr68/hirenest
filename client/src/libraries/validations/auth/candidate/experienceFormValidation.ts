@@ -15,7 +15,6 @@ export const addExperienceSchema = z
       .min(1, 'Company name is compulsory')
       .min(2, 'Company name is too short'),
 
-    
     mode: z.enum(['onsite', 'remote', 'hybrid']),
 
     location: z.string().trim().optional(),
@@ -57,4 +56,4 @@ export const addExperienceSchema = z
     }
   );
 
-  export type AddExperienceFormData = z.infer<typeof addExperienceSchema>;
+export type AddExperienceFormData = z.infer<typeof addExperienceSchema>;

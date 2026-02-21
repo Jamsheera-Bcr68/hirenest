@@ -22,7 +22,7 @@ export class UserMapper {
       experience: user.experience,
       imageUrl: user.imageUrl,
       title: user.title,
-
+      education: user.education,
       address: user.address,
       socialLinks: user.socialMediaLinks,
       about: user.about,

@@ -1,9 +1,13 @@
 import express from 'express';
-import { profileValidator,experienceFormValidator } from '../middleweres/validatores/profileValidator';
+import {
+  profileValidator,
+  experienceFormValidator,
+} from '../middleweres/validatores/profileValidator';
 import { authValidator } from '../middleweres/authValidator';
 import { tokenService } from '../../../infrastructure/config/di';
 import { candidateProfileController } from '../../../infrastructure/config/di';
 import { upload } from '../middleweres/imageUpload';
+import { educationValidator } from '../validators/educationFormValidator';
 
 const router = express.Router();
 
@@ -35,7 +39,7 @@ router.patch(
   candidateProfileController.addAbout
 );
 router.patch(
-  '/profile/skills/add',
+  '/profile/skills/:skillId',
   authValidator(tokenService),
   candidateProfileController.addSkill
 );
@@ -63,4 +67,22 @@ router.patch(
   candidateProfileController.removeExperience
 );
 
+router.post(
+  '/profile/education',
+  authValidator(tokenService),
+  educationValidator,
+  candidateProfileController.addEducation
+);
+router.patch(
+  '/profile/education/:eduId',
+  authValidator(tokenService),
+  educationValidator,
+  candidateProfileController.editEducation
+);
+router.delete(
+  '/profile/education/:eduId',
+  authValidator(tokenService),
+  educationValidator,
+  candidateProfileController.deleteEducation
+);
 export default router;

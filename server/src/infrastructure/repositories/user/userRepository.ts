@@ -8,7 +8,7 @@ import { ISkillDocument } from '../../database/models/user/skillModel';
 
 import { IExperienceDocument } from '../../database/models/user/experienceModel';
 import { Experience } from '../../../domain/entities/Experience';
-
+import { IEducationDocument } from '../../database/models/user/educationModel';
 
 export class UserRepository
   extends GenericRepository<User, IUserDocument>
@@ -20,11 +20,11 @@ export class UserRepository
   async findByEmail(email: string, userId?: string): Promise<User | null> {
     const filter = { email };
 
-    const user = await this.findOne(filter);
+    const user = await this._model.findOne(filter);
     //  console.log('user from repository ', email);
 
     if (!user) return null;
-    else return user;
+    else return this.mapToEntity(user);
   }
   async createUser(user: User): Promise<User> {
     const document = await this._model.create({
@@ -39,14 +39,18 @@ export class UserRepository
   async findById(id: string): Promise<User | null> {
     //  console.log('from userrepository');
 
-    const user = await this._model.findById(id).populate('skills').populate('experience')
-    //console.log('user populated', user);
+    const user = await this._model
+      .findById(id)
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    console.log('user populated', user);
 
     if (!user) return null;
     return this.mapToEntity(user);
   }
   mapToEntity = (doc: IUserDocument): User => {
-    // console.log('doc from maptoentity ', doc);
+    console.log('doc from maptoentity ', doc);
     const skills = (doc.skills as ISkillDocument[]).map(
       (skill: ISkillDocument): UserSkillDto => {
         return {
@@ -57,8 +61,8 @@ export class UserRepository
     );
     const experience = (doc.experience as IExperienceDocument[]).map(
       (exp: IExperienceDocument): Experience => {
-        console.log('form mapto entity exp',exp);
-        
+        console.log('form mapto entity exp', exp);
+
         return {
           id: exp._id.toString(),
           userId: exp.userId?.toString(),
@@ -69,10 +73,24 @@ export class UserRepository
           endDate: exp.endDate,
           location: exp.location,
           isWorking: exp.isWorking,
-          description:exp.description
+          description: exp.description,
         };
       }
     );
+    const education = (doc.education as IEducationDocument[]).map((edu) => {
+      return {
+        id: edu._id?.toString(),
+        userId: edu?.userId?.toString(),
+        level: edu.level,
+        institution: edu.institution,
+        startYear: edu.startYear,
+        status: edu.status,
+        completedYear: edu.completedYear,
+        location: edu.location,
+        cgpa: edu.cgpa,
+        university: edu.university,
+      };
+    });
 
     return new User(
       doc.email,
@@ -80,6 +98,7 @@ export class UserRepository
       doc.phone,
       doc.isVerified,
       experience,
+      education,
       doc._id.toString(),
       doc.resetToken,
       doc.resetTokenExpiry ?? undefined,
@@ -90,7 +109,7 @@ export class UserRepository
       doc.address ?? undefined,
       doc.socialMediaLinks ?? {},
       doc.imageUrl ?? undefined,
-      doc.about ?? '',
+      doc.about ?? 'F',
       skills
     );
   };
@@ -122,10 +141,13 @@ export class UserRepository
     );
   }
   async updatePassword(email: string, password: string): Promise<void> {
-    await this._model.findOneAndUpdate(
-      { email },
-      { $set: { password, resetToken: null, resetTokenExpiry: null } }
-    ).populate('skills').populate('experience');
+    await this._model
+      .findOneAndUpdate(
+        { email },
+        { $set: { password, resetToken: null, resetTokenExpiry: null } }
+      )
+      .populate('skills')
+      .populate('experience');
   }
 
   async updateGoogleId(email: string, googleId: string): Promise<User | null> {
@@ -139,7 +161,9 @@ export class UserRepository
   async addSkill(id: string, skillId: string): Promise<User | null> {
     const updated = await this._model
       .findByIdAndUpdate(id, { $addToSet: { skills: skillId } }, { new: true })
-      .populate('skills').populate('experience');
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
     if (!updated) return null;
     return this.mapToEntity(updated);
   }
@@ -150,23 +174,61 @@ export class UserRepository
         { $pull: { skills: new Types.ObjectId(skillId) } },
         { new: true }
       )
-      .populate('skills').populate('experience');
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
     //  console.log('updated after removeskill from repo', updated);
     if (!updated) return null;
     return this.mapToEntity(updated);
   }
   async addExperience(userId: string, expId: string): Promise<User | null> {
-    const updated = await this._model.findByIdAndUpdate(
-      userId,
-      { $addToSet: { experience: expId } },
-      { new: true }
-    ).populate('skills').populate('experience');
+    const updated = await this._model
+      .findByIdAndUpdate(
+        userId,
+        { $addToSet: { experience: expId } },
+        { new: true }
+      )
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
     if (!updated) return null;
     return this.mapToEntity(updated);
   }
-  async removeExperience(userId: string, expId: string): Promise<User|null> {
-  const doc=await this._model.findByIdAndUpdate(userId,{$pull:{experience:new Types.ObjectId(expId)}}).populate('skills').populate('experience')
-  if(!doc)return null
-  return this.mapToEntity(doc)
+  async removeExperience(userId: string, expId: string): Promise<User | null> {
+    const doc = await this._model
+      .findByIdAndUpdate(userId, {
+        $pull: { experience: new Types.ObjectId(expId) },
+      })
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!doc) return null;
+    return this.mapToEntity(doc);
+  }
+  async addEducation(userId: string, eduId: string): Promise<User | null> {
+    const user = await this._model
+      .findByIdAndUpdate(
+        userId,
+        { $addToSet: { education: new Types.ObjectId(eduId) } },
+        { new: true }
+      )
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!user) return null;
+    return this.mapToEntity(user);
+  }
+  async removeEducation(userId: string, eduId: string): Promise<User | null> {
+    const user = await this._model
+      .findByIdAndUpdate(
+        userId,
+        { $pull: { education: new Types.ObjectId(eduId) } },
+        { new: true }
+      )
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!user) return null;
+    return this.mapToEntity(user);
   }
 }

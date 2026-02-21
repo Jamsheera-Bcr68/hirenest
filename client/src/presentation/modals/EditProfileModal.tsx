@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { useProfileEdit } from '../hooks/user/candidate/profile/useProfileEdit';
 import { useToast } from '../../shared/toast/useToast';
 import { Github, Twitter, Globe, Youtube } from 'lucide-react';
-import { type UserProfileType } from '../../types/dtos/userTypes';
+import { type UserProfileType } from '../../types/dtos/profileTypes/userTypes';
 
 export default function ProfileEditModal({
   open,

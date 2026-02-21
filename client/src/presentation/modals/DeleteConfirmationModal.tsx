@@ -5,11 +5,13 @@ type ModalProps = {
 
   onClose: () => void;
   onDelete: () => Promise<void>;
+  item: string;
 };
 export default function DeleteConfirmationModal({
   isOpen,
   onClose,
   onDelete,
+  item,
 }: ModalProps) {
   return (
     <Dialog.Root
@@ -39,7 +41,7 @@ export default function DeleteConfirmationModal({
           {/* Message */}
           <div className="mt-4 text-center">
             <p className="text-black-700 text-sm">
-              Are you sure you want to delete this item?
+              Are you sure you want to delete this {item}?
             </p>
             <p className="text-black-500 text-sm mt-1">
               This action cannot be undone.

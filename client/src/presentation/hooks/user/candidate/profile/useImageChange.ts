@@ -2,7 +2,7 @@ import { useState, useRef } from 'react';
 import { getCroppedImage } from '../../../../../utils/cropImage';
 import { type typeOfToast } from '../../../../../types/toastTypes';
 import axiosInstance from '../../../../../libraries/axios';
-import type { UserProfileType } from '../../../../../types/dtos/userTypes';
+import type { UserProfileType } from '../../../../../types/dtos/profileTypes/userTypes';
 
 export const useImageChange = (
   showToast: (toast: typeOfToast) => void,

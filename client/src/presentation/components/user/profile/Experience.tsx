@@ -1,10 +1,10 @@
-import type { UserProfileType } from '../../../../types/dtos/userTypes';
+import type { UserProfileType } from '../../../../types/dtos/profileTypes/userTypes';
 import DeleteConfirmationModal from '../../../modals/DeleteConfirmationModal';
 import ExperienceModal from '../../../modals/AddExperienceModal';
 import { Trash } from 'lucide-react';
 import { useToast } from '../../../../shared/toast/useToast';
 import { useState } from 'react';
-import { type ExperienceType } from '../../../../types/dtos/experienceType';
+import { type ExperienceType } from '../../../../types/dtos/profileTypes/experienceType';
 import { profileService } from '../../../../services/apiServices/candidateService';
 
 type ExperienceProps = {
@@ -18,23 +18,26 @@ const Experience = ({ user, onUserUpdate }: ExperienceProps) => {
   const [deleteId, setDeleteId] = useState<string>('');
   const { showToast } = useToast();
 
-  const handleDelete =async () => {
+  const handleDelete = async () => {
     const id = deleteId;
-    console.log('from delete  id',id);
-   
+    console.log('from delete  id', id);
+
     if (!id) showToast({ msg: 'Experience id is not found', type: 'error' });
     setIsDeleteModalOpen(false);
-try {
-  const data=await profileService.removeExperience(deleteId)
-  setDeleteId('')
-  setIsDeleteModalOpen(false)
-  console.log('removed exp data',data);
-  
-  onUserUpdate(data.user)
-   showToast({ msg:data?.message, type: 'success' })
-} catch (error:any) {
-  showToast({ msg:error.response?.data?.message||error.message, type: 'error' })
-}
+    try {
+      const data = await profileService.removeExperience(deleteId);
+      setDeleteId('');
+      setIsDeleteModalOpen(false);
+      console.log('removed exp data', data);
+
+      onUserUpdate(data.user);
+      showToast({ msg: data?.message, type: 'success' });
+    } catch (error: any) {
+      showToast({
+        msg: error.response?.data?.message || error.message,
+        type: 'error',
+      });
+    }
   };
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
@@ -141,9 +144,9 @@ try {
       />
       <DeleteConfirmationModal
         isOpen={isDeleteModalOpen}
-       
         onClose={() => setIsDeleteModalOpen(false)}
         onDelete={handleDelete}
+        item="Experience"
       />
     </div>
   );

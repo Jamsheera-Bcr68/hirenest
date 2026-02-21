@@ -1,5 +1,4 @@
-import { WorkMode } from "../enums/WorkMode";
-
+import { WorkMode } from '../enums/WorkMode';
 
 export interface IAddress {
   place?: string;
@@ -16,16 +15,16 @@ export interface ISocialMediaLinks {
   portfolio?: string;
 }
 
-export interface IExperience{
-  userId?:string,
-  title:string,
-  company:string,
-  startDate:Date,
-  endDate?:Date,
-  role?:string,
-  location?:string,
-  description?:string,
-  isWorking:boolean,
-  mode:WorkMode,
-  id?:string
+export interface IExperience {
+  userId?: string;
+  title: string;
+  company: string;
+  startDate: Date;
+  endDate?: Date;
+  role?: string;
+  location?: string;
+  description?: string;
+  isWorking: boolean;
+  mode: WorkMode;
+  id?: string;
 }

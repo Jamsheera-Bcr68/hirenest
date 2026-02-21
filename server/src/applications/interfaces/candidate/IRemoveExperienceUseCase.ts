@@ -1,5 +1,5 @@
-import { UserRole } from "../../../domain/enums/userEnums";
-import { User } from "../../../domain/entities/User";
+import { UserRole } from '../../../domain/enums/userEnums';
+import { User } from '../../../domain/entities/User';
 
 export interface IRemoveExperienceUseCase {
   execute(

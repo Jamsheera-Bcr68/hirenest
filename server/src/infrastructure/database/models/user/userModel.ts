@@ -3,7 +3,6 @@ import { UserRole } from '../../../../domain/enums/userEnums';
 import { WorkMode } from '../../../../domain/enums/WorkMode';
 import {
   IAddress,
-  IExperience,
   ISocialMediaLinks,
 } from '../../../../domain/values/profileTypes';
 import { ISkillDocument } from './skillModel';
@@ -29,6 +28,7 @@ export interface IUserDocument extends Document {
   about: string;
   skills: Types.ObjectId[] | ISkillDocument[];
   experience: Types.ObjectId[] | [];
+  education: Types.ObjectId[] | [];
 }
 
 const userSchema = new Schema<IUserDocument>({
@@ -64,8 +64,8 @@ const userSchema = new Schema<IUserDocument>({
   },
   about: { type: String },
   skills: { type: [Schema.Types.ObjectId], ref: 'Skill', default: [] },
-  experience:{type:[Schema.Types.ObjectId],ref:'Experience',default:[]},
-  
+  experience: { type: [Schema.Types.ObjectId], ref: 'Experience', default: [] },
+  education: { type: [Schema.Types.ObjectId], ref: 'Education', default: [] },
 });
 export const userModel: Model<IUserDocument> = model<IUserDocument>(
   'User',

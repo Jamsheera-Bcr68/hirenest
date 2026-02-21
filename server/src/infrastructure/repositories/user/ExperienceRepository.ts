@@ -17,7 +17,7 @@ export class ExperieceRepository
 
   protected mapToEntity(doc: IExperienceDocument): Experience {
     return {
-      id:doc._id.toString(),
+      id: doc._id.toString(),
       userId: doc.userId.toString(),
 
       title: doc.title,
@@ -46,17 +46,21 @@ export class ExperieceRepository
       isWorking: entity.isWorking,
     };
   }
-  async addExperience(data: Partial<Experience>): Promise<Experience|null> {
+  async addExperience(data: Partial<Experience>): Promise<Experience | null> {
     const doc = await this._model.create(this.mapToPersistance(data));
-    if(!doc)return null
-    return this.mapToEntity(doc)
+    if (!doc) return null;
+    return this.mapToEntity(doc);
   }
-  async editExperience(expId: string, data: Partial<Experience>): Promise<Experience | null> {
-    const doc=await this._model.findByIdAndUpdate(expId,this.mapToPersistance(data),{new:true})
-    if(!doc)return null
-    return this.mapToEntity(doc)
-  }
-  async removeExperience(id:string):Promise<void>{
-    await this._model.findByIdAndDelete(id)
+  async editExperience(
+    expId: string,
+    data: Partial<Experience>
+  ): Promise<Experience | null> {
+    const doc = await this._model.findByIdAndUpdate(
+      expId,
+      this.mapToPersistance(data),
+      { new: true }
+    );
+    if (!doc) return null;
+    return this.mapToEntity(doc);
   }
 }

@@ -1,12 +1,12 @@
 import BasicDataPart from './BasicdataPart';
 import { useProfile } from '../../../hooks/user/candidate/profile/useProfile';
 import { useToast } from '../../../../shared/toast/useToast';
-import type { UserProfileType } from '../../../../types/dtos/userTypes';
+import type { UserProfileType } from '../../../../types/dtos/profileTypes/userTypes';
 
 import AboutMe from './AboutMe';
 import Skills from './Skills';
 import Experience from './Experience';
-// import Education from './Education';
+import Education from './Education';
 
 const ProfilePart = () => {
   console.log('from candidate profiel');
@@ -43,10 +43,16 @@ const ProfilePart = () => {
           />
 
           {/* Experience */}
-          <Experience user={user}  onUserUpdate={(updated: UserProfileType) => setUser(updated)} />
+          <Experience
+            user={user}
+            onUserUpdate={(updated: UserProfileType) => setUser(updated)}
+          />
 
           {/* Education */}
-          {/* <Education/> */}
+          <Education
+            onUserUpdate={(updated: UserProfileType) => setUser(updated)}
+            educations={user?.education || []}
+          />
 
           {/* Certifications
           <div className="bg-white rounded-lg shadow-md p-6">

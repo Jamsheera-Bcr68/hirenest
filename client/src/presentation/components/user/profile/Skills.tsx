@@ -1,8 +1,9 @@
-import { type UserProfileType } from '../../../../types/dtos/userTypes';
-import type { SkillType } from '../../../../types/dtos/skillTypes';
+import { type UserProfileType } from '../../../../types/dtos/profileTypes/userTypes';
+import type { SkillType } from '../../../../types/dtos/profileTypes/skillTypes';
 import { useToast } from '../../../../shared/toast/useToast';
-import { useEditProfileDetails } from '../../../hooks/user/useEditProfileDetails';
+import { useEditProfileDetails } from '../../../hooks/user/candidate/profile/useEditProfileDetails';
 import { X } from 'lucide-react';
+import { useEffect, useRef } from 'react';
 
 const Skills = ({
   user,
@@ -15,8 +16,7 @@ const Skills = ({
 }) => {
   const { showToast } = useToast();
   const {
-    error,
-    addSkill,
+    selectSkill,
     isAddSkill,
     skillName,
     setSkillName,
@@ -24,18 +24,42 @@ const Skills = ({
     filteredSkills,
     setIsAddSkill,
   } = useEditProfileDetails(showToast, onUserUpdate, user, skills);
+  const inputRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const handleOutSideClick = (e: MouseEvent) => {
+      if (inputRef.current && !inputRef.current.contains(e.target as Node)) {
+        setIsAddSkill(false);
+        setSkillName('');
+      }
+    };
+    document.addEventListener('mousedown', handleOutSideClick);
+    return () => document.removeEventListener('mousedown', handleOutSideClick);
+  }, [setIsAddSkill]);
+
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-xl font-bold text-gray-800">Skills</h3>
 
-        <button
-          onClick={addSkill}
-          className="text-green-600 hover:text-green-700 text-sm font-medium transition-colors"
-        >
-          Add Skill
-        </button>
+        {!isAddSkill ? (
+          <button
+            onClick={() => setIsAddSkill(true)}
+            className="text-green-600 hover:text-green-700 text-sm font-medium transition-colors"
+          >
+            Add Skill
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              setIsAddSkill(false);
+              setSkillName('');
+            }}
+            className="text-red-500 text-bold text-sm"
+          >
+            Cancel
+          </button>
+        )}
       </div>
 
       {/* Skills list */}
@@ -67,50 +91,34 @@ const Skills = ({
         )}
       </div>
 
-      {/* Add Skill Input */}
       {isAddSkill && (
-        <div className="mt-2">
+        <div ref={inputRef} className="mt-2 relative">
           <input
-            onBlur={() => {
-              setSkillName('');
-              setIsAddSkill(false);
-            }}
             value={skillName}
             type="text"
             onChange={(e) => {
               setSkillName(e.target.value);
-              console.log('skill name ', skillName);
             }}
             placeholder="Enter a skill"
-            className="
-              w-full
-              border border-gray-300
-              rounded-md
-              px-3 py-2
-              text-sm
-              focus:outline-none
-              focus:ring-2
-              focus:ring-green-500
-              focus:border-green-500
-            "
+            className="w-full border border-gray-300 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-green-500"
           />
-          {error && <p className="text-red-500 text-sm">* {error} </p>}
-        </div>
-      )}
 
-      {filteredSkills.length > 0 && (
-        <div className="absolute bg-white shadow-md w-1/4 border rounded-md">
-          {filteredSkills.map((skill) => (
-            <div
-              key={skill.id}
-              onClick={() => {
-                setSkillName(skill.skillName);
-              }}
-              className="p-2 hover:bg-gray-100 border cursor-pointer"
-            >
-              {skill.skillName}
+          {filteredSkills.length > 0 && (
+            <div className="absolute bg-white shadow-md w-1/4 border rounded-md z-10">
+              {filteredSkills.map((skill) => (
+                <div
+                  key={skill.id}
+                  onMouseDown={() => {
+                    setSkillName(skill.skillName);
+                    selectSkill(skill.id);
+                  }}
+                  className="p-2 hover:bg-gray-100 border cursor-pointer"
+                >
+                  {skill.skillName}
+                </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
       )}
     </div>

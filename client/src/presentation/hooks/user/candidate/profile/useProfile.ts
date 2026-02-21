@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import { type UserProfileType } from '../../../../../types/dtos/userTypes';
+import { type UserProfileType } from '../../../../../types/dtos/profileTypes/userTypes';
 import axiosInstance from '../../../../../libraries/axios';
 import { type typeOfToast } from '../../../../../types/toastTypes';
 import { useNavigate } from 'react-router-dom';
-import { type SkillType } from '../../../../../types/dtos/skillTypes';
+import { type SkillType } from '../../../../../types/dtos/profileTypes/skillTypes';
 
 export const useProfile = (showToast: (toast: typeOfToast) => void) => {
   const [user, setUser] = useState<UserProfileType>();

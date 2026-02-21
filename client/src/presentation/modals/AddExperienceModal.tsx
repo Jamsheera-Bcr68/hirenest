@@ -1,10 +1,10 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { X } from 'lucide-react';
 import { useState } from 'react';
-import { useExperience } from '../hooks/user/useEditExperience';
+import { useExperience } from '../hooks/user/candidate/profile/useEditExperience';
 
-import type { UserProfileType } from '../../types/dtos/userTypes';
-import type { ExperienceType } from '../../types/dtos/experienceType';
+import type { UserProfileType } from '../../types/dtos/profileTypes/userTypes';
+import type { ExperienceType } from '../../types/dtos/profileTypes/experienceType';
 
 type ExperienceModalProps = {
   open: boolean;
@@ -19,22 +19,27 @@ export default function ExperienceModal({
   open,
   onClose,
   onUserUpdate,
-  selectedExp
+  selectedExp,
 }: ExperienceModalProps) {
   const {
     formData,
     handleChange,
     handleTextareaChange,
-handleEdit,
+    handleEdit,
     handleSubmit,
     error,
     handleModeChange,
-  } = useExperience(open,onUserUpdate, onClose, selectedExp);
+  } = useExperience(open, onUserUpdate, onClose, selectedExp);
 
   const [isOffline, setIsOffline] = useState<boolean>(true);
- 
+
   return (
-    <Dialog.Root open={open} onOpenChange={onClose}>
+    <Dialog.Root
+      open={open}
+      onOpenChange={(open) => {
+        if (!open) onClose();
+      }}
+    >
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/40" />
 
@@ -228,18 +233,22 @@ handleEdit,
             >
               Cancel
             </button>
-            
-            {selectedExp?(<button
-              onClick={handleEdit}
-              className="px-4  py-2 bg-green-600 text-white rounded"
-            >
-              Update
-            </button>):(<button
-              onClick={handleSubmit}
-              className="px-4  py-2 bg-green-600 text-white rounded"
-            >
-              Save
-            </button>)}
+
+            {selectedExp ? (
+              <button
+                onClick={handleEdit}
+                className="px-4  py-2 bg-green-600 text-white rounded"
+              >
+                Update
+              </button>
+            ) : (
+              <button
+                onClick={handleSubmit}
+                className="px-4  py-2 bg-green-600 text-white rounded"
+              >
+                Save
+              </button>
+            )}
           </div>
         </Dialog.Content>
       </Dialog.Portal>

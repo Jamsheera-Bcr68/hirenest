@@ -18,6 +18,12 @@ import { ExperienceDto } from '../../validators/profileValidation';
 import { IAddExperienceUseCase } from '../../../../applications/interfaces/candidate/IAddExperienceUseCase';
 import { IEditExperienceUseCase } from '../../../../applications/interfaces/candidate/IEditExperienceUseCase';
 import { IRemoveExperienceUseCase } from '../../../../applications/interfaces/candidate/IRemoveExperienceUseCase';
+import { EducationType } from '../../validators/educationFormValidator';
+import { ProfileDataMapper } from '../../../../applications/mappers/profileDataMaper';
+import { IAddEducationUseCase } from '../../../../applications/interfaces/candidate/IAddEducationUseCase';
+import { IGetAllEducationUseCase } from '../../../../applications/interfaces/candidate/IGetAllEducationUseCase';
+import { IEditEducationUseCase } from '../../../../applications/interfaces/candidate/IEditEducationUseCase';
+import { IRemoveEducationUseCase } from '../../../../applications/interfaces/candidate/IRemoveEducationUseCase';
 
 export class CandidateProfileController {
   private _candidateEditProfileUsecase: IProfileEditUsecase;
@@ -29,7 +35,11 @@ export class CandidateProfileController {
   private _removeSkillUseCase: IRemoveSkillFromProfileUseCase;
   private _addExperienceUseCase: IAddExperienceUseCase;
   private _editExperienceUseCase: IEditExperienceUseCase;
-  private _removeExperienceUseCase:IRemoveExperienceUseCase
+  private _removeExperienceUseCase: IRemoveExperienceUseCase;
+  private _addEducationUseCase: IAddEducationUseCase;
+  private _removeEducationUseCase: IRemoveEducationUseCase;
+
+  private _editEducationUseCase: IEditEducationUseCase;
   constructor(
     candidateEditProfileUsecase: IProfileEditUsecase,
     getUserUseCase: IGetUserUseCase,
@@ -40,7 +50,11 @@ export class CandidateProfileController {
     removeSkillUseCase: IRemoveSkillFromProfileUseCase,
     addExperienceUseCase: IAddExperienceUseCase,
     editExperienceUseCase: IEditExperienceUseCase,
-    removeExperienceUseCase:IRemoveExperienceUseCase
+    removeExperienceUseCase: IRemoveExperienceUseCase,
+    addEducationUseCase: IAddEducationUseCase,
+
+    editEducationUseCase: IEditEducationUseCase,
+    removeEducationUseCase: IRemoveEducationUseCase
   ) {
     this._candidateEditProfileUsecase = candidateEditProfileUsecase;
     this._getUserUseCase = getUserUseCase;
@@ -51,7 +65,11 @@ export class CandidateProfileController {
     this._removeSkillUseCase = removeSkillUseCase;
     this._addExperienceUseCase = addExperienceUseCase;
     this._editExperienceUseCase = editExperienceUseCase;
-    this._removeExperienceUseCase=removeExperienceUseCase
+    this._removeExperienceUseCase = removeExperienceUseCase;
+    this._addEducationUseCase = addEducationUseCase;
+
+    this._editEducationUseCase = editEducationUseCase;
+    this._removeEducationUseCase = removeEducationUseCase;
   }
   editProfile = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
@@ -221,22 +239,23 @@ export class CandidateProfileController {
   };
   addSkill = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
+    const { skillId } = req.params;
     try {
       if (!user)
         throw new AppError(
           authMessages.error.UNAUTHORIZED,
           statusCodes.UNAUTHERIZED
         );
-      const { skillName } = req.body;
-      if (!skillName) {
+
+      if (!skillId) {
         throw new AppError(
-          userMessages.error.SKILL_NOT_FOUND,
+          userMessages.error.SKILLID_NOT_FOUND,
           statusCodes.BADREQUEST
         );
       }
       const updated = await this._addSkillToProfileUseCase.execute(
         user.userId,
-        skillName,
+        skillId,
         user.role
       );
       const updatedUser = UserMapper.toUserProfileDto(updated);
@@ -341,9 +360,13 @@ export class CandidateProfileController {
       next(error);
     }
   };
-  removeExperience=async(req: Request, res: Response, next: NextFunction)=>{
+  removeExperience = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
     console.log('remove experience');
-    const user=req.user
+    const user = req.user;
     try {
       if (!user || !user.userId || !user.role)
         throw new AppError(
@@ -351,14 +374,18 @@ export class CandidateProfileController {
           statusCodes.UNAUTHERIZED
         );
 
-     const {expId}=req.params
-      
+      const { expId } = req.params;
+
       if (!expId)
         throw new AppError(
           userMessages.error.EXPEIENCE_ID_NOT_FOUND,
           statusCodes.BADREQUEST
         );
-      const updated=await this._removeExperienceUseCase.execute(user.userId,user.role,expId)
+      const updated = await this._removeExperienceUseCase.execute(
+        user.userId,
+        user.role,
+        expId
+      );
 
       console.log('remove experience form controller', updated);
       return res.status(statusCodes.OK).json({
@@ -369,5 +396,98 @@ export class CandidateProfileController {
     } catch (error) {
       next(error);
     }
-  }
+  };
+  addEducation = async (req: Request, res: Response, next: NextFunction) => {
+    const payload: EducationType = req.body;
+    const user = req.user;
+    try {
+      if (!user || !user.userId || !user.role)
+        throw new AppError(
+          authMessages.error.UNAUTHORIZED,
+          statusCodes.UNAUTHERIZED
+        );
+      const education = ProfileDataMapper.toEducationDto(payload);
+      console.log('education from controller', education);
+
+      const updatedUser = await this._addEducationUseCase.excecute(
+        education,
+        user.userId,
+        user.role
+      );
+
+      return res.status(statusCodes.CREATED).json({
+        success: true,
+        message: userMessages.success.EDUCATION_ADDED,
+        user: UserMapper.toUserProfileDto(updatedUser),
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  editEducation = async (req: Request, res: Response, next: NextFunction) => {
+    const payload: EducationType = req.body;
+    const user = req.user;
+    const { eduId } = req.params;
+    try {
+      if (!eduId)
+        throw new AppError(
+          userMessages.error.EDUCATION_ID_NOTFOUND,
+          statusCodes.BADREQUEST
+        );
+      if (!user || !user.userId || !user.role)
+        throw new AppError(
+          authMessages.error.UNAUTHORIZED,
+          statusCodes.UNAUTHERIZED
+        );
+      const education = ProfileDataMapper.toEducationDto(payload);
+      console.log('education from controller', education);
+
+      const updatedUser = await this._editEducationUseCase.execute(
+        education,
+        eduId,
+        user.role,
+        user.userId
+      );
+
+      return res.status(statusCodes.CREATED).json({
+        success: true,
+        message: userMessages.success.EDUCATION_UPDATED,
+        user: UserMapper.toUserProfileDto(updatedUser),
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  deleteEducation = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const { eduId } = req.params;
+
+    try {
+      if (!eduId)
+        throw new AppError(
+          userMessages.error.EDUCATION_ID_NOTFOUND,
+          statusCodes.BADREQUEST
+        );
+      if (!user || !user.userId || !user.role)
+        throw new AppError(
+          authMessages.error.UNAUTHORIZED,
+          statusCodes.UNAUTHERIZED
+        );
+
+      const updatedUser = await this._removeEducationUseCase.execute(
+        eduId,
+        user.userId,
+        user.role
+      );
+      return res
+        .status(statusCodes.OK)
+        .json({
+          success: true,
+          message: userMessages.success.EDUCATION_REMOVED,
+          user: UserMapper.toUserProfileDto(updatedUser),
+        });
+    } catch (error) {
+      next(error);
+    }
+  };
 }

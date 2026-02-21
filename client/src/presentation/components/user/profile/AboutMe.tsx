@@ -1,6 +1,6 @@
-import { useEditProfileDetails } from '../../../hooks/user/useEditProfileDetails';
+import { useEditProfileDetails } from '../../../hooks/user/candidate/profile/useEditProfileDetails';
 import { useToast } from '../../../../shared/toast/useToast';
-import type { UserProfileType } from '../../../../types/dtos/userTypes';
+import type { UserProfileType } from '../../../../types/dtos/profileTypes/userTypes';
 
 const AboutMe = ({
   user,
@@ -18,7 +18,7 @@ const AboutMe = ({
     value,
     cancelEdit,
     onBlur,
-  } = useEditProfileDetails(showToast, onUserUpdate, user);
+  } = useEditProfileDetails(showToast, onUserUpdate, user, []);
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex justify-between items-center mb-4">

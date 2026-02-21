@@ -10,9 +10,8 @@ export abstract class GenericRepository<
   constructor(model: Model<D>) {
     this._model = model;
   }
-  
+
   async findOne(filter: Partial<T>): Promise<T | null> {
-    //console.log("from generic repository filter", filter);
     const { id, ...rest } = filter;
     const query = { ...rest } as Partial<D>;
     if (id) {
@@ -43,9 +42,17 @@ export abstract class GenericRepository<
   async findById(id: string): Promise<T | null> {
     console.log('from general reppo findby id');
 
-    const user = await this._model.findById(id);
-    if (!user) return null;
-    return this.mapToEntity(user);
+    const doc = await this._model.findById(id);
+    if (!doc) return null;
+    return this.mapToEntity(doc);
+  }
+  async getAll(filter: Partial<T>): Promise<T[] | []> {
+    const docs = await this._model.find(filter);
+    if (!docs.length) return [];
+    return docs.map((doc) => this.mapToEntity(doc));
+  }
+  async deleteById(id: string): Promise<void> {
+    await this._model.findByIdAndDelete(id);
   }
   protected abstract mapToEntity(doc: D): T;
   protected abstract mapToPersistance(entity: Partial<T>): Partial<D>;

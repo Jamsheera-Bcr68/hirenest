@@ -1,4 +1,4 @@
-import type { UserRole } from '../../constants/types/user';
+import type { UserRole } from '../../../constants/types/user';
 
 export type SkillStatusType = 'approved' | 'pending' | 'rejected' | 'removed';
 export interface SkillType {
