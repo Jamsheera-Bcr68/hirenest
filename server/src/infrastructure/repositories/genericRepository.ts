@@ -19,7 +19,6 @@ export abstract class GenericRepository<
     }
 
     const document = await this._model.findOne(query);
-    //  console.log("from generic repository documnt", document);
 
     if (!document) return null;
     else return this.mapToEntity(document);

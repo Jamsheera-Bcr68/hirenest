@@ -47,7 +47,7 @@ const Education = ({ onUserUpdate, educations }: EducationProps) => {
           }}
           className="text-green-600 hover:text-green-700 text-sm font-medium"
         >
-          Add Education
+          Add
         </button>
       </div>
       <div className="space-y-4">

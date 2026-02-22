@@ -26,6 +26,7 @@ export class UserMapper {
       address: user.address,
       socialLinks: user.socialMediaLinks,
       about: user.about,
+      resumes: user.resumes,
     };
   }
 }

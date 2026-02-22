@@ -93,6 +93,7 @@ export const useLogin = (
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('user', user);
       dispatch(loginSuccess({ user, accessToken }));
+      showToast({ msg: res.data.message, type: 'success' });
       const url = role == 'admin' ? '/admin/dashboard' : '/';
       navigate(url, { replace: true });
     } catch (err: any) {

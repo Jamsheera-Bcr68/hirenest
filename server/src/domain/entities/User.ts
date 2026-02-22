@@ -2,6 +2,7 @@ import { UserRole } from '../enums/userEnums';
 import {
   IAddress,
   IExperience,
+  IResume,
   ISocialMediaLinks,
 } from '../values/profileTypes';
 import { UserSkillDto } from '../../applications/Dtos/skillDto';
@@ -31,6 +32,7 @@ export class User {
   public skills?: UserSkillDto[];
   public experience: Experience[];
   public education: EducationDto[];
+  public resumes: IResume[] | [];
 
   constructor(
     email: string,
@@ -39,6 +41,7 @@ export class User {
     isVerified: boolean,
     experience?: Experience[] | [],
     education?: EducationDto[] | [],
+    resumes?: IResume[],
     id?: string | undefined,
     resetToken?: string,
     resetTokenExpiry?: Date | undefined,
@@ -62,7 +65,9 @@ export class User {
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.isVerified = isVerified;
-    ((this.experience = experience ?? []), (this.resetToken = resetToken));
+    ((this.experience = experience ?? []),
+      (this.resumes = resumes || []),
+      (this.resetToken = resetToken));
     this.resetTokenExpiry = resetTokenExpiry;
     this.googleId = googleId;
     this.role = role;

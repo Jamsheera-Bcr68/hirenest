@@ -14,6 +14,8 @@ export const userMessages = {
     EDUCATION_ADDED: 'Education added successfully',
     EDUCATION_UPDATED: 'Education updated successfully',
     EDUCATION_REMOVED: 'Education Removed Successfully',
+    RESUME_ADDED: 'Resume added succesfully',
+    RESUME_DELETED: 'Resume Deleted Succesfully',
   },
   error: {
     NOT_FOUND: 'User Not found',
@@ -39,5 +41,7 @@ export const userMessages = {
     CURRENT_EDUCATION_EXIST: 'You are currently studying in other level ',
 
     EDUCATION_ID_NOTFOUND: 'Education id is not found',
+    RESUMEID_NOT_FOUND: 'Resume id is not found',
+    RESUME_ALREADY_DELETED: 'This resume is already Deleted',
   },
 };

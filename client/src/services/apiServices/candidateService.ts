@@ -62,4 +62,15 @@ export const profileService = {
     );
     return response.data;
   },
+  async uploadResume(formData: FormData) {
+    const res = await axiosInstance.patch(
+      '/candidate/profile/resume',
+      formData
+    );
+    return res.data;
+  },
+  async removeResume(id: string) {
+    const res = await axiosInstance.delete(`/candidate/profile/resume/${id}`);
+    return res.data;
+  },
 };

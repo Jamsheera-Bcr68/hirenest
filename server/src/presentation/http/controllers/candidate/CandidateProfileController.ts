@@ -24,6 +24,10 @@ import { IAddEducationUseCase } from '../../../../applications/interfaces/candid
 import { IGetAllEducationUseCase } from '../../../../applications/interfaces/candidate/IGetAllEducationUseCase';
 import { IEditEducationUseCase } from '../../../../applications/interfaces/candidate/IEditEducationUseCase';
 import { IRemoveEducationUseCase } from '../../../../applications/interfaces/candidate/IRemoveEducationUseCase';
+import { generalMessages } from '../../../../shared/constants/messages/generalMessages';
+import { IAddResumeUseCase } from '../../../../applications/interfaces/candidate/IAddResumeUseCase';
+import { IRemoveResumeUseCase } from '../../../../applications/interfaces/candidate/IRemoveResumeUseCase';
+import { success } from 'zod';
 
 export class CandidateProfileController {
   private _candidateEditProfileUsecase: IProfileEditUsecase;
@@ -38,8 +42,8 @@ export class CandidateProfileController {
   private _removeExperienceUseCase: IRemoveExperienceUseCase;
   private _addEducationUseCase: IAddEducationUseCase;
   private _removeEducationUseCase: IRemoveEducationUseCase;
-
   private _editEducationUseCase: IEditEducationUseCase;
+  private _addResumeUseCase: IAddResumeUseCase;
   constructor(
     candidateEditProfileUsecase: IProfileEditUsecase,
     getUserUseCase: IGetUserUseCase,
@@ -52,9 +56,10 @@ export class CandidateProfileController {
     editExperienceUseCase: IEditExperienceUseCase,
     removeExperienceUseCase: IRemoveExperienceUseCase,
     addEducationUseCase: IAddEducationUseCase,
-
     editEducationUseCase: IEditEducationUseCase,
-    removeEducationUseCase: IRemoveEducationUseCase
+    removeEducationUseCase: IRemoveEducationUseCase,
+    addResumeUseCase: IAddResumeUseCase,
+    private removeResumeUseCase: IRemoveResumeUseCase
   ) {
     this._candidateEditProfileUsecase = candidateEditProfileUsecase;
     this._getUserUseCase = getUserUseCase;
@@ -67,9 +72,9 @@ export class CandidateProfileController {
     this._editExperienceUseCase = editExperienceUseCase;
     this._removeExperienceUseCase = removeExperienceUseCase;
     this._addEducationUseCase = addEducationUseCase;
-
     this._editEducationUseCase = editEducationUseCase;
     this._removeEducationUseCase = removeEducationUseCase;
+    this._addResumeUseCase = addResumeUseCase;
   }
   editProfile = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
@@ -479,14 +484,87 @@ export class CandidateProfileController {
         user.userId,
         user.role
       );
+      return res.status(statusCodes.OK).json({
+        success: true,
+        message: userMessages.success.EDUCATION_REMOVED,
+        user: UserMapper.toUserProfileDto(updatedUser),
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  addResume = async (req: Request, res: Response, next: NextFunction) => {
+    console.log('from upload resume controller');
+    const user = req.user;
+    try {
+      if (!user || !user.userId || !user.role)
+        throw new AppError(
+          authMessages.error.UNAUTHORIZED,
+          statusCodes.UNAUTHERIZED
+        );
+      const file = req.file;
+      if (!file) {
+        throw new AppError(
+          generalMessages.errors.RESUME_NOTFOUND,
+          statusCodes.BADREQUEST
+        );
+      }
+      const data: UploadFileDto = {
+        mimetype: file?.mimetype,
+        buffer: file.buffer,
+        originalName: file.originalname,
+        size: file.size,
+      };
+      const updatedUser = await this._addResumeUseCase.execute(
+        data,
+        user.userId,
+        user.role
+      );
+      if (!updatedUser) {
+        throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
+      }
+      console.log(
+        'after adding resume:',
+        UserMapper.toUserProfileDto(updatedUser)
+      );
+
+      return res.status(statusCodes.OK).json({
+        success: true,
+        message: userMessages.success.RESUME_ADDED,
+        user: UserMapper.toUserProfileDto(updatedUser),
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  removeResume = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const { id } = req.params;
+    try {
+      if (!user || !user.userId || !user.role)
+        throw new AppError(
+          authMessages.error.UNAUTHORIZED,
+          statusCodes.UNAUTHERIZED
+        );
+      if (!id)
+        throw new AppError(
+          userMessages.error.RESUMEID_NOT_FOUND,
+          statusCodes.BADREQUEST
+        );
+
+      const updatedUser = await this.removeResumeUseCase.execute(
+        user.userId,
+        id,
+        user.role
+      );
       return res
         .status(statusCodes.OK)
         .json({
           success: true,
-          message: userMessages.success.EDUCATION_REMOVED,
+          message: userMessages.success.RESUME_DELETED,
           user: UserMapper.toUserProfileDto(updatedUser),
         });
-    } catch (error) {
+    } catch (error: any) {
       next(error);
     }
   };

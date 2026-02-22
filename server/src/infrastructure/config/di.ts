@@ -25,7 +25,9 @@ import { RemoveExperienceUseCase } from '../../applications/useCases/candidate/R
 import { AddEducationUseCase } from '../../applications/useCases/candidate/AddEducationUseCase';
 import { GetAllEducationUseCase } from '../../applications/useCases/candidate/GetAllEducationUseCase';
 import { EditEducationUseCase } from '../../applications/useCases/candidate/EditEducationUseCase';
-import { IRemoveEducationUseCase } from '../../applications/interfaces/candidate/IRemoveEducationUseCase';
+import { RemoveEducationUseCase } from '../../applications/useCases/candidate/RemoveEducationUseCase';
+import { AddResumeUseCase } from '../../applications/useCases/candidate/AddResumeUseCase';
+import { RemoveResumUseCase } from '../../applications/useCases/candidate/RemoveResumeUseCase';
 //skills
 import { GetAllSkillsUseCase } from '../../applications/useCases/skills/GetAllSkillsUseCase';
 //==Controllers
@@ -59,7 +61,7 @@ import { SendOtpService } from '../../applications/services/sendOtpServices';
 import { VerifyOtpService } from '../../applications/services/verifyOtpService';
 import { GoogleAuthService } from '../../applications/services/googleAuthService';
 import { ImageStorageService } from '../services/ImageStorageService';
-import { RemoveEducationUseCase } from '../../applications/useCases/candidate/RemoveEducationUseCase';
+import { FileStorageService } from '../services/fileStorageService';
 
 //repositories
 const userRepository = new UserRepository();
@@ -75,6 +77,7 @@ const verifyOtpService = new VerifyOtpService(otpRepository, userRepository);
 export const tokenService = new TokenService();
 const googleAuthService = new GoogleAuthService();
 const imageStorageService = new ImageStorageService();
+const fileStorageServices = new FileStorageService();
 
 const registerUseCase = new RegisterUseCase(userRepository);
 const sendOtpService = new SendOtpService(
@@ -150,6 +153,15 @@ const removeEducationUseCase = new RemoveEducationUseCase(
   educationRepository,
   userRepository
 );
+
+const addResumeUseCase = new AddResumeUseCase(
+  userRepository,
+  fileStorageServices
+);
+const removeResumeUseCase = new RemoveResumUseCase(
+  userRepository,
+  fileStorageServices
+);
 //skills
 const getAllSkillsUseCase = new GetAllSkillsUseCase(skillRepository);
 
@@ -192,7 +204,9 @@ export const candidateProfileController = new CandidateProfileController(
   removeExperienceUseCase,
   addEducationUseCase,
   editEducationUseCase,
-  removeEducationUseCase
+  removeEducationUseCase,
+  addResumeUseCase,
+  removeResumeUseCase
 );
 
 export const skillController = new SkillsController(getAllSkillsUseCase);

@@ -50,7 +50,7 @@ const Experience = ({ user, onUserUpdate }: ExperienceProps) => {
           Add Experience
         </button>
       </div>
-      <div className="space-y-6 bg-grey-200">
+      <div className="space-y-6  bg-grey-200">
         {user && user.experience?.length ? (
           user.experience.map((ex) => {
             return (

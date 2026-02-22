@@ -54,7 +54,7 @@ export class CandidateProfileEditUsecase implements IProfileEditUsecase {
     user.socialMediaLinks = links;
     console.log('user before saving ', user);
 
-    const updated = await this._userRepository.save(user?.id, user);
+    const updated = await this._userRepository.addProfileData(user?.id, user);
     if (!updated) {
       throw new AppError(
         authMessages.error.USERID_NOT_FOUND,

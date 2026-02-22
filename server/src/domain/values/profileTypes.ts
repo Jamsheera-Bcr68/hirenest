@@ -28,3 +28,10 @@ export interface IExperience {
   mode: WorkMode;
   id?: string;
 }
+export interface IResume {
+  id?: string;
+  url: string;
+  name: string;
+  isDefault: boolean;
+  uploadedAt: Date;
+}

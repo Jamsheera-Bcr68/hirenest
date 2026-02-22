@@ -5,10 +5,12 @@ import { IUserRepository } from '../../../domain/repositoriesInterfaces/IUserRep
 import { Types } from 'mongoose';
 import { UserSkillDto } from '../../../applications/Dtos/skillDto';
 import { ISkillDocument } from '../../database/models/user/skillModel';
-
+import { IResume } from '../../../domain/values/profileTypes';
 import { IExperienceDocument } from '../../database/models/user/experienceModel';
 import { Experience } from '../../../domain/entities/Experience';
 import { IEducationDocument } from '../../database/models/user/educationModel';
+import { UploadFileDto } from '../../../applications/Dtos/uploadFileDto';
+import { email } from 'zod';
 
 export class UserRepository
   extends GenericRepository<User, IUserDocument>
@@ -99,6 +101,15 @@ export class UserRepository
       doc.isVerified,
       experience,
       education,
+      doc.resumes.map((resume) => {
+        return {
+          id: resume?._id.toString(),
+          url: resume.url,
+          name: resume.name,
+          isDefault: resume.isDefault,
+          uploadedAt: resume.uploadedAt,
+        };
+      }),
       doc._id.toString(),
       doc.resetToken,
       doc.resetTokenExpiry ?? undefined,
@@ -114,11 +125,21 @@ export class UserRepository
     );
   };
 
-  mapToPersistance = (entity: User) => {
+  mapToPersistance = (entity: Partial<User>) => {
     return {
       name: entity.name,
       title: entity.title,
       address: entity.address,
+      imageUrl: entity.imageUrl,
+      resumes: entity.resumes?.map((resume) => {
+        return {
+          _id: new Types.ObjectId(resume.id),
+          url: resume.url,
+          name: resume.name,
+          isDefault: resume.isDefault,
+          uploadedAt: new Date(resume.uploadedAt),
+        };
+      }),
       socialMediaLinks: entity.socialMediaLinks,
       about: entity.about,
       skills: entity.skills?.map((skill) => new Types.ObjectId(skill.id)),
@@ -157,6 +178,19 @@ export class UserRepository
     );
     if (!document) return null;
     return this.mapToEntity(document);
+  }
+
+  async addProfileData(
+    userId: string,
+    data: Partial<User>
+  ): Promise<User | null> {
+    const user = await this._model
+      .findByIdAndUpdate(userId, this.mapToPersistance(data), { new: true })
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!user) return null;
+    return this.mapToEntity(user);
   }
   async addSkill(id: string, skillId: string): Promise<User | null> {
     const updated = await this._model
@@ -230,5 +264,56 @@ export class UserRepository
       .populate('education');
     if (!user) return null;
     return this.mapToEntity(user);
+  }
+  async addResume(data: IResume, userId: string): Promise<User | null> {
+    const doc = await this._model
+      .findByIdAndUpdate(
+        userId,
+        { $addToSet: { resumes: data } },
+        { new: true }
+      )
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!doc) return null;
+    return this.mapToEntity(doc);
+  }
+  async addProfileImage(
+    userId: string,
+    imageUrl: string
+  ): Promise<User | null> {
+    const doc = await this._model
+      .findByIdAndUpdate(
+        userId,
+        { $set: { imageUrl: imageUrl } },
+        { new: true }
+      )
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!doc) return null;
+    return this.mapToEntity(doc);
+  }
+  async removeProfileImage(userId: string): Promise<User | null> {
+    const doc = await this._model
+      .findByIdAndUpdate(userId, { $set: { imageUrl: '' } })
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!doc) return null;
+    return this.mapToEntity(doc);
+  }
+  async removeResume(userId: string, resumeId: string): Promise<User | null> {
+    const user = await this._model
+      .findByIdAndUpdate(
+        userId,
+        { $pull: { resumes: { _id: new Types.ObjectId(resumeId) } } },
+        { new: true }
+      )
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!user) return null;
+    else return this.mapToEntity(user);
   }
 }

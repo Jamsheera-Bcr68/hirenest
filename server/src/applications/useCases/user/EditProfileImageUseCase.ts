@@ -6,14 +6,14 @@ import { userMessages } from '../../../shared/constants/messages/userMessages';
 import { statusCodes } from '../../../shared/enums/statusCodes';
 import { UploadFileDto } from '../../Dtos/uploadFileDto';
 import { IEditProfileImageUsecase } from '../../interfaces/user/IEditProfileImageUsecase';
-import { IImageStorageService } from '../../interfaces/services/IImageStorage';
+import { IFileStorageService } from '../../interfaces/services/IFileStorageServices';
 
 export class EditProfileImageUseCase implements IEditProfileImageUsecase {
   private _userRepository: IUserRepository;
-  private _imageStorageService: IImageStorageService;
+  private _imageStorageService: IFileStorageService;
   constructor(
     userRepository: IUserRepository,
-    imageStorageService: IImageStorageService
+    imageStorageService: IFileStorageService
   ) {
     this._userRepository = userRepository;
     this._imageStorageService = imageStorageService;
@@ -27,8 +27,14 @@ export class EditProfileImageUseCase implements IEditProfileImageUsecase {
     if (!user || !user.id || user.role !== role) {
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
     }
-    user.imageUrl = await this._imageStorageService.uploadImage(file);
-    const updated = await this._userRepository.save(user?.id, user);
+    if (user.imageUrl)
+      await this._imageStorageService.removeFile(user.imageUrl);
+    const imageUrl = await this._imageStorageService.uploadFile(file);
+
+    const updated = await this._userRepository.addProfileImage(
+      user.id,
+      imageUrl
+    );
     if (!updated) {
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
     }

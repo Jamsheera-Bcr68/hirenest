@@ -8,6 +8,7 @@ import { tokenService } from '../../../infrastructure/config/di';
 import { candidateProfileController } from '../../../infrastructure/config/di';
 import { upload } from '../middleweres/imageUpload';
 import { educationValidator } from '../validators/educationFormValidator';
+import { resumeUpload } from '../middleweres/pdfUpload';
 
 const router = express.Router();
 
@@ -84,5 +85,16 @@ router.delete(
   authValidator(tokenService),
   educationValidator,
   candidateProfileController.deleteEducation
+);
+router.patch(
+  '/profile/resume',
+  authValidator(tokenService),
+  resumeUpload.single('resume'),
+  candidateProfileController.addResume
+);
+router.delete(
+  '/profile/resume/:id',
+  authValidator(tokenService),
+  candidateProfileController.removeResume
 );
 export default router;
