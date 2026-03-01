@@ -4,11 +4,7 @@ import ProfileImageViewModal from '../../../modals/ProfileImageViewModal';
 import ProfileEditModal from '../../../modals/EditProfileModal';
 import { Twitter } from 'lucide-react';
 
-<<<<<<< Updated upstream
-import { type BasicDataProps } from '../../../../types/propTypes/profileProps';import { process } from 'zod/v4/core';
-=======
 import { type BasicDataProps } from '../../../../types/propTypes/profileProps';
->>>>>>> Stashed changes
 
 const BasicDataPart = ({ user, onUserUpdate }: BasicDataProps) => {
   const BASE_URL=import.meta.env.VITE_BACKEND_URL
