@@ -1,4 +1,3 @@
-import { email } from 'zod';
 import { User } from '../../domain/entities/User';
 
 export class UserMapper {

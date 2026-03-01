@@ -19,9 +19,25 @@ import { RemoveProfileImageUseCase } from '../../applications/useCases/user/Remo
 import { EditAboutUseCase } from '../../applications/useCases/candidate/EditAboutUseCase';
 import { AddSkillsToProfieUseCase } from '../../applications/useCases/candidate/AddSkillstoProfileUseCase';
 import { RemoveSkillFromProfileUseCase } from '../../applications/useCases/candidate/RemoveSkillFromProfileUseCase';
+<<<<<<< Updated upstream
 //user
 //skills
+=======
+import { AddExperienceUseCase } from '../../applications/useCases/candidate/AddExperienceUseCase';
+import { EditExperienceUseCase } from '../../applications/useCases/candidate/EditExperienceUseCase';
+import { RemoveExperienceUseCase } from '../../applications/useCases/candidate/RemoveExperienceUseCase';
+import { AddEducationUseCase } from '../../applications/useCases/candidate/AddEducationUseCase';
+import { GetAllEducationUseCase } from '../../applications/useCases/candidate/GetAllEducationUseCase';
+import { EditEducationUseCase } from '../../applications/useCases/candidate/EditEducationUseCase';
+import { RemoveEducationUseCase } from '../../applications/useCases/candidate/RemoveEducationUseCase';
+import { AddResumeUseCase } from '../../applications/useCases/candidate/AddResumeUseCase';
+import { RemoveResumUseCase } from '../../applications/useCases/candidate/RemoveResumeUseCase';
+
+>>>>>>> Stashed changes
 import { GetAllSkillsUseCase } from '../../applications/useCases/skills/GetAllSkillsUseCase';
+import { CompanyRegisterUseCase } from '../../applications/useCases/company/companyRegisterUseCase';
+import { AddLogoUseCase } from '../../applications/useCases/company/AddLogoUseCase';
+import { AddDocumentUseCase } from '../../applications/useCases/company/AddDocumentUseCase';
 //==Controllers
 //auth
 import { AuthController } from '../../presentation/http/controllers/auth/authController';
@@ -32,6 +48,7 @@ import { ResetPasswordController } from '../../presentation/http/controllers/aut
 import { GoogleLoginController } from '../../presentation/http/controllers/auth/googleLoginController';
 import { AdminGoogleAuthController } from '../../presentation/http/controllers/auth/AdminGoogleLoginController';
 import { ChangePasswordController } from '../../presentation/http/controllers/auth/ChangePasswordController';
+import { CompanyProfileController } from '../../presentation/http/controllers/company/companyProfileController';
 
 
 
@@ -44,7 +61,13 @@ import { UserRepository } from '../repositories/user/userRepository';
 import { OtpRepository } from '../repositories/user/otpRepository';
 import { AdminRepository } from '../repositories/admin/adminRepository';
 import { SkillRepository } from '../repositories/user/SkillsRepository';
+<<<<<<< Updated upstream
 
+=======
+import { ExperieceRepository } from '../repositories/user/ExperienceRepository';
+import { EducationRepository } from '../repositories/user/educationRepository';
+import { CompanyRepository } from '../repositories/user/companyRepository';
+>>>>>>> Stashed changes
 //services
 
 import { OtpGenerator } from '../services/otpgenerator';
@@ -61,6 +84,12 @@ const otpGenerator = new OtpGenerator();
 const otpRepository = new OtpRepository();
 const adminRepository = new AdminRepository();
 const skillRepository = new SkillRepository();
+<<<<<<< Updated upstream
+=======
+const experienceRepository = new ExperieceRepository();
+const educationRepository = new EducationRepository();
+const companyRepository = new CompanyRepository();
+>>>>>>> Stashed changes
 
 const emailService = new EmailService();
 const verifyOtpService = new VerifyOtpService(otpRepository, userRepository);
@@ -115,6 +144,12 @@ const editAboutUsecase = new EditAboutUseCase(userRepository);
 
 //skills
 const getAllSkillsUseCase = new GetAllSkillsUseCase(skillRepository);
+const companyRegisterUseCase = new CompanyRegisterUseCase(
+  companyRepository,
+  userRepository
+);
+const addLogoUseCase = new AddLogoUseCase(imageStorageService);
+const addDocumentUseCase = new AddDocumentUseCase(fileStorageServices);
 
 export const authController = new AuthController(
   registerUseCase,
@@ -152,4 +187,13 @@ export const candidateProfileController = new CandidateProfileController(
   removeSkillFromProfileUseCase
 );
 
+<<<<<<< Updated upstream
 export const skillController=new SkillsController(getAllSkillsUseCase)
+=======
+export const skillController = new SkillsController(getAllSkillsUseCase);
+export const companyProfileController = new CompanyProfileController(
+  companyRegisterUseCase,
+  addLogoUseCase,
+  addDocumentUseCase
+);
+>>>>>>> Stashed changes

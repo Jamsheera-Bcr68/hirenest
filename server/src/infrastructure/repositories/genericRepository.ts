@@ -10,6 +10,13 @@ export abstract class GenericRepository<
   constructor(model: Model<D>) {
     this._model = model;
   }
+<<<<<<< Updated upstream
+=======
+  async create(data: Partial<T>): Promise<T> {
+    const doc = await this._model.create(this.mapToPersistance(data));
+    return this.mapToEntity(doc);
+  }
+>>>>>>> Stashed changes
   async findOne(filter: Partial<T>): Promise<T | null> {
     //console.log("from generic repository filter", filter);
     const { id, ...rest } = filter;

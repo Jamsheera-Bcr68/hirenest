@@ -28,14 +28,14 @@ const AboutMe = ({
           <div className="flex items-center gap-3">
             <button
               onClick={addAbout}
-              className="text-green-600 hover:text-green-700 text-sm font-medium"
+              className="text-green-600 hover:bg-green-200 px-4 py-1 rounded-md text-sm font-medium"
             >
               Save
             </button>
 
             <button
               onClick={cancelEdit}
-              className="text-red-600 hover:text-red-700 text-sm font-medium"
+              className="text-red-600 hover:bg-red-200 px-4 py-1 rounded-md text-sm font-medium"
             >
               Cancel
             </button>
@@ -43,7 +43,7 @@ const AboutMe = ({
         ) : user?.about ? (
           <button
             onClick={onEdit}
-            className="text-green-600 hover:text-green-700 text-sm font-medium"
+            className="cursor-pointer inline-block px-4 py-1  bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium shadow"
           >
             Edit
           </button>

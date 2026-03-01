@@ -21,14 +21,28 @@ export class RemoveProfileImageUseCase implements IRemoveProfileImageUseCase {
     const user = await this._userRepository.findById(userId);
     if (!user || !user.role || !user.id)
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
+<<<<<<< Updated upstream
       if(!user.imageUrl) throw new AppError(userMessages.error.IMAGE_ALREADY_REMOVED, statusCodes.CONFLICT);
     const fileName=user.imageUrl
   
+=======
+    if (!user.imageUrl)
+      throw new AppError(
+        userMessages.error.IMAGE_ALREADY_REMOVED,
+        statusCodes.CONFLICT
+      );
+    const fileName = user.imageUrl;
+    await this._imageStorageService.removeFile(fileName);
+>>>>>>> Stashed changes
     user.imageUrl = '';
     const updatad = await this._userRepository.save(user.id, user);
     if (!updatad)
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
+<<<<<<< Updated upstream
     await this._imageStorageService.removeImage(fileName)
+=======
+
+>>>>>>> Stashed changes
     return updatad;
   }
 }

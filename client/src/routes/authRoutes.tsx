@@ -8,21 +8,23 @@ import Dashboard from '../presentation/pages/admin/Dashboard.tsx';
 import ForgotPassword from '../presentation/pages/auth/ForgotPassword.tsx';
 import ResetPassword from '../presentation/pages/auth/ResetPasswordForm.tsx';
 import PublicRoutes from './PublicOnlyRoutes.tsx';
+import NotFound from '../presentation/pages/NotFound.tsx';
 
 export const AuthRoutes = () => {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route element={<PublicRoutes />}>
-        <Route path="/register" element={<Register />} />
-        <Route path="/otp" element={<Otp />} />
-        <Route path="/login" element={<Loginfile />} />
+        <Route path="register" element={<Register />} />
+        <Route path="otp" element={<Otp />} />
+        <Route path="login" element={<Loginfile />} />
 
-        <Route path="/admin/login" element={<AdminLogin />} />
-        <Route path="/admin/dashboard" element={<Dashboard />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
+        <Route path="admin/login" element={<AdminLogin />} />
+        <Route path="admin/dashboard" element={<Dashboard />} />
+        <Route path="forgot-password" element={<ForgotPassword />} />
+        <Route path="reset-password/:resetToken" element={<ResetPassword />} />
       </Route>
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 };

@@ -3,8 +3,19 @@ const Education = () => {
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-xl font-bold text-gray-800">Education</h3>
+<<<<<<< Updated upstream
         <button className="text-blue-600 hover:text-blue-700 text-sm font-medium">
           Add Education
+=======
+        <button
+          onClick={() => {
+            setIsOpen({ type: 'add', isOpen: true });
+            setEditEdu(null);
+          }}
+          className="cursor-pointer inline-block px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium shadow"
+        >
+          Add
+>>>>>>> Stashed changes
         </button>
       </div>
       <div className="space-y-4">

@@ -4,7 +4,6 @@ import { X } from 'lucide-react';
 import { type ProfileImgViewModalProps } from '../../types/propTypes/profileProps';
 import Cropper from 'react-easy-crop';
 
-import { useToast } from '../../shared/toast/useToast';
 import { useImageChange } from '../hooks/user/candidate/profile/useImageChange';
 
 export default function ProfileImgViewModal({
@@ -13,7 +12,6 @@ export default function ProfileImgViewModal({
   profileImage,
   onUserUpdate,
 }: ProfileImgViewModalProps) {
-  const { showToast } = useToast();
   console.log('profileimage', profileImage);
 
   const {
@@ -31,7 +29,7 @@ export default function ProfileImgViewModal({
     handleFileChange,
     saveCroppedImage,
     removeProfleImage,
-  } = useImageChange(showToast, onClose, onUserUpdate);
+  } = useImageChange(onClose, onUserUpdate);
 
   return (
     <Dialog.Root

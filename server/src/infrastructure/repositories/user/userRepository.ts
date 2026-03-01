@@ -121,10 +121,126 @@ export class UserRepository
     return this.mapToEntity(updated)
   }
   async removeSkill(userId: string, skillId: string): Promise<User | null> {
+<<<<<<< Updated upstream
     const updated=await this._model.findByIdAndUpdate(userId,{$pull:{skills:new Types.ObjectId(skillId)}},{new:true}).populate('skills')
     console.log('updated after removeskill from repo',updated);
     if(!updated)return null
     return this.mapToEntity(updated)
     
+=======
+    const updated = await this._model
+      .findByIdAndUpdate(
+        userId,
+        { $pull: { skills: new Types.ObjectId(skillId) } },
+        { new: true }
+      )
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    //  console.log('updated after removeskill from repo', updated);
+    if (!updated) return null;
+    return this.mapToEntity(updated);
+  }
+  async addExperience(userId: string, expId: string): Promise<User | null> {
+    const updated = await this._model
+      .findByIdAndUpdate(
+        userId,
+        { $addToSet: { experience: expId } },
+        { new: true }
+      )
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!updated) return null;
+    return this.mapToEntity(updated);
+  }
+  async removeExperience(userId: string, expId: string): Promise<User | null> {
+    const doc = await this._model
+      .findByIdAndUpdate(userId, {
+        $pull: { experience: new Types.ObjectId(expId) },
+      })
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!doc) return null;
+    return this.mapToEntity(doc);
+  }
+  async addEducation(userId: string, eduId: string): Promise<User | null> {
+    const user = await this._model
+      .findByIdAndUpdate(
+        userId,
+        { $addToSet: { education: new Types.ObjectId(eduId) } },
+        { new: true }
+      )
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!user) return null;
+    return this.mapToEntity(user);
+  }
+  async removeEducation(userId: string, eduId: string): Promise<User | null> {
+    const user = await this._model
+      .findByIdAndUpdate(
+        userId,
+        { $pull: { education: new Types.ObjectId(eduId) } },
+        { new: true }
+      )
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!user) return null;
+    return this.mapToEntity(user);
+  }
+  async addResume(data: IResume, userId: string): Promise<User | null> {
+    const doc = await this._model
+      .findByIdAndUpdate(
+        userId,
+        { $addToSet: { resumes: data } },
+        { new: true }
+      )
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!doc) return null;
+    return this.mapToEntity(doc);
+  }
+  async addProfileImage(
+    userId: string,
+    imageUrl: string
+  ): Promise<User | null> {
+    const doc = await this._model
+      .findByIdAndUpdate(
+        userId,
+        { $set: { imageUrl: imageUrl } },
+        { new: true }
+      )
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!doc) return null;
+    return this.mapToEntity(doc);
+  }
+  async removeProfileImage(userId: string): Promise<User | null> {
+    const doc = await this._model
+      .findByIdAndUpdate(userId, { $set: { imageUrl: '' } }, { new: true })
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!doc) return null;
+    return this.mapToEntity(doc);
+  }
+  async removeResume(userId: string, resumeId: string): Promise<User | null> {
+    const user = await this._model
+      .findByIdAndUpdate(
+        userId,
+        { $pull: { resumes: { _id: new Types.ObjectId(resumeId) } } },
+        { new: true }
+      )
+      .populate('skills')
+      .populate('experience')
+      .populate('education');
+    if (!user) return null;
+    else return this.mapToEntity(user);
+>>>>>>> Stashed changes
   }
 }

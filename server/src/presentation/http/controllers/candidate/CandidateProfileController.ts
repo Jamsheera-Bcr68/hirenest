@@ -14,7 +14,23 @@ import { IRemoveProfileImageUseCase } from '../../../../applications/interfaces/
 import { IAddSkillToProfileUseCase } from '../../../../applications/interfaces/candidate/IAddSkilltoProfileUseCase';
 import { IEditAboutUseCase } from '../../../../applications/interfaces/candidate/IEditAboutUseCase';
 import { IRemoveSkillFromProfileUseCase } from '../../../../applications/interfaces/candidate/IRemoveSkillUseCase';
+<<<<<<< Updated upstream
 import { success } from 'zod';
+=======
+import { ExperienceDto } from '../../validators/profileValidation';
+import { IAddExperienceUseCase } from '../../../../applications/interfaces/candidate/IAddExperienceUseCase';
+import { IEditExperienceUseCase } from '../../../../applications/interfaces/candidate/IEditExperienceUseCase';
+import { IRemoveExperienceUseCase } from '../../../../applications/interfaces/candidate/IRemoveExperienceUseCase';
+import { EducationType } from '../../validators/educationFormValidator';
+import { ProfileDataMapper } from '../../../../applications/mappers/profileDataMaper';
+import { IAddEducationUseCase } from '../../../../applications/interfaces/candidate/IAddEducationUseCase';
+import { IGetAllEducationUseCase } from '../../../../applications/interfaces/candidate/IGetAllEducationUseCase';
+import { IEditEducationUseCase } from '../../../../applications/interfaces/candidate/IEditEducationUseCase';
+import { IRemoveEducationUseCase } from '../../../../applications/interfaces/candidate/IRemoveEducationUseCase';
+import { generalMessages } from '../../../../shared/constants/messages/generalMessages';
+import { IAddResumeUseCase } from '../../../../applications/interfaces/candidate/IAddResumeUseCase';
+import { IRemoveResumeUseCase } from '../../../../applications/interfaces/candidate/IRemoveResumeUseCase';
+>>>>>>> Stashed changes
 
 export class CandidateProfileController {
   private _candidateEditProfileUsecase: IProfileEditUsecase;
@@ -178,7 +194,10 @@ export class CandidateProfileController {
     }
   };
   addAbout = async (req: Request, res: Response, next: NextFunction) => {
+<<<<<<< Updated upstream
     console.log('from about controller');
+=======
+>>>>>>> Stashed changes
     const user = req.user;
 
     try {
@@ -265,4 +284,269 @@ export class CandidateProfileController {
       next(error);
     }
   };
+<<<<<<< Updated upstream
+=======
+  addExperience = async (req: Request, res: Response, next: NextFunction) => {
+    console.log('from add experience controller');
+    const user = req.user;
+    try {
+      if (!user || !user.userId || !user.role)
+        throw new AppError(
+          authMessages.error.UNAUTHORIZED,
+          statusCodes.UNAUTHERIZED
+        );
+
+      const payload: ExperienceDto = req.body;
+      const updated = await this._addExperienceUseCase.execute(
+        user.userId,
+        user.role,
+        payload
+      );
+      console.log('added experience form controller', updated);
+      return res.status(statusCodes.OK).json({
+        success: true,
+        message: userMessages.success.EXPERIENCE_ADDED,
+        user: UserMapper.toUserProfileDto(updated),
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  editExperience = async (req: Request, res: Response, next: NextFunction) => {
+    console.log('from edit experience controller');
+    const user = req.user;
+    try {
+      if (!user || !user.userId || !user.role)
+        throw new AppError(
+          authMessages.error.UNAUTHORIZED,
+          statusCodes.UNAUTHERIZED
+        );
+
+      const payload: ExperienceDto = req.body;
+      const { expId } = req.params;
+      if (!expId)
+        throw new AppError(
+          userMessages.error.EXPEIENCE_ID_NOT_FOUND,
+          statusCodes.BADREQUEST
+        );
+      const updated = await this._editExperienceUseCase.execute(
+        user.userId,
+        expId,
+        user.role,
+
+        payload
+      );
+
+      console.log('edited experience form controller', updated);
+      return res.status(statusCodes.OK).json({
+        success: true,
+        message: userMessages.success.EXPERIENCE_UPDATED,
+        user: UserMapper.toUserProfileDto(updated),
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  removeExperience = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
+    console.log('remove experience');
+    const user = req.user;
+    try {
+      if (!user || !user.userId || !user.role)
+        throw new AppError(
+          authMessages.error.UNAUTHORIZED,
+          statusCodes.UNAUTHERIZED
+        );
+
+      const { expId } = req.params;
+
+      if (!expId)
+        throw new AppError(
+          userMessages.error.EXPEIENCE_ID_NOT_FOUND,
+          statusCodes.BADREQUEST
+        );
+      const updated = await this._removeExperienceUseCase.execute(
+        user.userId,
+        user.role,
+        expId
+      );
+
+      console.log('remove experience form controller', updated);
+      return res.status(statusCodes.OK).json({
+        success: true,
+        message: userMessages.success.EXPEIENCE_REMOVED,
+        user: UserMapper.toUserProfileDto(updated),
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  addEducation = async (req: Request, res: Response, next: NextFunction) => {
+    const payload: EducationType = req.body;
+    const user = req.user;
+    try {
+      if (!user || !user.userId || !user.role)
+        throw new AppError(
+          authMessages.error.UNAUTHORIZED,
+          statusCodes.UNAUTHERIZED
+        );
+      const education = ProfileDataMapper.toEducationDto(payload);
+      console.log('education from controller', education);
+
+      const updatedUser = await this._addEducationUseCase.excecute(
+        education,
+        user.userId,
+        user.role
+      );
+
+      return res.status(statusCodes.CREATED).json({
+        success: true,
+        message: userMessages.success.EDUCATION_ADDED,
+        user: UserMapper.toUserProfileDto(updatedUser),
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  editEducation = async (req: Request, res: Response, next: NextFunction) => {
+    const payload: EducationType = req.body;
+    const user = req.user;
+    const { eduId } = req.params;
+    try {
+      if (!eduId)
+        throw new AppError(
+          userMessages.error.EDUCATION_ID_NOTFOUND,
+          statusCodes.BADREQUEST
+        );
+      if (!user || !user.userId || !user.role)
+        throw new AppError(
+          authMessages.error.UNAUTHORIZED,
+          statusCodes.UNAUTHERIZED
+        );
+      const education = ProfileDataMapper.toEducationDto(payload);
+      console.log('education from controller', education);
+
+      const updatedUser = await this._editEducationUseCase.execute(
+        education,
+        eduId,
+        user.role,
+        user.userId
+      );
+
+      return res.status(statusCodes.CREATED).json({
+        success: true,
+        message: userMessages.success.EDUCATION_UPDATED,
+        user: UserMapper.toUserProfileDto(updatedUser),
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  deleteEducation = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const { eduId } = req.params;
+
+    try {
+      if (!eduId)
+        throw new AppError(
+          userMessages.error.EDUCATION_ID_NOTFOUND,
+          statusCodes.BADREQUEST
+        );
+      if (!user || !user.userId || !user.role)
+        throw new AppError(
+          authMessages.error.UNAUTHORIZED,
+          statusCodes.UNAUTHERIZED
+        );
+
+      const updatedUser = await this._removeEducationUseCase.execute(
+        eduId,
+        user.userId,
+        user.role
+      );
+      return res.status(statusCodes.OK).json({
+        success: true,
+        message: userMessages.success.EDUCATION_REMOVED,
+        user: UserMapper.toUserProfileDto(updatedUser),
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  addResume = async (req: Request, res: Response, next: NextFunction) => {
+    console.log('from upload resume controller');
+    const user = req.user;
+    try {
+      if (!user || !user.userId || !user.role)
+        throw new AppError(
+          authMessages.error.UNAUTHORIZED,
+          statusCodes.UNAUTHERIZED
+        );
+      const file = req.file;
+      if (!file) {
+        throw new AppError(
+          generalMessages.errors.RESUME_NOTFOUND,
+          statusCodes.BADREQUEST
+        );
+      }
+      const data: UploadFileDto = {
+        mimetype: file?.mimetype,
+        buffer: file.buffer,
+        originalName: file.originalname,
+        size: file.size,
+      };
+      const updatedUser = await this._addResumeUseCase.execute(
+        data,
+        user.userId,
+        user.role
+      );
+      if (!updatedUser) {
+        throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
+      }
+      console.log(
+        'after adding resume:',
+        UserMapper.toUserProfileDto(updatedUser)
+      );
+
+      return res.status(statusCodes.OK).json({
+        success: true,
+        message: userMessages.success.RESUME_ADDED,
+        user: UserMapper.toUserProfileDto(updatedUser),
+      });
+    } catch (error) {
+      next(error);
+    }
+  };
+  removeResume = async (req: Request, res: Response, next: NextFunction) => {
+    const user = req.user;
+    const { id } = req.params;
+    try {
+      if (!user || !user.userId || !user.role)
+        throw new AppError(
+          authMessages.error.UNAUTHORIZED,
+          statusCodes.UNAUTHERIZED
+        );
+      if (!id)
+        throw new AppError(
+          userMessages.error.RESUMEID_NOT_FOUND,
+          statusCodes.BADREQUEST
+        );
+
+      const updatedUser = await this.removeResumeUseCase.execute(
+        user.userId,
+        id,
+        user.role
+      );
+      return res.status(statusCodes.OK).json({
+        success: true,
+        message: userMessages.success.RESUME_DELETED,
+        user: UserMapper.toUserProfileDto(updatedUser),
+      });
+    } catch (error: any) {
+      next(error);
+    }
+  };
+>>>>>>> Stashed changes
 }

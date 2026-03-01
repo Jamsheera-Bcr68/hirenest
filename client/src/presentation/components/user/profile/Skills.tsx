@@ -29,12 +29,33 @@ const Skills = ({
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-xl font-bold text-gray-800">Skills</h3>
 
+<<<<<<< Updated upstream
         <button
           onClick={addSkill}
           className="text-green-600 hover:text-green-700 text-sm font-medium transition-colors"
         >
           Add Skill
         </button>
+=======
+        {!isAddSkill ? (
+          <button
+            onClick={() => setIsAddSkill(true)}
+            className="cursor-pointer inline-block px-4 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium shadow"
+          >
+            Add
+          </button>
+        ) : (
+          <button
+            onClick={() => {
+              setIsAddSkill(false);
+              setSkillName('');
+            }}
+            className="hover:bg-red-200 text-red-700 px-4 py-1 rounded-md text-bold text-sm"
+          >
+            Cancel
+          </button>
+        )}
+>>>>>>> Stashed changes
       </div>
 
       {/* Skills list */}
