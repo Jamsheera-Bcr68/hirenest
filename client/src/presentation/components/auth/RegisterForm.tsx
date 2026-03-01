@@ -3,7 +3,7 @@ import { useToast } from '../../../shared/toast/useToast';
 import { Eye, EyeClosedIcon } from 'lucide-react';
 
 function RegisterForm() {
-  const { showToast } = useToast();
+  const { showToast, ToastElement } = useToast();
   const {
     formData,
     succesMsg,
@@ -125,6 +125,7 @@ function RegisterForm() {
           Sign in
         </a>
       </p>
+      {ToastElement}
     </>
   );
 }

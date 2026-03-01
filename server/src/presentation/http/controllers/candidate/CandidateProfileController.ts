@@ -27,6 +27,7 @@ import { IRemoveEducationUseCase } from '../../../../applications/interfaces/can
 import { generalMessages } from '../../../../shared/constants/messages/generalMessages';
 import { IAddResumeUseCase } from '../../../../applications/interfaces/candidate/IAddResumeUseCase';
 import { IRemoveResumeUseCase } from '../../../../applications/interfaces/candidate/IRemoveResumeUseCase';
+import { success } from 'zod';
 
 export class CandidateProfileController {
   private _candidateEditProfileUsecase: IProfileEditUsecase;
@@ -36,6 +37,13 @@ export class CandidateProfileController {
   private _editAboutUseCase: IEditAboutUseCase;
   private _addSkillToProfileUseCase: IAddSkillToProfileUseCase;
   private _removeSkillUseCase: IRemoveSkillFromProfileUseCase;
+  private _addExperienceUseCase: IAddExperienceUseCase;
+  private _editExperienceUseCase: IEditExperienceUseCase;
+  private _removeExperienceUseCase: IRemoveExperienceUseCase;
+  private _addEducationUseCase: IAddEducationUseCase;
+  private _removeEducationUseCase: IRemoveEducationUseCase;
+  private _editEducationUseCase: IEditEducationUseCase;
+  private _addResumeUseCase: IAddResumeUseCase;
   constructor(
     candidateEditProfileUsecase: IProfileEditUsecase,
     getUserUseCase: IGetUserUseCase,
@@ -43,7 +51,15 @@ export class CandidateProfileController {
     removeProfileImageUseCase: IRemoveProfileImageUseCase,
     editAboutUseCase: IEditAboutUseCase,
     addSkillToProfileUseCase: IAddSkillToProfileUseCase,
-    removeSkillUseCase: IRemoveSkillFromProfileUseCase
+    removeSkillUseCase: IRemoveSkillFromProfileUseCase,
+    addExperienceUseCase: IAddExperienceUseCase,
+    editExperienceUseCase: IEditExperienceUseCase,
+    removeExperienceUseCase: IRemoveExperienceUseCase,
+    addEducationUseCase: IAddEducationUseCase,
+    editEducationUseCase: IEditEducationUseCase,
+    removeEducationUseCase: IRemoveEducationUseCase,
+    addResumeUseCase: IAddResumeUseCase,
+    private removeResumeUseCase: IRemoveResumeUseCase
   ) {
     this._candidateEditProfileUsecase = candidateEditProfileUsecase;
     this._getUserUseCase = getUserUseCase;
@@ -52,13 +68,20 @@ export class CandidateProfileController {
     this._editAboutUseCase = editAboutUseCase;
     this._addSkillToProfileUseCase = addSkillToProfileUseCase;
     this._removeSkillUseCase = removeSkillUseCase;
+    this._addExperienceUseCase = addExperienceUseCase;
+    this._editExperienceUseCase = editExperienceUseCase;
+    this._removeExperienceUseCase = removeExperienceUseCase;
+    this._addEducationUseCase = addEducationUseCase;
+    this._editEducationUseCase = editEducationUseCase;
+    this._removeEducationUseCase = removeEducationUseCase;
+    this._addResumeUseCase = addResumeUseCase;
   }
   editProfile = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
-    console.log('from edit profile req.user ', user);
+    // console.log('from edit profile req.user ', user);
 
     const payload: UpdataUserProfileInput = req.body;
-    console.log('payload from controller ', payload);
+    // console.log('payload from controller ', payload);
 
     if (!user) {
       throw new AppError(
@@ -76,10 +99,10 @@ export class CandidateProfileController {
     data.name = payload.name ?? undefined;
     data.title = payload.title ?? undefined;
     data.socialMedidaLinks = payload.socialMediaLinks ?? undefined;
-    console.log('from candidate profile controller,data is ', data);
+    //console.log('from candidate profile controller,data is ', data);
     try {
       const updated = await this._candidateEditProfileUsecase.execute(data);
-      console.log('updated user from controller ', updated);
+      //  console.log('updated user from controller ', updated);
       const userProfile = UserMapper.toUserProfileDto(updated);
       return res.status(statusCodes.OK).json({
         success: true,
@@ -122,7 +145,7 @@ export class CandidateProfileController {
     res: Response,
     next: NextFunction
   ) => {
-    console.log('from edit image');
+    //console.log('from edit image');
     const user = req.user;
     if (!user || !user.role)
       throw new AppError(
@@ -150,7 +173,7 @@ export class CandidateProfileController {
         user?.role,
         imageFile
       );
-      console.log('updted user from controlleer image edit ', updatedUser);
+      //  console.log('updted user from controlleer image edit ', updatedUser);
       const userDto = UserMapper.toUserProfileDto(updatedUser);
       return res.status(statusCodes.OK).json({
         success: true,
@@ -166,7 +189,7 @@ export class CandidateProfileController {
     res: Response,
     next: NextFunction
   ) => {
-    console.log('from remove image controller');
+    // console.log('from remove image controller');
     const user = req.user;
     if (!user) {
       throw new AppError(
@@ -190,6 +213,7 @@ export class CandidateProfileController {
     }
   };
   addAbout = async (req: Request, res: Response, next: NextFunction) => {
+    // console.log('from about controller');
     const user = req.user;
 
     try {
@@ -220,22 +244,23 @@ export class CandidateProfileController {
   };
   addSkill = async (req: Request, res: Response, next: NextFunction) => {
     const user = req.user;
+    const { skillId } = req.params;
     try {
       if (!user)
         throw new AppError(
           authMessages.error.UNAUTHORIZED,
           statusCodes.UNAUTHERIZED
         );
-      const { skillName } = req.body;
-      if (!skillName) {
+
+      if (!skillId) {
         throw new AppError(
-          userMessages.error.SKILL_NOT_FOUND,
+          userMessages.error.SKILLID_NOT_FOUND,
           statusCodes.BADREQUEST
         );
       }
       const updated = await this._addSkillToProfileUseCase.execute(
         user.userId,
-        skillName,
+        skillId,
         user.role
       );
       const updatedUser = UserMapper.toUserProfileDto(updated);
@@ -249,11 +274,10 @@ export class CandidateProfileController {
     }
   };
   removeSkill = async (req: Request, res: Response, next: NextFunction) => {
- 
     const user = req.user;
     const { skillId } = req.params;
-       console.log('from remove skll conteoler,dkillid',skillId);
-    
+    // console.log('from remove skll conteoler,dkillid', skillId);
+
     try {
       if (!user || !user.userId || !user.role)
         throw new AppError(
@@ -266,12 +290,16 @@ export class CandidateProfileController {
           statusCodes.BADREQUEST
         );
       }
-      const updatedUser =await this._removeSkillUseCase.execute(
+      const updatedUser = await this._removeSkillUseCase.execute(
         user.userId,
         skillId,
         user.role
       );
-      return res.status(statusCodes.OK).json({success:true,message:userMessages.success.SKILL_REMOVED,user:UserMapper.toUserProfileDto(updatedUser)})
+      return res.status(statusCodes.OK).json({
+        success: true,
+        message: userMessages.success.SKILL_REMOVED,
+        user: UserMapper.toUserProfileDto(updatedUser),
+      });
     } catch (error) {
       next(error);
     }
@@ -529,11 +557,13 @@ export class CandidateProfileController {
         id,
         user.role
       );
-      return res.status(statusCodes.OK).json({
-        success: true,
-        message: userMessages.success.RESUME_DELETED,
-        user: UserMapper.toUserProfileDto(updatedUser),
-      });
+      return res
+        .status(statusCodes.OK)
+        .json({
+          success: true,
+          message: userMessages.success.RESUME_DELETED,
+          user: UserMapper.toUserProfileDto(updatedUser),
+        });
     } catch (error: any) {
       next(error);
     }

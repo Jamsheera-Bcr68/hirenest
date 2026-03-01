@@ -1,9 +1,8 @@
-import { UserRole } from "../enums/userEnums";
-import { SkillStatus } from "../enums/skillEnum";
-
+import { UserRole } from '../enums/userEnums';
+import { SkillStatus } from '../enums/skillEnum';
 
 export interface Skill {
-  id: string,
+  id: string;
   skillName: string;
   createdBy: UserRole;
   createdAt?: Date;

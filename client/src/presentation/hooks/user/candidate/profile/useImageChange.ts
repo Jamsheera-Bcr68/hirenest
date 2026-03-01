@@ -1,14 +1,14 @@
 import { useState, useRef } from 'react';
 import { getCroppedImage } from '../../../../../utils/cropImage';
-import { useToast } from '../../../../../shared/toast/useToast';
+import { type typeOfToast } from '../../../../../types/toastTypes';
 import axiosInstance from '../../../../../libraries/axios';
-import type { UserProfileType } from '../../../../../types/dtos/userTypes';
+import type { UserProfileType } from '../../../../../types/dtos/profileTypes/userTypes';
 
 export const useImageChange = (
+  showToast: (toast: typeOfToast) => void,
   onClose: () => void,
-  onUserUpdate:(user:UserProfileType)=>void
+  onUserUpdate: (user: UserProfileType) => void
 ) => {
-  const { showToast } = useToast();
   const [preview, setPreview] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -65,10 +65,10 @@ export const useImageChange = (
         '/candidate/profile/image',
         formdata
       );
-      console.log('response user',response.data.user);
-      const user=response.data.user
+      console.log('response user', response.data.user);
+      const user = response.data.user;
       showToast({ msg: response.data.message, type: 'success' });
-      onUserUpdate(user)
+      onUserUpdate(user);
       onClose();
     } catch (error: any) {
       showToast({
@@ -78,20 +78,22 @@ export const useImageChange = (
       console.log(error);
     }
   };
-  const removeProfleImage=async()=>{
+  const removeProfleImage = async () => {
     console.log('from remove profile image');
     try {
-      const response=await axiosInstance.delete('/candidate/profile/image')
+      const response = await axiosInstance.delete('/candidate/profile/image');
       console.log(response.data.user);
-      onUserUpdate(response.data.user)
-      showToast({msg:response.data.message,type:'success'})
-      setPreview(null)
-      onClose()
-    } catch (error:any) {
-      showToast({msg:error?.response?.data?.message||error.message,type:'error'
-      })
+      onUserUpdate(response.data.user);
+      showToast({ msg: response.data.message, type: 'success' });
+      setPreview(null);
+      onClose();
+    } catch (error: any) {
+      showToast({
+        msg: error?.response?.data?.message || error.message,
+        type: 'error',
+      });
     }
-  }
+  };
   return {
     preview,
     setPreview,
@@ -106,6 +108,6 @@ export const useImageChange = (
     imageClick,
     handleFileChange,
     saveCroppedImage,
-    removeProfleImage
+    removeProfleImage,
   };
 };

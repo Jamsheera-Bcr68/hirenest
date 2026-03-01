@@ -1,3 +1,4 @@
+import { email } from 'zod';
 import { User } from '../../domain/entities/User';
 
 export class UserMapper {
@@ -18,13 +19,14 @@ export class UserMapper {
       phone: user.phone,
       skills: user.skills,
       name: user.name,
-
+      experience: user.experience,
       imageUrl: user.imageUrl,
       title: user.title,
-
+      education: user.education,
       address: user.address,
       socialLinks: user.socialMediaLinks,
       about: user.about,
+      resumes: user.resumes,
     };
   }
 }

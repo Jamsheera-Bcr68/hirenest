@@ -1,5 +1,5 @@
 import { UploadFileDto } from '../../applications/Dtos/uploadFileDto';
-import { IImageStorageService } from '../../applications/interfaces/services/IImageStorage';
+import { IFileStorageService } from '../../applications/interfaces/services/IFileStorageServices';
 import fs from 'fs/promises';
 import path from 'path';
 import { randomUUID } from 'crypto';
@@ -7,9 +7,9 @@ import { AppError } from '../../domain/errors/AppError';
 import { userMessages } from '../../shared/constants/messages/userMessages';
 import { statusCodes } from '../../shared/enums/statusCodes';
 
-export class ImageStorageService implements IImageStorageService {
+export class ImageStorageService implements IFileStorageService {
   constructor() {}
-  async uploadImage(
+  async uploadFile(
     file: UploadFileDto,
     folder: string = 'uploads'
   ): Promise<string> {
@@ -21,13 +21,13 @@ export class ImageStorageService implements IImageStorageService {
     console.log('file.original name', file.originalName);
 
     const fileName = `${randomUUID()}.${fileExtension}`;
-    console.log('file.extension name', fileExtension);
+    //console.log('file.extension name', fileExtension);
     const filePath = path.join(uploadDir, fileName);
 
     await fs.writeFile(filePath, file.buffer);
     return `/${folder}/${fileName}`;
   }
-  async removeImage(fileName: string) {
+  async removeFile(fileName: string) {
     const filePath = path.join(process.cwd(), 'public', fileName);
     try {
       console.log('removeing file path');

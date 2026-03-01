@@ -4,13 +4,13 @@ import { useHeader } from '../../hooks/user/useHeader';
 import { useToast } from '../../../shared/toast/useToast';
 
 const Header = () => {
-  const { showToast } = useToast();
+  const { showToast, ToastElement } = useToast();
   const { isMenuOpen, setIsMenuOpen, HandleLogout, user } =
     useHeader(showToast);
   const navigate = useNavigate();
   return (
     <header className="  shadow-md">
-      <nav className="container header fixed  z-[2000]   mx-auto px-4 sm:px-6 lg:px-8">
+      <nav className="container header  mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
@@ -46,7 +46,7 @@ const Header = () => {
               Find Jobs
             </a>
             <a
-              href="/profile"
+              href="/user/profile"
               className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
             >
               Profile
@@ -79,13 +79,6 @@ const Header = () => {
                 Logout
               </button>
             )}
-
-            <button
-              onClick={() => navigate('/company-register')}
-              className="bg-green-600 text-white hover:bg-blue-700 px-6 py-2 rounded-lg text-sm font-medium transition-colors"
-            >
-              Post a job
-            </button>
           </div>
 
           {/* Mobile Menu Button */}
@@ -123,12 +116,12 @@ const Header = () => {
               >
                 Home
               </a>
-              {/* <a
+              <a
                 href="#"
                 className="text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-3 py-2 rounded-lg text-base font-medium transition-colors"
               >
                 About
-              </a> */}
+              </a>
               <a
                 href="#"
                 className="text-gray-700 hover:text-blue-600 hover:bg-gray-50 px-3 py-2 rounded-lg text-base font-medium transition-colors"
@@ -156,6 +149,7 @@ const Header = () => {
           </div>
         )}
       </nav>
+      {ToastElement}
     </header>
   );
 };

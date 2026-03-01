@@ -27,10 +27,6 @@ export class LoginUseCase implements IUserLoginUseCase {
         authMessages.error.USER_NOT_FOUND,
         statusCodes.NOTFOUND
       );
-    console.log(
-      'comparePassword',
-      await comparePassword(input.password, user.password)
-    );
 
     if (!(await comparePassword(input.password, user.password)))
       throw new AppError(

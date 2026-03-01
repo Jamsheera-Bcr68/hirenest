@@ -1,4 +1,4 @@
-export interface UserSkillDto{
-    id:string,
-    skillName:string
+export interface UserSkillDto {
+  id: string;
+  skillName: string;
 }

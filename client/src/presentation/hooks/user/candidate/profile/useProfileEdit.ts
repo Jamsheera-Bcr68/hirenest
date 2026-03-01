@@ -3,7 +3,7 @@ import { profileDataSchema } from '../../../../../libraries/validations/auth/can
 import axiosInstance from '../../../../../libraries/axios';
 import type { typeOfToast } from '../../../../../types/toastTypes';
 import type { ISocialLinks } from '../../../../../types/profileTypes';
-import { type UserProfileType } from '../../../../../types/dtos/userTypes';
+import { type UserProfileType } from '../../../../../types/dtos/profileTypes/userTypes';
 
 type FormData = {
   name?: string;
@@ -100,7 +100,7 @@ export const useProfileEdit = (
     try {
       const response = await axiosInstance.post('/candidate/profile', formData);
       console.log('response from backend after updating user ', response);
-      const updated:UserProfileType = response.data.user;
+      const updated: UserProfileType = response.data.user;
       showToast({ msg: response.data.message, type: 'success' });
       onUserUpdate(updated);
       onClose();

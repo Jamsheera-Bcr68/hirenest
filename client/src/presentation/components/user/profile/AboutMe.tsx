@@ -1,6 +1,6 @@
-import { useEditProfileDetails } from '../../../hooks/user/useEditProfileDetails';
+import { useEditProfileDetails } from '../../../hooks/user/candidate/profile/useEditProfileDetails';
 import { useToast } from '../../../../shared/toast/useToast';
-import type { UserProfileType } from '../../../../types/dtos/userTypes';
+import type { UserProfileType } from '../../../../types/dtos/profileTypes/userTypes';
 
 const AboutMe = ({
   user,
@@ -14,11 +14,11 @@ const AboutMe = ({
     addAbout,
     isEditing,
     handleChange,
-   onEdit,
+    onEdit,
     value,
     cancelEdit,
     onBlur,
-  } = useEditProfileDetails(showToast, onUserUpdate, user);
+  } = useEditProfileDetails(showToast, onUserUpdate, user, []);
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <div className="flex justify-between items-center mb-4">
@@ -28,14 +28,14 @@ const AboutMe = ({
           <div className="flex items-center gap-3">
             <button
               onClick={addAbout}
-              className="text-green-600 hover:bg-green-200 px-4 py-1 rounded-md text-sm font-medium"
+              className="text-green-600 hover:text-green-700 text-sm font-medium"
             >
               Save
             </button>
 
             <button
               onClick={cancelEdit}
-              className="text-red-600 hover:bg-red-200 px-4 py-1 rounded-md text-sm font-medium"
+              className="text-red-600 hover:text-red-700 text-sm font-medium"
             >
               Cancel
             </button>
@@ -43,7 +43,7 @@ const AboutMe = ({
         ) : user?.about ? (
           <button
             onClick={onEdit}
-            className="cursor-pointer inline-block px-4 py-1  bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium shadow"
+            className="text-green-600 hover:text-green-700 text-sm font-medium"
           >
             Edit
           </button>

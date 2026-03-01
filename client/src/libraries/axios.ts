@@ -67,7 +67,7 @@ axiosInstance.interceptors.response.use(
           );
           throw new Error('accessToken not in refresh response');
         }
-        store.dispatch(setAccessToken({accessToken:newAccessToken}));
+        store.dispatch(setAccessToken({ accessToken: newAccessToken }));
         //  originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
         originalRequest.headers = {
           ...originalRequest.headers,

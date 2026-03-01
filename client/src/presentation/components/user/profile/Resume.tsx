@@ -65,22 +65,20 @@ function Resume({ onUserUpdate, resumes }: ResumeProps) {
       setIsOpen(false);
     }
   };
-  const btnClass =
-    'cursor-pointer inline-block px-4 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium shadow';
+
   return (
     <div>
       <div className="bg-white rounded-lg shadow-md p-6">
         <div className="flex justify-between items-center mb-6">
           <h3 className="text-xl font-semibold text-gray-800">Resume </h3>
           {!file && (
-            <label className="cursor-pointer inline-block px-4 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 text-sm font-medium shadow">
+            <label className="cursor-pointer text-green-600 hover:text-green-700 text-sm font-medium">
               <input
                 accept=".pdf,.doc,.docx"
                 onChange={(e) => setFile(e.target.files?.[0] || null)}
                 type="file"
                 className="hidden"
               />
-              Upload
             </label>
           )}
         </div>
@@ -94,16 +92,9 @@ function Resume({ onUserUpdate, resumes }: ResumeProps) {
             <button
               onClick={handleUpload}
               disabled={isUploading}
-              className={`cursor-pointer hover:bg-green-100  rounded-full px-2 py-2 text-green-600 hover:text-green-700 text-sm font-medium ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+              className={`cursor-pointer text-green-600 hover:text-green-700 text-sm font-medium ${isUploading ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              {isUploading ? (
-                <LucideLoader size={18} />
-              ) : (
-                <Upload
-                  className="cursor-pointer text-green-600 text-sm font-medium"
-                  size={18}
-                />
-              )}
+              {isUploading ? <LucideLoader size={18} /> : <Upload size={18} />}
             </button>
 
             <button
@@ -112,7 +103,7 @@ function Resume({ onUserUpdate, resumes }: ResumeProps) {
                 setFile(null);
               }}
               disabled={isUploading}
-              className="text-red-500  rounded-full px-2 py-2 text-bold hover:bg-red-100 text-lg px-2 transition"
+              className="text-red-400 text-bold hover:text-red-500 text-lg px-2 transition"
             >
               <X size={18} />
             </button>
@@ -150,7 +141,7 @@ function Resume({ onUserUpdate, resumes }: ResumeProps) {
                       href={`${import.meta.env.VITE_BACKEND_URL}${res.url}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:text-blue-700 text-sm hover:bg-blue-100  rounded-full px-2 py-1"
+                      className="text-blue-600 hover:text-blue-700 text-sm"
                     >
                       View
                     </a>
@@ -160,7 +151,7 @@ function Resume({ onUserUpdate, resumes }: ResumeProps) {
                         setDeleteId(res.id);
                         setIsOpen(true);
                       }}
-                      className="text-red-500 hover:bg-red-100  rounded-full px-2 py-2 text-sm"
+                      className="text-red-500 hover:text-red-600 text-sm"
                     >
                       <Trash size={16} />
                     </button>

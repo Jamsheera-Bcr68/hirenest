@@ -3,7 +3,7 @@ import { X } from 'lucide-react';
 import { useProfileEdit } from '../hooks/user/candidate/profile/useProfileEdit';
 import { useToast } from '../../shared/toast/useToast';
 import { Github, Twitter, Globe, Youtube } from 'lucide-react';
-import { type UserProfileType } from '../../types/dtos/userTypes';
+import { type UserProfileType } from '../../types/dtos/profileTypes/userTypes';
 
 export default function ProfileEditModal({
   open,
@@ -53,7 +53,7 @@ export default function ProfileEditModal({
             </button>
           </Dialog.Close>
           <Dialog.Title className="text-2xl font-semibold mt-3 text-indigo-800 text-center">
-            Edit Profie
+            Edit Profile
           </Dialog.Title>
           <form action="" onSubmit={handleSubmit}>
             <div className="mt-6 space-y-3 ml-2">

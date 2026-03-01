@@ -28,11 +28,8 @@ import { EditEducationUseCase } from '../../applications/useCases/candidate/Edit
 import { RemoveEducationUseCase } from '../../applications/useCases/candidate/RemoveEducationUseCase';
 import { AddResumeUseCase } from '../../applications/useCases/candidate/AddResumeUseCase';
 import { RemoveResumUseCase } from '../../applications/useCases/candidate/RemoveResumeUseCase';
-
+//skills
 import { GetAllSkillsUseCase } from '../../applications/useCases/skills/GetAllSkillsUseCase';
-import { CompanyRegisterUseCase } from '../../applications/useCases/company/companyRegisterUseCase';
-import { AddLogoUseCase } from '../../applications/useCases/company/AddLogoUseCase';
-import { AddDocumentUseCase } from '../../applications/useCases/company/AddDocumentUseCase';
 //==Controllers
 //auth
 import { AuthController } from '../../presentation/http/controllers/auth/authController';
@@ -43,9 +40,6 @@ import { ResetPasswordController } from '../../presentation/http/controllers/aut
 import { GoogleLoginController } from '../../presentation/http/controllers/auth/googleLoginController';
 import { AdminGoogleAuthController } from '../../presentation/http/controllers/auth/AdminGoogleLoginController';
 import { ChangePasswordController } from '../../presentation/http/controllers/auth/ChangePasswordController';
-import { CompanyProfileController } from '../../presentation/http/controllers/company/companyProfileController';
-
-
 
 //candidate
 import { CandidateProfileController } from '../../presentation/http/controllers/candidate/CandidateProfileController';
@@ -58,7 +52,6 @@ import { AdminRepository } from '../repositories/admin/adminRepository';
 import { SkillRepository } from '../repositories/user/SkillsRepository';
 import { ExperieceRepository } from '../repositories/user/ExperienceRepository';
 import { EducationRepository } from '../repositories/user/educationRepository';
-import { CompanyRepository } from '../repositories/user/companyRepository';
 //services
 
 import { OtpGenerator } from '../services/otpgenerator';
@@ -68,6 +61,7 @@ import { SendOtpService } from '../../applications/services/sendOtpServices';
 import { VerifyOtpService } from '../../applications/services/verifyOtpService';
 import { GoogleAuthService } from '../../applications/services/googleAuthService';
 import { ImageStorageService } from '../services/ImageStorageService';
+import { FileStorageService } from '../services/fileStorageService';
 
 //repositories
 const userRepository = new UserRepository();
@@ -77,13 +71,13 @@ const adminRepository = new AdminRepository();
 const skillRepository = new SkillRepository();
 const experienceRepository = new ExperieceRepository();
 const educationRepository = new EducationRepository();
-const companyRepository = new CompanyRepository();
 
 const emailService = new EmailService();
 const verifyOtpService = new VerifyOtpService(otpRepository, userRepository);
 export const tokenService = new TokenService();
 const googleAuthService = new GoogleAuthService();
 const imageStorageService = new ImageStorageService();
+const fileStorageServices = new FileStorageService();
 
 const registerUseCase = new RegisterUseCase(userRepository);
 const sendOtpService = new SendOtpService(
@@ -110,14 +104,30 @@ const adminGoogleAuthUsecase = new AdminGoogleAuthUsecase(
 );
 const logoutUseCase = new LogoutUsecase();
 const changePasswordUsecase = new ChangePasswordUsecase(userRepository);
+const removeExperienceUseCase = new RemoveExperienceUseCase(
+  experienceRepository,
+  userRepository
+);
 
 //candidate
 const candidateEditProfileUsecase = new CandidateProfileEditUsecase(
   userRepository
 );
-const addSkilltoProfileUseCase=new AddSkillsToProfieUseCase(userRepository,skillRepository)
-const removeSkillFromProfileUseCase=new RemoveSkillFromProfileUseCase(userRepository)
-
+const addSkilltoProfileUseCase = new AddSkillsToProfieUseCase(
+  userRepository,
+  skillRepository
+);
+const removeSkillFromProfileUseCase = new RemoveSkillFromProfileUseCase(
+  userRepository
+);
+const addExperienceUseCase = new AddExperienceUseCase(
+  userRepository,
+  experienceRepository
+);
+const editExperienceUseCase = new EditExperienceUseCase(
+  userRepository,
+  experienceRepository
+);
 //user
 const getUserUserCase = new GetUserUseCase(userRepository);
 const editProfileImageUseCase = new EditProfileImageUseCase(
@@ -129,15 +139,31 @@ const removeProfileImageUseCase = new RemoveProfileImageUseCase(
   imageStorageService
 );
 const editAboutUsecase = new EditAboutUseCase(userRepository);
-
-//skills
-const getAllSkillsUseCase = new GetAllSkillsUseCase(skillRepository);
-const companyRegisterUseCase = new CompanyRegisterUseCase(
-  companyRepository,
+//education
+const addEducationUseCase = new AddEducationUseCase(
+  educationRepository,
   userRepository
 );
-const addLogoUseCase = new AddLogoUseCase(imageStorageService);
-const addDocumentUseCase = new AddDocumentUseCase(fileStorageServices);
+const getAllEducationUseCase = new GetAllEducationUseCase(educationRepository);
+const editEducationUseCase = new EditEducationUseCase(
+  educationRepository,
+  userRepository
+);
+const removeEducationUseCase = new RemoveEducationUseCase(
+  educationRepository,
+  userRepository
+);
+
+const addResumeUseCase = new AddResumeUseCase(
+  userRepository,
+  fileStorageServices
+);
+const removeResumeUseCase = new RemoveResumUseCase(
+  userRepository,
+  fileStorageServices
+);
+//skills
+const getAllSkillsUseCase = new GetAllSkillsUseCase(skillRepository);
 
 export const authController = new AuthController(
   registerUseCase,
@@ -172,12 +198,15 @@ export const candidateProfileController = new CandidateProfileController(
   removeProfileImageUseCase,
   editAboutUsecase,
   addSkilltoProfileUseCase,
-  removeSkillFromProfileUseCase
+  removeSkillFromProfileUseCase,
+  addExperienceUseCase,
+  editExperienceUseCase,
+  removeExperienceUseCase,
+  addEducationUseCase,
+  editEducationUseCase,
+  removeEducationUseCase,
+  addResumeUseCase,
+  removeResumeUseCase
 );
 
 export const skillController = new SkillsController(getAllSkillsUseCase);
-export const companyProfileController = new CompanyProfileController(
-  companyRegisterUseCase,
-  addLogoUseCase,
-  addDocumentUseCase
-);

@@ -4,6 +4,7 @@ import { X } from 'lucide-react';
 import { type ProfileImgViewModalProps } from '../../types/propTypes/profileProps';
 import Cropper from 'react-easy-crop';
 
+import { useToast } from '../../shared/toast/useToast';
 import { useImageChange } from '../hooks/user/candidate/profile/useImageChange';
 
 export default function ProfileImgViewModal({
@@ -12,6 +13,7 @@ export default function ProfileImgViewModal({
   profileImage,
   onUserUpdate,
 }: ProfileImgViewModalProps) {
+  const { showToast } = useToast();
   console.log('profileimage', profileImage);
 
   const {
@@ -29,7 +31,7 @@ export default function ProfileImgViewModal({
     handleFileChange,
     saveCroppedImage,
     removeProfleImage,
-  } = useImageChange(onClose, onUserUpdate);
+  } = useImageChange(showToast, onClose, onUserUpdate);
 
   return (
     <Dialog.Root
@@ -56,9 +58,8 @@ export default function ProfileImgViewModal({
             <button
               aria-label="Close"
               className="absolute top-3 right-3 p-2 rounded-full hover:bg-gray-100"
-              onClick={()=>{
-                setPreview(null),
-               setIsCropping (false)
+              onClick={() => {
+                (setPreview(null), setIsCropping(false));
               }}
             >
               <X size={20} />
@@ -103,10 +104,9 @@ export default function ProfileImgViewModal({
                 </button>
                 <button
                   onClick={() => {
-                    setPreview(null)
-                    setIsCropping(false)
+                    setPreview(null);
+                    setIsCropping(false);
                   }}
-
                   className="w-full w-1/4 ml-2 mr-3 mt-3 rounded-md border border-red-600 text-red-600 py-2 hover:bg-red-50"
                 >
                   Cancel

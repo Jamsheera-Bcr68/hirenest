@@ -11,10 +11,10 @@ const documentFilter = (req: any, file: any, cb: any) => {
   if (allowedTypes.includes(file.mimetype)) {
     cb(null, true);
   } else {
-    cb(generalMessages.errors.INVALID_FILE_TYPE, false);
+    cb(generalMessages.errors.INVALID_RESUME_FILE_TYPE, false);
   }
 };
-export const fileUpload = multer({
+export const resumeUpload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1020 * 1024 },
   fileFilter: documentFilter,

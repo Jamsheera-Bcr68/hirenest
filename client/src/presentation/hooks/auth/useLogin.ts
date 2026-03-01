@@ -7,7 +7,7 @@ import { loginSuccess } from '../../../redux/authSlice';
 import { useDispatch } from 'react-redux';
 import { useGoogleLogin } from '@react-oauth/google';
 
-import { type typeOfToast} from '../../../types/toastTypes'
+import { type typeOfToast } from '../../../types/toastTypes';
 type Errors = {
   email?: string;
   password?: string;
@@ -93,6 +93,7 @@ export const useLogin = (
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('user', user);
       dispatch(loginSuccess({ user, accessToken }));
+      showToast({ msg: res.data.message, type: 'success' });
       const url = role == 'admin' ? '/admin/dashboard' : '/';
       navigate(url, { replace: true });
     } catch (err: any) {

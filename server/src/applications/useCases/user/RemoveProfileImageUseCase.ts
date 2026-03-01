@@ -5,14 +5,14 @@ import { IUserRepository } from '../../../domain/repositoriesInterfaces/IUserRep
 import { userMessages } from '../../../shared/constants/messages/userMessages';
 import { statusCodes } from '../../../shared/enums/statusCodes';
 import { IRemoveProfileImageUseCase } from '../../interfaces/user/IRemoveProfileImage';
-import { IImageStorageService } from '../../interfaces/services/IImageStorage';
+import { IFileStorageService } from '../../interfaces/services/IFileStorageServices';
 
 export class RemoveProfileImageUseCase implements IRemoveProfileImageUseCase {
   private _userRepository: IUserRepository;
-  private _imageStorageService: IImageStorageService;
+  private _imageStorageService: IFileStorageService;
   constructor(
     userRepository: IUserRepository,
-    imageStorageService: IImageStorageService
+    imageStorageService: IFileStorageService
   ) {
     this._userRepository = userRepository;
     this._imageStorageService = imageStorageService;
@@ -27,11 +27,12 @@ export class RemoveProfileImageUseCase implements IRemoveProfileImageUseCase {
         statusCodes.CONFLICT
       );
     const fileName = user.imageUrl;
-    await this._imageStorageService.removeFile(fileName);
+
     user.imageUrl = '';
-    const updatad = await this._userRepository.save(user.id, user);
+    const updatad = await this._userRepository.removeProfileImage(user.id);
     if (!updatad)
       throw new AppError(userMessages.error.NOT_FOUND, statusCodes.NOTFOUND);
+    await this._imageStorageService.removeFile(fileName);
     return updatad;
   }
 }
