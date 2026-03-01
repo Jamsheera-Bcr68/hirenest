@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { forgotPasswordSchema } from '../../../libraries/validations/auth/forgotPasswordValidation';
 import axiosInstance from '../../../libraries/axios';
 import type { UserRole } from '../../../constants/types/user';
-import { type typeOfToast } from '../../../shared/toast/useToast';
+import {type typeOfToast } from '../../../types/toastTypes';
 
 export const useForgotPassword = (
   role: UserRole,

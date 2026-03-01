@@ -14,7 +14,7 @@ const documentFilter = (req: any, file: any, cb: any) => {
     cb(generalMessages.errors.INVALID_RESUME_FILE_TYPE, false);
   }
 };
-export const resumeUpload = multer({
+export const fileUpload = multer({
   storage: multer.memoryStorage(),
   limits: { fileSize: 5 * 1020 * 1024 },
   fileFilter: documentFilter,

@@ -5,7 +5,7 @@ import ProfileEditModal from '../../../modals/EditProfileModal';
 import { Twitter } from 'lucide-react';
 
 import { type BasicDataProps } from '../../../../types/propTypes/profileProps';
-import { process } from 'zod/v4/core';
+
 
 const BasicDataPart = ({ user, onUserUpdate }: BasicDataProps) => {
   const BASE_URL = import.meta.env.VITE_BACKEND_URL;

@@ -30,6 +30,9 @@ import { AddResumeUseCase } from '../../applications/useCases/candidate/AddResum
 import { RemoveResumUseCase } from '../../applications/useCases/candidate/RemoveResumeUseCase';
 //skills
 import { GetAllSkillsUseCase } from '../../applications/useCases/skills/GetAllSkillsUseCase';
+import { CompanyRegisterUseCase } from '../../applications/useCases/company/companyRegisterUseCase';
+import { AddLogoUseCase } from '../../applications/useCases/company/AddLogoUseCase';
+import { AddDocumentUseCase } from '../../applications/useCases/company/AddDocumentUseCase';
 //==Controllers
 //auth
 import { AuthController } from '../../presentation/http/controllers/auth/authController';
@@ -44,6 +47,7 @@ import { ChangePasswordController } from '../../presentation/http/controllers/au
 //candidate
 import { CandidateProfileController } from '../../presentation/http/controllers/candidate/CandidateProfileController';
 import { SkillsController } from '../../presentation/http/controllers/SkillsController';
+import { CompanyProfileController } from '../../presentation/http/controllers/company/companyProfileController';
 //==repsitories
 
 import { UserRepository } from '../repositories/user/userRepository';
@@ -52,6 +56,7 @@ import { AdminRepository } from '../repositories/admin/adminRepository';
 import { SkillRepository } from '../repositories/user/SkillsRepository';
 import { ExperieceRepository } from '../repositories/user/ExperienceRepository';
 import { EducationRepository } from '../repositories/user/educationRepository';
+import { CompanyRepository } from '../repositories/user/companyRepository';
 //services
 
 import { OtpGenerator } from '../services/otpgenerator';
@@ -71,6 +76,7 @@ const adminRepository = new AdminRepository();
 const skillRepository = new SkillRepository();
 const experienceRepository = new ExperieceRepository();
 const educationRepository = new EducationRepository();
+const companyRepository = new CompanyRepository();
 
 const emailService = new EmailService();
 const verifyOtpService = new VerifyOtpService(otpRepository, userRepository);
@@ -164,6 +170,12 @@ const removeResumeUseCase = new RemoveResumUseCase(
 );
 //skills
 const getAllSkillsUseCase = new GetAllSkillsUseCase(skillRepository);
+const companyRegisterUseCase = new CompanyRegisterUseCase(
+  companyRepository,
+  userRepository
+);
+const addLogoUseCase = new AddLogoUseCase(imageStorageService);
+const addDocumentUseCase = new AddDocumentUseCase(fileStorageServices);
 
 export const authController = new AuthController(
   registerUseCase,
@@ -210,3 +222,8 @@ export const candidateProfileController = new CandidateProfileController(
 );
 
 export const skillController = new SkillsController(getAllSkillsUseCase);
+export const companyProfileController = new CompanyProfileController(
+  companyRegisterUseCase,
+  addLogoUseCase,
+  addDocumentUseCase
+);
