@@ -13,17 +13,10 @@ const ProfilePart = () => {
   const { showToast } = useToast();
   const { user, setUser, allSkills } = useProfile(showToast);
   return (
-<<<<<<< Updated upstream
-    <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Left Sidebar - Profile Card */}
-        <div >
-=======
     <div className="container mt-12 mx-auto px-4 sm:px-6 lg:px-8 py-5">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:h-[calc(100vh-4rem)]">
         {/* Profile Card */}
         <div className="h-fit lg:sticky lg:top-6">
->>>>>>> Stashed changes
           <BasicDataPart
             user={user}
             onUserUpdate={(updatedUser: UserProfileType) =>

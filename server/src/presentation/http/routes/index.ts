@@ -1,12 +1,8 @@
 import { Router } from 'express';
 import authRoutes from './authRoutes';
 import candidateRoutes from './candidateRoutes';
-<<<<<<< Updated upstream
-import skillRoutes from './skillRoutes'
-=======
 import skillRoutes from './skillRoutes';
 import companyRoutes from './companyRoutes';
->>>>>>> Stashed changes
 
 const router = Router();
 console.log('from auth routes');

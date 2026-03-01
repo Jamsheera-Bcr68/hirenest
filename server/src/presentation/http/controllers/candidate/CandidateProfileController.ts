@@ -14,9 +14,6 @@ import { IRemoveProfileImageUseCase } from '../../../../applications/interfaces/
 import { IAddSkillToProfileUseCase } from '../../../../applications/interfaces/candidate/IAddSkilltoProfileUseCase';
 import { IEditAboutUseCase } from '../../../../applications/interfaces/candidate/IEditAboutUseCase';
 import { IRemoveSkillFromProfileUseCase } from '../../../../applications/interfaces/candidate/IRemoveSkillUseCase';
-<<<<<<< Updated upstream
-import { success } from 'zod';
-=======
 import { ExperienceDto } from '../../validators/profileValidation';
 import { IAddExperienceUseCase } from '../../../../applications/interfaces/candidate/IAddExperienceUseCase';
 import { IEditExperienceUseCase } from '../../../../applications/interfaces/candidate/IEditExperienceUseCase';
@@ -30,7 +27,6 @@ import { IRemoveEducationUseCase } from '../../../../applications/interfaces/can
 import { generalMessages } from '../../../../shared/constants/messages/generalMessages';
 import { IAddResumeUseCase } from '../../../../applications/interfaces/candidate/IAddResumeUseCase';
 import { IRemoveResumeUseCase } from '../../../../applications/interfaces/candidate/IRemoveResumeUseCase';
->>>>>>> Stashed changes
 
 export class CandidateProfileController {
   private _candidateEditProfileUsecase: IProfileEditUsecase;
@@ -194,10 +190,6 @@ export class CandidateProfileController {
     }
   };
   addAbout = async (req: Request, res: Response, next: NextFunction) => {
-<<<<<<< Updated upstream
-    console.log('from about controller');
-=======
->>>>>>> Stashed changes
     const user = req.user;
 
     try {
@@ -284,8 +276,6 @@ export class CandidateProfileController {
       next(error);
     }
   };
-<<<<<<< Updated upstream
-=======
   addExperience = async (req: Request, res: Response, next: NextFunction) => {
     console.log('from add experience controller');
     const user = req.user;
@@ -548,5 +538,4 @@ export class CandidateProfileController {
       next(error);
     }
   };
->>>>>>> Stashed changes
 }

@@ -7,9 +7,6 @@ export const userMessages = {
     USER_PROFILE_ABOUT_UPDATED: 'Profile about added successfully',
     SKILL_FETCHED: 'Skills fetched successfully',
     SKILL_ADDED: 'Skills Added successfully',
-<<<<<<< Updated upstream
-      SKILL_REMOVED:'Skill removed successfully'
-=======
     SKILL_REMOVED: 'Skill removed successfully',
     EXPERIENCE_ADDED: 'Experience added successfully',
     EXPERIENCE_UPDATED: 'Experience updated successfully',
@@ -23,7 +20,6 @@ export const userMessages = {
     DOC_UPLOADED: 'Document added successfully',
     COMPANY_UNDER_REVIEW:
       'Your company is under review. We will notify you after verification.',
->>>>>>> Stashed changes
   },
   error: {
     NOT_FOUND: 'User Not found',
