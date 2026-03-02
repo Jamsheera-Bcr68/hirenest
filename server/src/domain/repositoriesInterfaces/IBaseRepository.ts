@@ -4,5 +4,5 @@ export interface IBaseRepository<T> {
   save(id: string, data: Partial<Omit<T, 'id'>>): Promise<T | null>;
   getAll(filter: Partial<T>): Promise<T[] | []>;
   deleteById(id: string): Promise<void>;
-  create(data:Partial<T>):Promise<T>
+  create(data: Partial<T>): Promise<T>;
 }

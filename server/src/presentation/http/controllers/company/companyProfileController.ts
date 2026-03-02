@@ -31,12 +31,10 @@ export class CompanyProfileController {
         user.userId,
         user.role
       );
-      return res
-        .status(statusCodes.CREATED)
-        .json({
-          success: true,
-          message: userMessages.success.COMPANY_UNDER_REVIEW,
-        });
+      return res.status(statusCodes.CREATED).json({
+        success: true,
+        message: userMessages.success.COMPANY_UNDER_REVIEW,
+      });
     } catch (error: any) {
       next(error);
     }

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { resetPasswordSchema } from '../../../libraries/validations/auth/resetPasswordValidation';
 import axiosInstance from '../../../libraries/axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import {type typeOfToast } from '../../../types/toastTypes';
+import { type typeOfToast } from '../../../types/toastTypes';
 
 type Errors = {
   password?: string;

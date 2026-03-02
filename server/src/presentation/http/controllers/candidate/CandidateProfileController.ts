@@ -557,13 +557,11 @@ export class CandidateProfileController {
         id,
         user.role
       );
-      return res
-        .status(statusCodes.OK)
-        .json({
-          success: true,
-          message: userMessages.success.RESUME_DELETED,
-          user: UserMapper.toUserProfileDto(updatedUser),
-        });
+      return res.status(statusCodes.OK).json({
+        success: true,
+        message: userMessages.success.RESUME_DELETED,
+        user: UserMapper.toUserProfileDto(updatedUser),
+      });
     } catch (error: any) {
       next(error);
     }

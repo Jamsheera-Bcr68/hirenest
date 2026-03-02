@@ -7,8 +7,8 @@ import { useToast } from '../../../shared/toast/useToast';
 import { useSelector } from 'react-redux';
 import type { StateType } from '../../../constants/types/user';
 
-export const useHeader = ( )=>{
-  const {showToast}=useToast()
+export const useHeader = () => {
+  const { showToast } = useToast();
   const { user } = useSelector((state: StateType) => state.auth);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();

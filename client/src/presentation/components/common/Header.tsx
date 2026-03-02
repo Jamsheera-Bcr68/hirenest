@@ -2,11 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import './header.css';
 import { useHeader } from '../../hooks/user/useHeader';
 
-
 const Header = () => {
- 
-  const { isMenuOpen, setIsMenuOpen, HandleLogout, user } =
-    useHeader();
+  const { isMenuOpen, setIsMenuOpen, HandleLogout, user } = useHeader();
   const navigate = useNavigate();
   return (
     <header className="  shadow-md">
@@ -46,7 +43,7 @@ const Header = () => {
               Find Jobs
             </a>
             <a
-              href="/user/profile"
+              href="/profile"
               className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
             >
               Profile
@@ -81,7 +78,7 @@ const Header = () => {
             )}
             {user && (
               <button
-                onClick={()=>navigate('/company/company-register')}
+                onClick={() => navigate('/company-register')}
                 className="bg-green-600 text-white hover:bg-green-700 px-6 py-2 rounded-lg text-sm font-medium transition-colors"
               >
                 Post a Job
@@ -157,7 +154,6 @@ const Header = () => {
           </div>
         )}
       </nav>
-     
     </header>
   );
 };

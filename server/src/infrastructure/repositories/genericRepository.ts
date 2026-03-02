@@ -10,10 +10,10 @@ export abstract class GenericRepository<
   constructor(model: Model<D>) {
     this._model = model;
   }
-async create(data: Partial<T>): Promise<T> {
-  const doc=await this._model.create(this.mapToPersistance(data))
-  return this.mapToEntity(doc)
-}
+  async create(data: Partial<T>): Promise<T> {
+    const doc = await this._model.create(this.mapToPersistance(data));
+    return this.mapToEntity(doc);
+  }
   async findOne(filter: Partial<T>): Promise<T | null> {
     const { id, ...rest } = filter;
     const query = { ...rest } as Partial<D>;

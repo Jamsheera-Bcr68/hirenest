@@ -1,10 +1,12 @@
 import * as Dialog from '@radix-ui/react-dialog';
+import { useNavigate } from 'react-router-dom';
 
 type ModalProps = {
   open: boolean;
   onClose: () => void;
 };
 function SuccessModal({ open, onClose }: ModalProps) {
+  const navigate = useNavigate();
   return (
     <div>
       <Dialog.Root open={open} onOpenChange={(open) => !open && onClose()}>
@@ -56,11 +58,14 @@ function SuccessModal({ open, onClose }: ModalProps) {
             <div className="mt-8 flex justify-center">
               <Dialog.Close asChild>
                 <button
-                  onClick={onClose}
+                  onClick={() => {
+                    navigate('/');
+                    onClose();
+                  }}
                   className="
             w-full rounded-lg px-6 py-3 text-sm font-medium
-            bg-gray-900 text-white
-            hover:bg-gray-800
+            bg-green-900 text-white
+            hover:bg-green-800
             transition-all active:scale-95
           "
                 >

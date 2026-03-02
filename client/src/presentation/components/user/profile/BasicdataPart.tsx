@@ -6,7 +6,6 @@ import { Twitter } from 'lucide-react';
 
 import { type BasicDataProps } from '../../../../types/propTypes/profileProps';
 
-
 const BasicDataPart = ({ user, onUserUpdate }: BasicDataProps) => {
   const BASE_URL = import.meta.env.VITE_BACKEND_URL;
   console.log('baser ulr', BASE_URL);

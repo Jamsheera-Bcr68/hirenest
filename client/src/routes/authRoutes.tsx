@@ -11,18 +11,18 @@ import PublicRoutes from './PublicOnlyRoutes.tsx';
 
 export const AuthRoutes = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
+    <>
+      <Route index element={<Home />} />
       <Route element={<PublicRoutes />}>
-        <Route path="/register" element={<Register />} />
-        <Route path="/otp" element={<Otp />} />
-        <Route path="/login" element={<Loginfile />} />
+        <Route path="register" element={<Register />} />
+        <Route path="otp" element={<Otp />} />
+        <Route path="login" element={<Loginfile />} />
 
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
       </Route>
-    </Routes>
+    </>
   );
 };

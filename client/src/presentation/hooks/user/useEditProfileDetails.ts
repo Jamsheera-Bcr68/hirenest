@@ -63,7 +63,7 @@ export const useEditProfileDetails = (
   const [skillName, setSkillName] = useState<string>('');
   const [error, setError] = useState<string>('');
   const [filteredSkill, setFilteredSkill] = useState<SkillType[] | []>([]);
-console.log('skiilfrom paraent',skills);
+  console.log('skiilfrom paraent', skills);
 
   const addSkill = async () => {
     setFilteredSkill([]);
@@ -115,7 +115,7 @@ console.log('skiilfrom paraent',skills);
       });
     }
   };
-  
+
   const filteredSkills = useMemo(() => {
     if (!skillName.trim()) return [];
     return skills
