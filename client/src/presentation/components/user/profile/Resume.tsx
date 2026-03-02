@@ -73,6 +73,7 @@ function Resume({ onUserUpdate, resumes }: ResumeProps) {
           <h3 className="text-xl font-semibold text-gray-800">Resume </h3>
           {!file && (
             <label className="cursor-pointer text-green-600 hover:text-green-700 text-sm font-medium">
+              Add
               <input
                 accept=".pdf,.doc,.docx"
                 onChange={(e) => setFile(e.target.files?.[0] || null)}

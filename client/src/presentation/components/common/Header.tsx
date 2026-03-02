@@ -1,12 +1,9 @@
 import { useNavigate } from 'react-router-dom';
 import './header.css';
 import { useHeader } from '../../hooks/user/useHeader';
-import { useToast } from '../../../shared/toast/useToast';
 
 const Header = () => {
-  const { showToast, ToastElement } = useToast();
-  const { isMenuOpen, setIsMenuOpen, HandleLogout, user } =
-    useHeader(showToast);
+  const { isMenuOpen, setIsMenuOpen, HandleLogout, user } = useHeader();
   const navigate = useNavigate();
   return (
     <header className="  shadow-md">
@@ -46,7 +43,7 @@ const Header = () => {
               Find Jobs
             </a>
             <a
-              href="/user/profile"
+              href="/profile"
               className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
             >
               Profile
@@ -77,6 +74,14 @@ const Header = () => {
                 className="bg-blue-600 text-white hover:bg-blue-700 px-6 py-2 rounded-lg text-sm font-medium transition-colors"
               >
                 Logout
+              </button>
+            )}
+            {user && (
+              <button
+                onClick={() => navigate('/company-register')}
+                className="bg-green-600 text-white hover:bg-green-700 px-6 py-2 rounded-lg text-sm font-medium transition-colors"
+              >
+                Post a Job
               </button>
             )}
           </div>
@@ -149,7 +154,6 @@ const Header = () => {
           </div>
         )}
       </nav>
-      {ToastElement}
     </header>
   );
 };

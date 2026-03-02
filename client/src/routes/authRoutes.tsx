@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import Register from '../presentation/pages/auth/Register.tsx';
 import Loginfile from '../presentation/pages/auth/Login.tsx';
 import Home from '../presentation/pages/user/Home.tsx';
@@ -11,18 +11,18 @@ import PublicRoutes from './PublicOnlyRoutes.tsx';
 
 export const AuthRoutes = () => {
   return (
-    <Routes>
-      <Route path="/" element={<Home />} />
+    <>
+      <Route index element={<Home />} />
       <Route element={<PublicRoutes />}>
-        <Route path="/register" element={<Register />} />
-        <Route path="/otp" element={<Otp />} />
-        <Route path="/login" element={<Loginfile />} />
+        <Route path="register" element={<Register />} />
+        <Route path="otp" element={<Otp />} />
+        <Route path="login" element={<Loginfile />} />
 
         <Route path="/admin/login" element={<AdminLogin />} />
         <Route path="/admin/dashboard" element={<Dashboard />} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:resetToken" element={<ResetPassword />} />
       </Route>
-    </Routes>
+    </>
   );
 };

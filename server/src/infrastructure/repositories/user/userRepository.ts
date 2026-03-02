@@ -297,6 +297,7 @@ export class UserRepository
   async removeProfileImage(userId: string): Promise<User | null> {
     const doc = await this._model
       .findByIdAndUpdate(userId, { $set: { imageUrl: '' } })
+      .findByIdAndUpdate(userId, { $set: { imageUrl: '' } }, { new: true })
       .populate('skills')
       .populate('experience')
       .populate('education');

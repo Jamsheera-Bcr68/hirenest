@@ -3,11 +3,12 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../../redux/authSlice';
 import axiosInstance from '../../../libraries/axios';
-import type { typeOfToast } from '../../../shared/toast/useToast';
+import { useToast } from '../../../shared/toast/useToast';
 import { useSelector } from 'react-redux';
 import type { StateType } from '../../../constants/types/user';
 
-export const useHeader = (showToast: (toast: typeOfToast) => void) => {
+export const useHeader = () => {
+  const { showToast } = useToast();
   const { user } = useSelector((state: StateType) => state.auth);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();

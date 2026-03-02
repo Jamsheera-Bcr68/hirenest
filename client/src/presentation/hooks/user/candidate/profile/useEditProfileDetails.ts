@@ -63,6 +63,7 @@ export const useEditProfileDetails = (
     }
   };
 
+<<<<<<<< HEAD:client/src/presentation/hooks/user/candidate/profile/useEditProfileDetails.ts
   //for skill componet
   const selectSkill = async (skillId: string) => {
     try {
@@ -73,6 +74,19 @@ export const useEditProfileDetails = (
         type: 'success',
       });
       setIsAddSkill(false);
+========
+  //skills component
+  const [isAddSkill, setIsAddSkill] = useState<boolean>(false);
+  const [skillName, setSkillName] = useState<string>('');
+  const [error, setError] = useState<string>('');
+  const [filteredSkill, setFilteredSkill] = useState<SkillType[] | []>([]);
+  console.log('skiilfrom paraent', skills);
+
+  const addSkill = async () => {
+    setFilteredSkill([]);
+    if (!isAddSkill) {
+      setIsAddSkill(true);
+>>>>>>>> feature/company-registration:client/src/presentation/hooks/user/useEditProfileDetails.ts
       setSkillName('');
     } catch (error: any) {
       console.log(error);
