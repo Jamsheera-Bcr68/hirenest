@@ -17,7 +17,7 @@ import ResetPassword from '../presentation/pages/auth/ResetPasswordForm';
 export const AppRoutes = () => {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route index element={<Home />} />
       <Route element={<PublicRoutes />}>
         {' '}
         <Route path="/register" element={<Register />} />
